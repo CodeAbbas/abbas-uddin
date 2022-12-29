@@ -1,4 +1,4 @@
 # abbas-uddin
 
 
-# https://codeabbas.github.io/abbas-uddin/
+# codeabbas.github.io/abbas-uddin/
