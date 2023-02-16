@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Abbas Uddin</h1>
 <h3 align="center">A passionate frontend developer from Sylhet, Bangladesh</h3>
 
-- 🔭 I’m currently working on [Web Development](https://abbas-uddin.blogspot.com/)
+- 🔭 See this project [Abbas Uddin](https://abbas-uddin.netlify.app/)
 
 - 👨‍💻 I’m currently learning **JavaScript, C, C++**
 
