@@ -1,7 +1,7 @@
 <h1 align="center"><a href="https://abbas-uddin.netlify.app/">Abbas Uddin</a></h1>
-<h3 text-align="justify" align="center">A passionate frontend developer from Sylhet, Bangladesh</h3>
+<h3 align="justify">A passionate frontend developer from Sylhet, Bangladesh</h3>
 
-- 🔭 See this project [Abbas Uddin](https://abbas-uddin.netlify.app/)
+-<h2> 🔭 See this project [Abbas Uddin](https://abbas-uddin.netlify.app/)</h2>
 
 - 👨‍💻 I’m currently learning **JavaScript, C, C++**
 
