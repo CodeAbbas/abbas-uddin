@@ -1,4 +1,4 @@
-<h1 align="center">Hi 👋, I'm Abbas Uddin</h1>
+<h1 href="https://abbas-uddin.netlify.app/"align="center">Abbas Uddin</h1>
 <h3 align="center">A passionate frontend developer from Sylhet, Bangladesh</h3>
 
 - 🔭 See this project [Abbas Uddin](https://abbas-uddin.netlify.app/)
