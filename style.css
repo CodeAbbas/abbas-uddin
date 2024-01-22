@@ -85,7 +85,16 @@ body {
   padding: 0 2em;
 }
 
-.nav h1,
+.nav h1{
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 5vw;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  letter-spacing: 0.5rem;
+  color: var(--main-color);
+  transition: all 0.3s ease;
+  z-index: 3;
+}
 .slider h1 {
   font-family: "Josefin Sans", sans-serif;
   font-size: 5vw;
