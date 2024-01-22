@@ -551,7 +551,7 @@ a.about-button:hover {
     border-radius:270px;
     width:440px;
     height:440px;
-    object-fit:cover;
+    object-fit:none;
     box-shadow:0 0 0 5px ##063970;
     border:1.5px solid #03dac6;}
 .skill-items .skill-title span{font-size:35px;color:#03dac6;margin-bottom:30px}
