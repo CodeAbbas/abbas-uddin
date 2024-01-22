@@ -1,6 +1,15 @@
 @function pxtoem($target, $context){
   @return ($target/$context)+0em;
 }
+:root{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    --background: #1e1f26;
+    --main-color: #03dac6;
+    --hover: #ff0266;
+    --fourth: #faebd7;
+  }
 
 * {
   margin: 0;
@@ -394,28 +403,63 @@ a,a:focus,a:hover{color:inherit}
 .tc_name_title{
     padding:0;
     margin-bottom:15px}
-.social-icon span{transition:all .5s}
-.social-icon span:hover{background:#03dac6!important;border-color:#03dac6!important;color:#fff!important}
-.profile-btns{float:right}
-a.about-button{
-    display:inline-block;
-    padding:12px 10px;  
-    color:#fff;
-    text-transform:uppercase;
-    border-radius:40px;
-    width:140px;
-    text-align:center;
-    font-size:12px;
-    margin-right:10px;
-    border: 1px solid #03dac6;
-    -webkit-transition:.4s;
-    font-weight:700;transition:.4s;
-    font-family:Open Sans}
-a.about-button:hover{box-shadow:0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);-webkit-transition:.4s;transition:.4s}
-.profile-btns a:last-child{color: #03dac6;
-     border: 1px solid #fff;
+
+.social-icon span {
+  transition: all .5s;
 }
-.hero .social-icon{float:left}
+
+.social-icon span:hover {
+  background: var(--background);
+  border: solid 1px var(--main-color);
+  box-shadow: 0px 0px 1px 1px var(--main-color);
+}
+
+.hero .social-icon {
+  float: left;
+}
+.hero .social-icon span {
+  color: var(--main-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid var(--main-color);
+}
+
+
+.profile-btns{float:right}
+/**/
+a.about-button {
+  display: inline-block;
+  padding: 12px 10px;
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 40px;
+  width: 140px;
+  text-align: center;
+  font-size: 12px;
+  margin-right: 10px;
+  background-color: var(--main-color);
+  border: 1px solid var(--main-color);
+  -webkit-transition: .4s;
+  font-weight: 700;
+  transition: .4s;
+  font-family: "Josefin Sans", sans-serif;
+}
+a.about-button:hover {
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.profile-btns a:last-child {
+  color: #fff;
+  border: 1px solid var(--main-color);
+}
+
+
+
 .ct-wrapper{padding:0 20px;position:relative;max-width:1230px;margin:0 auto}
 .sidebar-wrapper{width:310px!important;padding:0;float:right;margin:0 0 40px}
 
@@ -453,14 +497,7 @@ a.about-button:hover{box-shadow:0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(
 50%{top:60%}
 75%{top:55%}
 100%{top:50%}
-}.hero 
-.social-icon span{
-    color: #03dac6;
-    width:40px;
-    height:40px;
-    line-height:40px;
-    text-align:center;
-    border:1px solid #fff}
+}
 .hero .skills{margin:80px 0;margin-top:-30px;margin-bottom:0}
 .hero-img img{
     border-radius:270px;
