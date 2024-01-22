@@ -33,6 +33,33 @@ body {
     
 }
 
+/* Clock */
+#clock {
+    font-family: 'Josefin Sans', sans-serif;/*Share Tech Mono , monospace*/
+    font-weight: 300;
+    color: #ffffff;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, -50%);
+    color: #daf6ff;
+    text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
+    .time {
+        font-family: "F7Segment";
+        letter-spacing: 0.05em;
+        font-size: 30px;
+        font-family: "F7Segment"
+    }
+    .date {
+        letter-spacing: 0.1em;
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+}
+/* Clock */
+
+
 .nav,
 .slider {
   display: flex;
