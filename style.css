@@ -919,12 +919,15 @@ a.about-button{margin-top:0}
 .hero-admin{text-align:center}
 }@media screen and (max-width:960px){.main-wrapper{margin-right:0;width:100%;padding:0}
 .sidebar-wrapper{float:left;width:auto!important;margin-top:25px}
-}@media only screen and (max-width:650px){.single-share,#post-tags{display:flex;justify-content:center;text-align:center;margin:9px 0;float:none!important}
+}
+@media only screen and (max-width:650px){
+	.single-share,#post-tags{display:flex;justify-content:center;text-align:center;margin:9px 0;float:none!important}
 .date-outer .item figcaption::before{border:0!important}
 .some_stats_section .items .item{transform:scale(1)!important}
 .hero .social-icon{float:none!important;text-align:center;margin-bottom:15px}
-.profile-btns{float:none!important;text-align:left;}
-}@media(max-width:767px){
+.profile-btns {float: none !important;text-align: center}
+}
+@media(max-width:767px){
 .tona-header{background-position:50% 0!important}
 .caption{text-align:center;margin-left:0}
 .caption h1{font-size:35px}
