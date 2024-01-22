@@ -200,7 +200,8 @@ a {
   }
 }
 
-@media screen only (min-width: 360px) {
+@media screen and (min-width: 360px) and (max-width: 767px) {
+
   .nav h1,
   .slider h1 {
     font-size: 8vw;
@@ -215,6 +216,17 @@ a {
   .nav-tab {
     font-size: 1.2vw;
   }
+
+  .time {
+    letter-spacing: 0.05em;
+    font-size: 20px;
+    padding: 5px 0;
+  }
+  .date {
+    letter-spacing: 0.1em;
+    font-size: 7px;
+  }
+  
 }
 .background {
   position: absolute;
