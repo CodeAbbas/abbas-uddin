@@ -211,6 +211,8 @@ a {
 
 @media screen and (min-width: 360px) and (max-width: 767px) {
 
+	h3.span {
+  font-size: 1vw;}
   .nav h1,
   .slider h1 {
     font-size: 8vw;
