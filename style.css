@@ -547,6 +547,12 @@ a.about-button:hover {
 100%{top:50%}
 }
 .hero .skills{margin:80px 0;margin-top:-30px;margin-bottom:0}
+.hero-img{
+background: rgba(30,31,38,0.5);
+-webkit-backdrop-filter: blur(6px);
+backdrop-filter: blur(6px);
+border: 1px solid rgba(30,31,38,0.25);
+}
 .hero-img img{
     border-radius:270px;
     width:440px;
