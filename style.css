@@ -550,6 +550,7 @@ a.about-button:hover {
 
 .hero-img img{
     /*border-radius:270px;*/
+border-radius:12px;
     width:440px;
     height:440px;
     object-fit:contain;
