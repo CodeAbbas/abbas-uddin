@@ -548,6 +548,8 @@ a.about-button:hover {
 }
 .hero .skills{margin:80px 0;margin-top:-30px;margin-bottom:0}
 .hero-img{
+	width:440px;
+    height:440px;
 background: rgba(30,31,38,0.5);
 -webkit-backdrop-filter: blur(6px);
 backdrop-filter: blur(6px);
