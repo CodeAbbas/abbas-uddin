@@ -554,7 +554,6 @@ border-radius:12px;
     width:440px;
     height:440px;
     object-fit:contain;
-    box-shadow:0 0 0 5px #2c2e3b;
 background: rgba(30,31,38,0.5);
 -webkit-backdrop-filter: blur(16px);
 backdrop-filter: blur(16px);
