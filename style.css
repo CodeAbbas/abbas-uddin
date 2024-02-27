@@ -547,18 +547,34 @@ a.about-button:hover {
 100%{top:50%}
 }
 .hero .skills{margin:80px 0;margin-top:-30px;margin-bottom:0}
-
-.hero-img img{
-    /*border-radius:270px;*/
-border-radius:12px;
-    width:440px;
-    height:440px;
-    object-fit:contain;
-background: rgba(30,31,38,0.5);
+.hero-img{
+    position: relative;
+   width:440px;
+   height:440px;
+  margin: 20px auto;
+  object-fit:cover;
+   border: 1px solid #03dac6;
+  border-radius:20px;
+  background: rgba(69, 72, 84);
 -webkit-backdrop-filter: blur(16px);
 backdrop-filter: blur(16px);
-    border:1.5px solid #03dac6;
-opacity:1;}
+  opacity: 1;
+  z-index: 0;
+}
+
+    /*border-radius:270px;*/
+.hero-content img{
+  width: 100%;
+  height: 100%;
+  border-radius:20px;
+  
+}
+.background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
 .skill-items .skill-title span{font-size:35px;color:#03dac6;margin-bottom:30px}
 .skills .skills-progress{width:100%;height:2px;background:#eee;margin:15px 0 0}
 .skills-progress span{width:0;height:100%;background:#c49b66;display:block}
