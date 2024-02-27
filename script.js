@@ -52,7 +52,7 @@ const particles = Particles.init({
   ]
 });
 // background1
-Particles.init({
+const particles = Particles.init({
       selector: ".background1"
     });
   };
