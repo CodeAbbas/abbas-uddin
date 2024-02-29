@@ -35,6 +35,9 @@ window.onload = function () {
   Particles.init({
     selector: ".background"
   });
+  Particles.init({
+    selector: ".background1"
+  });
 };
 const particles = Particles.init({
   selector: ".background",
