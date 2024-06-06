@@ -594,8 +594,8 @@ backdrop-filter: blur(16px);
 }
 @media screen and (max-width: 320px) {
       .hero-content {
-        width: 320px;
-        height: 320px;
+        width: 240px;
+        height: 240px;
         margin: 20px auto;
        }
 }

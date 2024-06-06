@@ -30,7 +30,7 @@ function zeroPadding(num, digit) {
     return (zero + num).slice(-digit);
 }
 // CLOCK
-
+/*
 window.onload = function () {
   Particles.init({
     selector: ".background"
@@ -53,7 +53,14 @@ const particles = Particles.init({
       }
     }
   ]
-});
+});*/
+window.onload = function () {
+    Particles.init({
+    selector: ".background1",
+    color: ["#03dac6", "#ff0266", "#000000"],
+    connectParticles: true
+    });
+  };
 // background1
 
 
