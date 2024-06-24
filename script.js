@@ -147,3 +147,5 @@ class NavigationPage {
 }
 
 new NavigationPage();
+
+/* hero animation */
