@@ -431,6 +431,7 @@ a,a:focus,a:hover{color:inherit}
     font-weight:400;
     margin-bottom:30px;
     padding-bottom:20px;
+    font-family: 'Josefin Sans', sans-serif;
     letter-spacing:2px;
     display:inline-block;
     border-bottom:1px solid #ccc;
@@ -931,7 +932,6 @@ textarea#ContactForm1_contact-form-email-message{width:100%!important}
 /*      Footer         */
 footer {
   background: #373e4a;
-  height: 40px;
   padding: 0;
   color: #fff;
   font-weight: 300;
