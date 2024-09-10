@@ -150,7 +150,7 @@ new NavigationPage();
 
 /* hero animation */
 
-// Clients cards
+/* Clients cards
 
 // Set the interval for the automatic slide (in milliseconds)
 var slideInterval = 5000;
@@ -179,4 +179,4 @@ function moveToNextSlide() {
 }
 
 // Set up the interval for the automatic slide
-setInterval(moveToNextSlide, slideInterval);
+setInterval(moveToNextSlide, slideInterval); */
