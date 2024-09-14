@@ -220,6 +220,9 @@ a {
 
 @media screen and (min-width: 360px) and (max-width: 767px) {
 
+  .nav{
+    height: 100svh;
+  }
   .nav h1,
   .slider h1 {
     font-size: 8vw;
