@@ -651,7 +651,7 @@ a.about-button:hover {
   margin-bottom: 30px
 }
 
-.skills .skills-progress {
+/*.skills .skills-progress {
   width: 100%;
   height: 2px;
   background: #eee;
@@ -663,6 +663,43 @@ a.about-button:hover {
   height: 100%;
   background: #c49b66;
   display: block
+}
+*/
+/* Style for the progress bar container */
+.skills-progress {
+    position: relative;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+/* Style for the animated progress bar */
+.skills-progress .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0; 
+    background-color: #03dac6; 
+    border-radius: 10px;
+    transition: width 2s ease-in-out; 
+}
+
+/* When the progress bar is animated */
+.skills-progress.animate .progress-bar {
+    width: var(--progress-width); /* Width will be set via JavaScript */
+}
+
+/* Optional: For the progress text */
+.skills-progress span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
 }
 
 .services {
