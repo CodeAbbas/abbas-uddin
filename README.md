@@ -4,7 +4,7 @@
 <a href="https://abbas.world/" align="center">**https://abbas.world**</a>
 
 ### **Frontend Developer**  
-📍 **London, United Kingdom**  
+ 📍 **London, United Kingdom**  
 
 ---
 
@@ -16,7 +16,7 @@
 
 🌱 **Currently Learning**: Advanced **JavaScript** concepts, **C**, and **C++**.  
 
-👨‍💻 **All of my projects** are available on my [Blogspot Portfolio](https://abbas.world/).  
+👨‍💻 **All of my projects** are available on my [Portfolio](https://abbas.world/#portfolio).  
 
 📫 **How to reach me**: [abbax.uddin@gmail.com](mailto:abbax.uddin@gmail.com).  
 
@@ -70,11 +70,11 @@ I work with the following tools and languages to build clean, scalable, and effi
 ## **My GitHub Stats**  
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=abbasuddin01&show_icons=true&locale=en" alt="abbasuddin" />
+  <img src="https://github-readme-stats.vercel.app/api?username=CodeAbbas&show_icons=true&locale=en" alt="abbasuddin" />
 </p>  
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=abbasuddin01&" alt="abbasuddin01" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=CodeAbbas&" alt="abbasuddin01" />
 </p>  
 
 ---
