@@ -149,6 +149,50 @@ class NavigationPage {
 new NavigationPage();
 
 /* hero animation */
+// Function to initialize progress bar animation
+function initProgressBars() {
+    const progressBars = document.querySelectorAll('.skills-progress');
+    
+    // Loop through each progress bar and apply the animation when it's in view
+    progressBars.forEach(bar => {
+        const value = bar.getAttribute('data-value');
+        
+        // Set the custom property --progress-width for the animation
+        bar.style.setProperty('--progress-width', value);
+        
+        // Add the 'animate' class to trigger the CSS animation
+        bar.classList.add('animate');
+    });
+}
+
+// Check if the progress bars are in the viewport
+function checkScroll() {
+    const progressBars = document.querySelectorAll('.skills-progress');
+    
+    progressBars.forEach(bar => {
+        if (isElementInViewport(bar)) {
+            initProgressBars(); // Trigger animation once the bar is in view
+        }
+    });
+}
+
+// Helper function to check if an element is in the viewport
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Listen for scroll events and check if the progress bars are in view
+window.addEventListener('scroll', checkScroll);
+window.addEventListener('resize', checkScroll); // Handle resizing
+
+// Trigger the initial check when the page loads
+checkScroll();
 
 /* Clients cards
 
