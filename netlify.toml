@@ -1,0 +1,3 @@
+[redirects]
+  # This redirects all paths to your custom domain
+  /* = "https://abbas.world"  !status 301
