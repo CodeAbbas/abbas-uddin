@@ -666,41 +666,52 @@ a.about-button:hover {
 }
 */
 /* Style for the progress bar container */
-.skills-progress {
-    position: relative;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    height: 20px;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 10px;
+
+.progress-bar {
+  margin: 0 0 20px;
+  overflow: hidden;
+  padding-right: 24px;
+  padding-left: 24px;
 }
 
-/* Style for the animated progress bar */
-.skills-progress .progress-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0; 
-    background-color: #03dac6; 
-    border-radius: 10px;
-    transition: width 2s ease-in-out; 
+.progress-title-holder {
+  padding-bottom: 7px;
+  position: relative;
+  margin: 5px 0;
+  font-size: 15px;
+  line-height: 5px;
+  font-weight: 400;
 }
 
-/* When the progress bar is animated */
-.skills-progress.animate .progress-bar {
-    width: var(--progress-width); /* Width will be set via JavaScript */
+.progress-title {
+  z-index: 100;
 }
 
-/* Optional: For the progress text */
-.skills-progress span {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-weight: bold;
+.progress-content-outter {
+  height: 8.5px;
+  background-color: ;
+  /*border: 0.5px solid #03dac6;*/
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  overflow: hidden;
 }
+
+.progress-content {
+  height: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  /*background-image: linear-gradient(122deg, #9c5973, #ff0266);*/
+  background-color: #03dac6; /* Set the background color */
+
+  box-shadow: 0 0 20px rgba(3, 218, 198, 1), 0 0 20px rgba(3, 218, 198, 0); /* Add glow effect */
+
+  width: 0%; /* Initial value */
+}
+/* progree bar */
 
 .services {
   background-color: #1e1f26;
