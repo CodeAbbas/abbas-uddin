@@ -689,8 +689,8 @@ a.about-button:hover {
 
 .progress-content-outter {
   height: 8.5px;
-  background-color: ;
-  /*border: 0.5px solid var(--main-color);*/
+  background-color: red;
+  border: 0.5px solid var(--main-color);
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   border-top-right-radius: 20px;
