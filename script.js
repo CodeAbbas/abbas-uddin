@@ -150,20 +150,7 @@ new NavigationPage();
 
 /* hero animation */
 // Function to initialize progress bar animation
-function initProgressBars() {
-    const progressBars = document.querySelectorAll('.skills-progress');
-    
-    // Loop through each progress bar and apply the animation when it's in view
-    progressBars.forEach(bar => {
-        const value = bar.getAttribute('data-value');
-        
-        // Set the custom property --progress-width for the animation
-        bar.style.setProperty('--progress-width', value);
-        
-        // Add the 'animate' class to trigger the CSS animation
-        bar.classList.add('animate');
-    });
-}
+
 
 // Check if the progress bars are in the viewport
 function checkScroll() {
@@ -194,33 +181,5 @@ window.addEventListener('resize', checkScroll); // Handle resizing
 // Trigger the initial check when the page loads
 checkScroll();
 
-/* Clients cards
+//Clients cards
 
-// Set the interval for the automatic slide (in milliseconds)
-var slideInterval = 5000;
-
-// Initialize the current slide index
-var currentSlide = 0;
-
-// Get the carousel element and its child elements
-var carousel = document.querySelector('#myCarousel');
-var carouselInner = carousel.querySelector('.carousel-inner');
-var carouselItems = carousel.querySelectorAll('.item');
-var carouselIndicators = carousel.querySelectorAll('.carousel-indicators li');
-
-// Function to move to the next slide
-function moveToNextSlide() {
-  // Remove the active class from the current slide and indicator
-  carouselItems[currentSlide].classList.remove('active');
-  carouselIndicators[currentSlide].classList.remove('active');
-  
-  // Increment the slide index and wrap around if necessary
-  currentSlide = (currentSlide + 1) % carouselItems.length;
-  
-  // Add the active class to the next slide and indicator
-  carouselItems[currentSlide].classList.add('active');
-  carouselIndicators[currentSlide].classList.add('active');
-}
-
-// Set up the interval for the automatic slide
-setInterval(moveToNextSlide, slideInterval); */
