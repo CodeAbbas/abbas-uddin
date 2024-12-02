@@ -7,6 +7,9 @@
   --hover: #ff0266;
   --fourth: #faebd7;
 }
+html{
+  scroll-behavior: smooth;
+}
 
 *{
   margin: 0;
@@ -17,20 +20,10 @@
 body {
   font-family: 'Josefin Sans', sans-serif;
   overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.42857143;
 }
 
-.log-img {
-  margin-bottom: 20px;
-}
-
-.log-img img {
-  border-radius: 70px;
-  width: 140px;
-  height: 140px;
-  object-fit: fill;
-  border: 1px solid var(--main-color);
-
-}
 
 /* Clock */
 #clock {
@@ -376,7 +369,9 @@ a {
   background-repeat: no-repeat;
   background-position: center;
 }
+.to-top:hover {
 
+}
 
 /*  3. Global CSS */
 /*-------------------------------------------*/
@@ -525,14 +520,10 @@ a:hover {
 }
 
 .social-icon span {
-  transition: all .5s;
+  transition: all .3s;
 }
 
-.social-icon span:hover {
-  background: var(--background);
-  border: solid 1px var(--main-color);
-  box-shadow: 0px 0px 1px 1px var(--main-color);
-}
+
 
 .hero .social-icon {
   float: left;
@@ -547,7 +538,12 @@ a:hover {
   text-align: center;
   border: 1px solid var(--main-color);
 }
-
+.social-icon span:hover {
+  background: var(--background);
+  color: var(--hover);
+  border: solid 1px var(--hover);
+  box-shadow: 0px 0px 1px 1px var(--hover);
+}
 
 .profile-btns {
   float: right
@@ -566,23 +562,27 @@ a.about-button {
   margin-right: 10px;
   background-color: var(--main-color);
   border: 1px solid var(--main-color);
-  -webkit-transition: .4s;
+  -webkit-transition: .2s;
   font-weight: 700;
-  transition: .4s;
+  transition: .3s ease;
   font-family: "Josefin Sans", sans-serif;
 }
 
 a.about-button:hover {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: .3s;
+  color: var(--hover);
+  background-color: var(--background);
+  border:1px solid var(--hover);
 }
 
 .profile-btns a:last-child {
   color: #fff;
   border: 1px solid var(--main-color);
 }
-
+.profile-btns a:last-child:hover{
+  color: var(--main-color);
+}
 .hero .skills {
   margin: 80px 0;
   margin-top: -30px;
@@ -712,7 +712,72 @@ a.about-button:hover {
   width: 0%; /* Initial value */
 }
 /* progree bar */
+/* Projects */
+.projects{
+  background-color: var(--background);
+  
+}
+.project-wrap{
+  margin: 10px;
+  padding: 10px;
+  border:2px solid #03dac6;
+}
+.project-image{
+  width: 100%;
+}
+.project-image img{
+  border-radius: 10px;
+}
+.project-content{
+  color: white;
+  text-align: left;
+}
+.project-content h3{
+  
+}
+.tags{
+  display: flex;
+}
+.tag1{
+  align-items: center;
+  gap: 0 0.2rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  background-color: #2C3447;
+  background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 
+  border-radius: 20px;
+  padding: .6rem 1rem;
+  margin-right: 1rem; 
+  box-shadow: 
+    0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+    0 0.1rem 0.5rem rgb(0 0 0 / 30%),
+    0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+}
+.proj-btns{
+  width: 100%;
+  display: flex;
+}
+
+.btn.proj-btn {
+  margin-right: 20px;
+  padding: 0.5em 1.5em;
+  background-color: #2C3447;
+  background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  box-shadow: 
+    0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+    0 0.1rem 0.5rem rgb(0 0 0 / 30%),
+    0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+    transition: 0.3s ease;
+}
+
+.btn.proj-btn:hover {
+  background-color: var(--background);
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+}
+
+/**/
 .services {
   background-color: var(--background);
 }
@@ -1494,7 +1559,7 @@ form small {
   footer .footer-info {
     color: #989da5;
     font-size: 14px;
-    padding: 40px 0;
+    padding: 40px 10px 0 0;
     background-color: var(--background);
   }
 

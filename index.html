@@ -29,10 +29,11 @@ JavaScript, and WordPress theme development.">
 
   <link href='https://cdn.linearicons.com/free/1.0.0/icon-font.min.css' rel='stylesheet' />
   <link href="https://use.fontawesome.com/90ef38dbc3.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="icon" type="image/x-icon" href="./AbbasLogo.png">
 
   <!--footer-->
-  <link rel='stylesheet' href='https://neontheme.com/css/bootstrap.css'>
+  <link rel='stylesheet' href='./styles/neontheme.css'>
   <link rel="stylesheet" href="./style.css">
 
 </head>
@@ -68,7 +69,7 @@ JavaScript, and WordPress theme development.">
     </h3>
     <div class="nav-container">
       <a class="nav-tab" href="#about">ABOUT</a>
-      <a class="nav-tab" href="#tab-esbuild">PORTFOLIO</a>
+      <a class="nav-tab" href="#projects">PORTFOLIO</a>
       <a class="nav-tab" href="#services">SERVICES</a>
       <a class="nav-tab" href="https://abbas.world/blog/">BLOG</a>
       <a class="nav-tab" href="#tab-vite">CONTACT</a>
@@ -112,19 +113,19 @@ JavaScript, and WordPress theme development.">
               <!-- About Social Links -->
               <div class='social-icon'>
                 <a href="https://www.facebook.com/AbbasUddin.01/" target="_blank">
-                  <span><i aria-hidden="true" class="fa fa-facebook"></i></span>
+                  <span><i aria-hidden="true" class="fa-brands fa-facebook"></i></span>
                 </a>
                 <a href="https://www.twitter.com/CodeAbbas/" target="_blank">
-                  <span><i aria-hidden="true" class="fa fa-twitter"></i></span>
+                  <span><i aria-hidden="true" class="fa-brands fa-twitter"></i></span>
                 </a>
                 <a href="https://www.github.com/CodeAbbas/" target="_blank">
-                  <span><i aria-hidden="true" class="fa fa-github"></i></span>
+                  <span><i aria-hidden="true" class="fa-brands fa-github"></i></span>
                 </a>
                 <a href="https://www.linkedin.com/in/abbas-dev/" target="_blank">
-                  <span><i aria-hidden="true" class="fa fa-linkedin"></i></span>
+                  <span><i aria-hidden="true" class="fa-brands fa-linkedin"></i></span>
                 </a>
                 <a href="https://codepen.io/CodeAbbas" target="_blank">
-                  <span><i aria-hidden="true" class="fa fa-codepen"></i></span>
+                  <span><i aria-hidden="true" class="fa-brands fa-codepen"></i></span>
                 </a>
                 <a href="https://www.codepen.io/CodeAbbas/" target="_blank">
                   <span><i aria-hidden="true" class="fa fa-user"></i></span>
@@ -211,14 +212,8 @@ JavaScript, and WordPress theme development.">
                 </div>
 
                 <div class='item-info mb-30'>
-                  <div class="progress-bar" data-percentage="90%">
-                     <h4 class="progress-title-holder clearfix">
-                       <span class="progress-title">HTML</span>
-                     </h4>
-                    <div class="progress-content-outter">
-                       <div class="progress-content"></div>
-                    </div>
-                  </div>
+                  <h6>CSS</h6>
+                  <div class='skills-progress'><span data-value='80%' /></div>
                 </div>
 
                 <div class='item-info mb-30'>
@@ -241,6 +236,37 @@ JavaScript, and WordPress theme development.">
 
           </div>
         </div>
+      </div>
+    </section>
+    <section class="projects text-center section-padding" id="projects">
+      <div class="container mb-80">
+        <!-- section header -->
+        <div class='text-center mb-50'>
+          <h4 class='tc-title tc-title-center'>Projects</h4>
+        </div>
+        <div class="row1">
+          <div class="project-wrap">
+            <div class="project">
+              <div class="project-image">
+                <img src="img/project/Ecommerce Store.webp" alt="" loading="lazy">
+              </div>
+              <div class="project-content">
+                <h3>Ecommerce Store</h3>
+                <p>An modern ecommerce store</p>
+                <div class="tags">
+                  <span class="tag1">HTML</span>
+                  <span class="tag1">CSS</span>
+                  <span class="tag1">JavaScript</span>
+                  <span class="tag1">JQuery</span>
+                </div>
+                <div class="proj-btns">
+                  <button class="btn proj-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Preview </button>
+                  <button class="btn proj-btn"><i class="fa-brands fa-github"></i> View project</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--row1-->
       </div>
     </section>
     <!--====== Start Services ======-->
@@ -474,8 +500,8 @@ JavaScript, and WordPress theme development.">
       <br>
       <br>
     </section>
-    <a class="to-top" href="/" title="toTop">
-      <i class="fa fa-chevron-up"></i>
+    <a class="to-top" href="#about" title="toTop">
+      <svg viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 13.8599L10.87 10.8C11.0125 10.6416 11.1868 10.5149 11.3815 10.4282C11.5761 10.3415 11.7869 10.2966 12 10.2966C12.2131 10.2966 12.4239 10.3415 12.6185 10.4282C12.8132 10.5149 12.9875 10.6416 13.13 10.8L16 13.8599" stroke="#03dac6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M3 7.41992L3 17.4199C3 19.6291 4.79086 21.4199 7 21.4199H17C19.2091 21.4199 21 19.6291 21 17.4199V7.41992C21 5.21078 19.2091 3.41992 17 3.41992H7C4.79086 3.41992 3 5.21078 3 7.41992Z" stroke="#03dac6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </a>
 
   </main>
