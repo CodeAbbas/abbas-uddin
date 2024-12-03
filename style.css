@@ -19,10 +19,35 @@ html{
 
 body {
   font-family: 'Josefin Sans', sans-serif;
+  --sb-track-color: var(--background);
+  --sb-thumb-color: var(--main-color);
+  --sb-size: 5px;
   overflow-x: hidden;
   font-size: 14px;
   line-height: 1.42857143;
 }
+
+body::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+      scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
+}
+
 
 
 /* Clock */
@@ -963,7 +988,6 @@ figure.snip1390 {
   overflow: hidden;
   margin: 0 10%;
   margin-bottom: 10px;
-  /*margin-left: 23px;
 min-width: 230px;
 max-width: 315px;*/
   width: calc(50%- 315px);
@@ -1128,7 +1152,7 @@ input {
 }
 
 .contactme {
-  max-width: 510px;
+  max-width: 800px;
   min-width: 324px;
   margin-top: 20px;
   background-color: var(--background);
