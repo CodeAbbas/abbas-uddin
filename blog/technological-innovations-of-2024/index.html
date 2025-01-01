@@ -158,47 +158,6 @@
     document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
   });
-
-  async function shareArticle() {
-    // Collect dynamic values from the blog
-    const title = document.querySelector('h1').innerText; // Blog title
-    const text = document.querySelector('article p').innerText; // First paragraph as the description
-    const url = window.location.href; // Current page URL
-    const coverImageUrl = document.querySelector('article img').src; // First image as cover
-
-    if (navigator.canShare && navigator.canShare({ files: true })) {
-      try {
-        // Fetch the cover image and create a Blob
-        const response = await fetch(coverImageUrl);
-        const blob = await response.blob();
-        const file = new File([blob], 'cover-image.jpg', { type: blob.type });
-
-        // Share with the file
-        await navigator.share({
-          title: title,
-          text: text,
-          url: url,
-          files: [file]
-        });
-        console.log('Successfully shared!');
-      } catch (error) {
-        console.error('Error sharing:', error);
-      }
-    } else if (navigator.share) {
-      // Fallback: Share without the image
-      navigator.share({
-        title: title,
-        text: text,
-        url: url
-      })
-      .then(() => console.log('Successfully shared!'))
-      .catch((error) => console.error('Error sharing:', error));
-    } else {
-      alert('Sharing is not supported on this browser. Please copy the URL manually.');
-    }
-  }
-
-  
   </script>
 </body>
 </html>
