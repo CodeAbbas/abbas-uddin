@@ -114,6 +114,7 @@ body::-webkit-scrollbar-thumb {
   padding-bottom: 0.5rem;
   letter-spacing: 0.5rem;
   color: var(--main-color);
+  text-shadow: 0 4px 8px rgba(3, 218, 198, 0.2);
   transition: all 0.3s ease;
   z-index: 3;
 }
@@ -377,6 +378,22 @@ a {
 .loader span:nth-child(22) {
   -webkit-animation-delay: 2.1s;
 }
+
+.background-paths {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  background-color: var(--background);
+}
+.paths {
+  color: #03dac6;
+  width: 100%;
+  height: 100vh;
+}
+
 
 .to-top {
   color: var(--main-color);
