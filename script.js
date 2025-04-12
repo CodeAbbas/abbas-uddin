@@ -1,4 +1,6 @@
+// ALL ANIMATIONS AND INITIALIZATIONS
 document.addEventListener('DOMContentLoaded', () => {
+  // SVG PATH ANIMATION
   const svg = document.querySelector('.paths');
 
   function createPath(position, index) {
@@ -27,6 +29,360 @@ document.addEventListener('DOMContentLoaded', () => {
       const position = i % 2 === 0 ? 1 : -1;
       const path = createPath(position, i);
       animatePath(path);
+  }
+
+  // PROJECT CARD ANIMATIONS
+  const projectCards = document.querySelectorAll('.project-card');
+  const techTags = document.querySelectorAll('.tech-tag');
+  
+  // Reset animations
+  projectCards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.animation = 'none';
+  });
+  
+  // Staggered animation for tech tags
+  techTags.forEach((tag, index) => {
+    const delay = 0.1 + (index % 4) * 0.1;
+    tag.style.transition = `all 0.3s ease ${delay}s`;
+  });
+  
+  // Animate project cards on scroll
+  const animateProjectCards = () => {
+    const triggerBottom = window.innerHeight * 0.85;
+    
+    projectCards.forEach((card, index) => {
+      const cardTop = card.getBoundingClientRect().top;
+      
+      if (cardTop < triggerBottom) {
+        card.style.animation = `fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards ${index * 0.2}s`;
+      }
+    });
+  };
+  
+  // Add hover effect for project cards
+  projectCards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      const tags = this.querySelectorAll('.tech-tag');
+      tags.forEach((tag, index) => {
+        tag.style.transform = 'translateY(-5px)';
+        tag.style.opacity = '1';
+      });
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      const tags = this.querySelectorAll('.tech-tag');
+      tags.forEach((tag, index) => {
+        tag.style.transform = 'translateY(0)';
+        tag.style.opacity = '0.9';
+      });
+    });
+  });
+  
+  // Check project cards on scroll
+  window.addEventListener('scroll', animateProjectCards);
+  
+  // Initial check for project cards
+  animateProjectCards();
+
+  // Parallax effect for background elements
+  window.addEventListener('mousemove', function(e) {
+    const bgElements = document.querySelectorAll('.bg-element');
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    
+    bgElements.forEach(element => {
+      const speed = element.classList.contains('bg-element-1') ? 30 : 20;
+      element.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+    });
+  });
+
+  // PROGRESS BAR ANIMATION
+  const progressBars = document.querySelectorAll('.progress-bar');
+  
+  const progressObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const width = entry.target.getAttribute('data-width');
+        entry.target.style.width = width;
+        progressObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  
+  progressBars.forEach(bar => {
+    progressObserver.observe(bar);
+  });
+
+  // TESTIMONIALS SLIDER
+  const testimonialsContainer = document.querySelector(".testimonials-container");
+  const testimonialCards = document.querySelectorAll(".testimonial-card");
+  const dots = document.querySelectorAll(".testimonial-dot");
+
+  // Set initial card width for proper scrolling
+  function setCardWidth() {
+    const containerWidth = testimonialsContainer.clientWidth;
+    let cardWidth;
+
+    if (window.innerWidth > 1100) {
+      // Desktop: 3 cards per view
+      cardWidth = containerWidth / 3 - 16;
+    } else if (window.innerWidth > 768) {
+      // Tablet: 2 cards per view
+      cardWidth = containerWidth / 2 - 16;
+    } else {
+      // Mobile: 1 card per view
+      cardWidth = containerWidth - 16;
+    }
+
+    testimonialCards.forEach((card) => {
+      card.style.minWidth = `${cardWidth}px`;
+    });
+  }
+
+  // Initialize card widths
+  setCardWidth();
+
+  // Update card widths on window resize
+  window.addEventListener("resize", setCardWidth);
+
+  // Dot navigation
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      // Update active dot
+      dots.forEach((d) => d.classList.remove("active"));
+      dot.classList.add("active");
+
+      // Calculate scroll position
+      const cardWidth = testimonialCards[0].offsetWidth + 16; // Card width + gap
+      const scrollPosition = index * cardWidth;
+
+      // Scroll to position
+      testimonialsContainer.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth",
+      });
+    });
+  });
+
+  // Auto-scroll testimonials
+  let currentSlide = 0;
+  const totalSlides = testimonialCards.length;
+
+  function autoScroll() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+
+    // Update active dot
+    dots.forEach((d) => d.classList.remove("active"));
+    dots[currentSlide].classList.add("active");
+
+    // Calculate scroll position
+    const cardWidth = testimonialCards[0].offsetWidth + 16; // Card width + gap
+    const scrollPosition = currentSlide * cardWidth;
+
+    // Scroll to position
+    testimonialsContainer.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth",
+    });
+  }
+
+  // Set auto-scroll interval
+  let scrollInterval = setInterval(autoScroll, 5000);
+
+  // Pause auto-scroll on hover
+  testimonialsContainer.addEventListener("mouseenter", () => {
+    clearInterval(scrollInterval);
+  });
+
+  // Resume auto-scroll on mouse leave
+  testimonialsContainer.addEventListener("mouseleave", () => {
+    clearInterval(scrollInterval);
+    scrollInterval = setInterval(autoScroll, 5000);
+  });
+
+  // CONTACT FORM VALIDATION
+  const contactForm = document.getElementById("contactForm");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Get form values
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      // Basic validation
+      if (name === "" || email === "" || message === "") {
+        showFormError("Please fill in all required fields");
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showFormError("Please enter a valid email address");
+        return;
+      }
+
+      // If validation passes, show success message
+      showFormSuccess("Your message has been sent successfully!");
+
+      // Reset form
+      contactForm.reset();
+
+      // In a real application, you would send the form data to a server here
+      console.log("Form submitted:", { name, email, subject, message });
+    });
+  }
+
+  // Form error message
+  function showFormError(message) {
+    // Create error message element if it doesn't exist
+    let errorElement = document.querySelector(".form-error");
+
+    if (!errorElement) {
+      errorElement = document.createElement("div");
+      errorElement.className = "form-error";
+      errorElement.style.color = "#ff4d4d";
+      errorElement.style.marginTop = "1rem";
+      errorElement.style.padding = "0.75rem";
+      errorElement.style.borderRadius = "0.5rem";
+      errorElement.style.backgroundColor = "rgba(255, 77, 77, 0.1)";
+      errorElement.style.borderLeft = "3px solid #ff4d4d";
+      contactForm.appendChild(errorElement);
+    }
+
+    errorElement.textContent = message;
+
+    // Remove error message after 5 seconds
+    setTimeout(() => {
+      errorElement.remove();
+    }, 5000);
+  }
+
+  // Form success message
+  function showFormSuccess(message) {
+    // Create success message element
+    const successElement = document.createElement("div");
+    successElement.className = "form-success";
+    successElement.style.color = "#03dac6";
+    successElement.style.marginTop = "1rem";
+    successElement.style.padding = "0.75rem";
+    successElement.style.borderRadius = "0.5rem";
+    successElement.style.backgroundColor = "rgba(3, 218, 198, 0.1)";
+    successElement.style.borderLeft = "3px solid #03dac6";
+    successElement.textContent = message;
+
+    contactForm.appendChild(successElement);
+
+    // Remove success message after 5 seconds
+    setTimeout(() => {
+      successElement.remove();
+    }, 5000);
+  }
+
+  // TESTIMONIAL AND CONTACT ANIMATION ON SCROLL
+  const animateTestimonialsOnScroll = () => {
+    const elements = document.querySelectorAll(".testimonial-card, .contact-card, .contact-form-container");
+    const triggerBottom = window.innerHeight * 0.8;
+
+    elements.forEach((element, index) => {
+      const elementTop = element.getBoundingClientRect().top;
+
+      if (elementTop < triggerBottom) {
+        element.style.opacity = "1";
+        element.style.transform = "translateY(0)";
+      }
+    });
+  };
+
+  // Set initial state for testimonial/contact animation
+  const elementsToAnimate = document.querySelectorAll(".testimonial-card, .contact-card, .contact-form-container");
+  elementsToAnimate.forEach((element, index) => {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(20px)";
+    element.style.transition = `all 0.6s ease ${index * 0.1}s`;
+  });
+
+  // Check testimonials/contact on scroll
+  window.addEventListener("scroll", animateTestimonialsOnScroll);
+
+  // Initial check for testimonials/contact
+  animateTestimonialsOnScroll();
+
+  // FOOTER ANIMATIONS (STATS COUNTER)
+  const statNumbers = document.querySelectorAll(".stat-number");
+  let animated = false;
+
+  function animateStats() {
+    if (animated) return;
+
+    const statsSection = document.querySelector(".stats-container");
+    const statsSectionTop = statsSection.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if (statsSectionTop < windowHeight * 0.8) {
+      statNumbers.forEach((stat) => {
+        const targetNumber = Number.parseInt(stat.textContent);
+        let currentNumber = 0;
+        const duration = 2000; // 2 seconds
+        const increment = targetNumber / (duration / 16); // 60fps
+
+        const counter = setInterval(() => {
+          currentNumber += increment;
+
+          if (currentNumber >= targetNumber) {
+            stat.textContent = targetNumber + "+";
+            clearInterval(counter);
+          } else {
+            stat.textContent = Math.floor(currentNumber);
+          }
+        }, 16);
+      });
+
+      animated = true;
+      window.removeEventListener("scroll", animateStats);
+    }
+  }
+
+  // Check stats on scroll
+  window.addEventListener("scroll", animateStats);
+
+  // Initial check for stats
+  animateStats();
+
+  // BACK TO TOP FUNCTIONALITY
+  const backToTopButton = document.querySelector(".back-to-top");
+
+  if (backToTopButton) {
+    // Show/hide button based on scroll position
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopButton.style.opacity = "1";
+        backToTopButton.style.pointerEvents = "auto";
+      } else {
+        backToTopButton.style.opacity = "0";
+        backToTopButton.style.pointerEvents = "none";
+      }
+    });
+
+    // Scroll to top when clicked
+    backToTopButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+    // Initial state
+    backToTopButton.style.opacity = "0";
+    backToTopButton.style.pointerEvents = "none";
+    backToTopButton.style.transition = "opacity 0.3s ease, transform 0.3s ease";
   }
 });
 
@@ -83,9 +439,19 @@ class NavigationPage {
   }
 
   onTabClick(event, element) {
-      event.preventDefault();
-      let scrollTop = $(element.attr("href")).offset().top - this.tabContainerHeight + 1;
-      $("html, body").animate({ scrollTop: scrollTop }, 600);
+      const href = element.attr("href");
+      
+      // Check if href starts with '#' (in-page anchor)
+      if (href.startsWith("#")) {
+          event.preventDefault();
+          const targetElement = $(href);
+          if (targetElement.length) {
+              let scrollTop = targetElement.offset().top - this.tabContainerHeight + 1;
+              $("html, body").animate({ scrollTop: scrollTop }, 600);
+          }
+      }
+      // For non-anchor hrefs (e.g., './blog/'), allow default navigation
+      // No action needed; browser handles it
   }
 
   onScroll() {
@@ -95,13 +461,13 @@ class NavigationPage {
   }
 
   checkHeaderPosition() {
-      const headerHeight = 75;
-      if ($(window).scrollTop() > headerHeight) {
-          $(".nav-container").addClass("nav-container--scrolled");
-      } else {
-          $(".nav-container").removeClass("nav-container--scrolled");
-      }
-  }
+    const headerHeight = 75;
+    if ($(window).scrollTop() > headerHeight) {
+        $(".nav-container").addClass("nav-container--scrolled");
+    } else {
+        $(".nav-container").removeClass("nav-container--scrolled");
+    }
+}
 
   findCurrentTabSelector() {
       let newCurrentId;
@@ -110,12 +476,18 @@ class NavigationPage {
 
       $(".nav-tab").each(function () {
           let id = $(this).attr("href");
-          let offsetTop = $(id).offset().top - self.tabContainerHeight;
-          let offsetBottom = $(id).offset().top + $(id).height() - self.tabContainerHeight;
-          
-          if ($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
-              newCurrentId = id;
-              newCurrentTab = $(this);
+          // Only process hrefs starting with '#' for in-page navigation
+          if (id.startsWith("#")) {
+              let target = $(id);
+              if (target.length) {
+                  let offsetTop = target.offset().top - self.tabContainerHeight;
+                  let offsetBottom = target.offset().top + target.height() - self.tabContainerHeight;
+                  
+                  if ($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
+                      newCurrentId = id;
+                      newCurrentTab = $(this);
+                  }
+              }
           }
       });
 
@@ -126,28 +498,3 @@ class NavigationPage {
   }
 }
 new NavigationPage();
-
-// PROGRESS BAR ANIMATION
-function checkScroll() {
-  const progressBars = document.querySelectorAll('.skills-progress');
-  
-  progressBars.forEach(bar => {
-      if (isElementInViewport(bar)) {
-          initProgressBars();
-      }
-  });
-}
-
-function isElementInViewport(el) {
-  const rect = el.getBoundingClientRect();
-  return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
-
-window.addEventListener('scroll', checkScroll);
-window.addEventListener('resize', checkScroll);
-checkScroll();
