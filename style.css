@@ -561,7 +561,19 @@ a:hover {
   padding: 0;
   margin-bottom: 15px
 }
-
+.profile-preword{
+  animation: blink-smooth 1.5s infinite;
+}
+@keyframes blink-smooth {
+  0%, 100% {
+    opacity: 1; 
+    color: var(--hover); 
+  }
+  50% {
+    opacity: 0.2; 
+    color: var(--hover); 
+  }
+}
 .social-icon span {
   transition: all .3s;
 }
@@ -685,6 +697,19 @@ a.about-button:hover {
   .content p{
   font-size: 16px;
   }
+  .social-icon{
+
+    margin-left: 20px;
+  }
+  .profile-btns{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: -40px;
+  }
+
 }
 
 @media screen and (max-width: 320px) {
@@ -1641,7 +1666,7 @@ a.about-button:hover {
 
 .testimonials-section {
   padding: 6rem 0;
-  background-color: #0a0e11;
+  background-color: var(--background);
   color: #ffffff;
   position: relative;
   overflow: hidden;
@@ -1832,7 +1857,7 @@ a.about-button:hover {
 /* ===== CONTACT SECTION STYLES ===== */
 .contact-section {
   padding: 6rem 0;
-  background-color: #0a0e11;
+  background-color: var(--background);
   color: #ffffff;
   position: relative;
   overflow: hidden;
@@ -2181,7 +2206,7 @@ a.about-button:hover {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 2fr);
   gap: 2rem;
   text-align: center;
 }
