@@ -220,7 +220,7 @@ a {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: auto;
+  z-index: -1;
 }
 
 @media (min-width: 800px) {
@@ -271,6 +271,14 @@ a {
     font-size: 7px;
   }
 
+}
+@media screen and (max-width: 360px) {
+
+
+  .nav-tab {
+    font-size: 0.7rem;
+  }
+  
 }
 
 .background {
@@ -697,18 +705,23 @@ a.about-button:hover {
   .content p{
   font-size: 16px;
   }
-  .social-icon{
-
-    margin-left: 20px;
-  }
-  .profile-btns{
+  .hero .social-icon {
+    float: none; /* Remove float */
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    gap: 7px;
     justify-content: center;
-    margin-top: 20px;
-    margin-left: -40px;
+    width: 100%; /* Ensure full width for centering */
+    margin:0 auto 20px;
   }
+
+  .profile-btns {
+    float: none; /* Remove float */
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ensure full width for centering */
+    margin: 20px auto 0;
+  }
+  
 
 }
 
@@ -786,6 +799,7 @@ a.about-button:hover {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.5rem;
 }
+
 
 /* Column Styles */
 .skills-column {
@@ -909,6 +923,28 @@ a.about-button:hover {
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-weight: 500;
+}
+.timeline-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  padding: 0 10px;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.timeline-item:hover .timeline-details {
+  max-height: 600px; /* Adjust based on content length */
+  
+}
+.timeline-details h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0.75rem 0 0.5rem;
+}
+.timeline-details li {
+  margin-bottom: 0.5rem;
 }
 
 /* Experience Cards */
@@ -1100,6 +1136,9 @@ a.about-button:hover {
 
   .column-header h3 {
     font-size: 1.35rem;
+  }
+  .timeline-item:hover .timeline-details {
+    max-height: 1200px;
   }
 }
 
@@ -2396,6 +2435,20 @@ a.about-button:hover {
 
   .copyright {
     font-size: 0.875rem;
+  }
+}
+@media (max-width: 576px) {
+  .footer-logo {
+    margin-right: 0;
+    
+  }
+
+  .hire-btn {
+    width: 100%;
+    text-align: center;
+  }
+  .footer-name {
+    font-size: 1.1rem;
   }
 }
 
