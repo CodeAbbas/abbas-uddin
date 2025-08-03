@@ -2,7 +2,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
-  --background: #1e1f26;
+  --background: linear-gradient(to right, #1A1C22, #5A5C6A, #A7A8B2);
   --main-color: #03dac6;
   --hover: #ff0266;
   --fourth: #faebd7;
