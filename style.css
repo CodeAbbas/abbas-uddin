@@ -9,7 +9,7 @@
 }
 html{
   scroll-behavior: smooth;
-  background-color: --background;
+  background: vat(--background);
 }
 
 *{
