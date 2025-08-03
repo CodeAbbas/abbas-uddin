@@ -9,7 +9,6 @@
 }
 html{
   scroll-behavior: smooth;
-  background: vat(--background);
 }
 
 *{
@@ -19,6 +18,7 @@ html{
 }
 
 body {
+  
   font-family: "Space Grotesk", sans-serif;
   --sb-track-color: var(--background);
   --sb-thumb-color: var(--main-color);
@@ -26,6 +26,7 @@ body {
   overflow-x: hidden;
   font-size: 14px;
   line-height: 1.42857143;
+  background: var(--background);
 }
 
 body::-webkit-scrollbar {
