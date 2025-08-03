@@ -2,7 +2,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
-  --background: linear-gradient(to bottom, #1A1C22, #5A5C6A, #A7A8B2);
+  --background: #1A1C22;
   --main-color: #03dac6;
   --hover: #ff0266;
   --fourth: #faebd7;
@@ -26,7 +26,6 @@ body {
   overflow-x: hidden;
   font-size: 14px;
   line-height: 1.42857143;
-  background: var(--background);
 }
 
 body::-webkit-scrollbar {
