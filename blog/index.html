@@ -98,6 +98,14 @@
         // Blog posts data
         const posts = [
         {
+    title: "Setting Up a Full GitHub + Tailwind CSS Workflow on Android with Termux",
+    date: "23/10/2025",
+    excerpt: "Learn how to manage a GitHub project, use Tailwind CSS v3, and troubleshoot common issues like version mismatches, all from your Android device using Termux.",
+    readTime: "7 min read",
+    tags: ["Termux", "Tailwind CSS", "Android", "Git", "Mobile Development", "Troubleshooting"],
+    image: "img/Github on termux.png" 
+},
+        {
             title: "10 Best Parallax Flip Cards for Engaging User Interfaces",
             date: "15/01/2025",
             excerpt: "One trend that’s taken the spotlight is the use of Parallax Flip Cards, combining smooth parallax scrolling with card-flipping animations for a stunning 3D effect. Here are 10 amazing examples from CodePen to inspire your next project.",
@@ -169,7 +177,7 @@
               <div class="flex flex-wrap gap-2 mb-4">
                 ${post.tags.map(tag => `<span class="px-2 py-1 text-xs bg-[#2A2F35] text-[#00FFC2] rounded-full">${tag}</span>`).join('')}
               </div>
-              <a href="/blog/${post.title.toLowerCase().replace(/\s+/g, '-')}" class="inline-flex items-center text-[#00FFC2] hover:underline group">
+              <a href="/blog/${post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}" class="inline-flex items-center text-[#00FFC2] hover:underline group">
                 Read more
                 <i data-lucide="chevron-right" class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"></i>
               </a>

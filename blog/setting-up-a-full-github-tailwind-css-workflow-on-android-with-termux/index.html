@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full GitHub + Tailwind CSS Workflow on Android with Termux</title>
+
+  <meta name="description" content="A complete guide to cloning a GitHub repo, editing with SPCK Editor, and installing/compiling Tailwind CSS v3 locally on Android using Termux—including how to solve the tricky v4 vs v3 version trap." />
+
+  <meta name="keywords" content="android, termux, tailwind css, github, spck editor, mobile development, nodejs, npm, git, web development" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Full GitHub + Tailwind CSS Workflow on Android with Termux" />
+  <meta property="og:description" content="Learn how to manage a GitHub project, use Tailwind CSS v3, and troubleshoot common issues like version mismatches, all from your Android device using Termux." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618389041492-5d55f9f59f6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNjE2NXwwfDF8c2VhcmNofDEzfHxjb2RlfCUyMG9uJTIwcGhvbmUlMjBzY3JlZW58ZW58MHx8fHwxNzEyMzQ1NjcwfDA&ixlib=rb-4.0.3&q=80&w=1080" /> <meta property="og:url" content="URL-of-this-blog-post" /> <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Full GitHub + Tailwind CSS Workflow on Android with Termux" />
+  <meta name="twitter:description" content="Your complete guide to coding a GitHub project with Tailwind CSS v3 on Android using Termux." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1618389041492-5d55f9f59f6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNjE2NXwwfDF8c2VhcmNofDEzfHxjb2RlfCUyMG9uJTIwcGhvbmUlMjBzY3JlZW58ZW58MHx8fHwxNzEyMzQ1NjcwfDA&ixlib=rb-4.0.3&q=80&w=1080" /> <meta name="author" content="Abbas Uddin" />
+
+  <meta property="article:tag" content="Termux" />
+  <meta property="article:tag" content="Tailwind CSS" />
+  <meta property="article:tag" content="Android" />
+  <meta property="article:tag" content="Git" />
+  <meta property="article:tag" content="Mobile Development" />
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.37.0/lucide.min.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    p{
+      text-align: justify;
+    }
+    .prose code::before, .prose code::after {
+      content: none; /* Remove backticks added by prose plugin */
+    }
+    .prose pre {
+        background-color: #2A2F35; /* Darker background for code blocks */
+        color: #e0e0e0;
+        padding: 1em;
+        border-radius: 0.5em;
+        overflow-x: auto;
+    }
+    .prose pre code {
+        background-color: transparent;
+        padding: 0;
+        color: inherit;
+    }
+  </style>
+</head>
+
+<body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
+  <div class="max-w-4xl mx-auto">
+    <a href="../index.html" class="inline-flex items-center mb-8 text-[#00FFC2] hover:underline group transition-all duration-300 ease-in-out">
+      <i data-lucide="chevron-left" class="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"></i>
+      Back to blogs
+    </a>
+
+    <article class="bg-[#22262A] rounded-lg shadow-xl overflow-hidden">
+      <img src="../img/Github on termux.png" alt="Coding on Android with Termux" class="w-full h-64 object-cover" />
+
+      <div class="p-8">
+        <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">Setting Up a Full GitHub + Tailwind CSS Workflow on Android with Termux</h1>
+
+        <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
+          <div class="flex items-center space-x-4 mb-4 md:mb-0">
+            <img src="https://i.ibb.co/PmJL6Gy/Picsart-24-07-12-17-15-22-479.png" alt="Author Avatar" width="40" height="40" class="rounded-full" />
+            <span>Abbas Uddin</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center">
+              <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
+              23/10/2025 </span>
+            <span class="flex items-center">
+              <i data-lucide="clock" class="mr-2 h-4 w-4"></i>
+              7 min read </span>
+          </div>
+        </div>
+
+        <div class="prose prose-invert prose-cyan max-w-none text-gray-300">
+          <p>
+            Can you actually build modern websites entirely from an Android phone? Absolutely! Using powerful tools like Termux, SPCK Editor, and Node.js, you can manage a GitHub project and even run build processes like the Tailwind CSS CLI. It's a game-changer for coding on the go.
+          </p>
+          <p>
+            However, this setup isn't without its challenges. I recently spent hours troubleshooting a mysteriously broken Tailwind installation. This post documents the entire process we went through, including the crucial fix, so you can set up your mobile workflow smoothly.
+          </p>
+
+          <h2 class="font-bold">The Toolkit</h2>
+          <ul>
+            <li><strong>Termux:</strong> The core Linux environment for Android. Install `git` and `nodejs` within it using `pkg install git nodejs`.</li>
+            <li><strong>SPCK Editor:</strong> A great code editor for Android with built-in Git support, making file management and commits easy.</li>
+            <li><strong>Node.js/npm:</strong> Needed for installing and running Tailwind CSS.</li>
+            <li><strong>A Local Server:</strong> Optional but recommended for previewing. `http-server` (via npm) is a good choice.</li>
+          </ul>
+
+          <h2 class="font-bold">Step 1: Cloning and Editing with Git</h2>
+          <p>Getting your project onto your phone is straightforward. Open Termux:</p>
+          <pre><code class="language-bash"># Give Termux access to storage (run once)
+termux-setup-storage
+
+# Navigate to your preferred projects directory
+cd /storage/shared/YourFolder
+
+# Clone your repo
+git clone https://github.com/YourUsername/YourProject.git
+cd YourProject
+</code></pre>
+          <p>You can now open this folder in SPCK Editor. Edit your files visually. When ready to save:</p>
+          <pre><code class="language-bash"># Stage your changes
+git add .
+
+# Commit them
+git commit -m "Made changes from Android"
+
+# Push to GitHub (You might need to set up authentication first)
+# For password/token auth:
+git push origin main
+# Enter username and Personal Access Token when prompted
+</code></pre>
+          <p>So far, so good. But what about compiling Tailwind?</p>
+
+          <h2 class="font-bold">Step 2: Installing Tailwind CSS (The First Attempt)</h2>
+          <p>My project initially used the Tailwind CDN. To switch to the CLI, I ran:</p>
+          <pre><code class="language-bash"># Make sure you have a package.json (run if needed)
+npm init -y
+
+# Install Tailwind
+npm install -D tailwindcss
+</code></pre>
+          <p>I configured `tailwind.config.js` to scan my HTML and JS files:</p>
+          <pre><code class="language-javascript">/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./script.js" // Include JS if classes are added dynamically
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+</code></pre>
+          <p>Added the directives to the top of my input CSS file (`style.css`):</p>
+          <pre><code class="language-css">@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* My custom styles below... */
+body { /* ... */ }
+</code></pre>
+          <p>And ran the build command:</p>
+          <pre><code class="language-bash">npx tailwindcss -i ./style.css -o ./output.css --watch
+</code></pre>
+          <p>Finally, I updated `index.html` to remove the CDN script and link to `output.css`.</p>
+
+          <h2 class="font-bold">Step 3: The Failure and Troubleshooting</h2>
+          <p>The build command ran without errors, but the website looked completely unstyled. The `output.css` file was generated, but it was tiny and missing all the Tailwind utility classes defined in my HTML and JS. Only my custom styles from `style.css` were present.</p>
+          <p>
+            My first suspect was browser caching. I tried everything: hard refreshes, incognito tabs, clearing Chrome's site data for localhost, even clearing the entire app cache. I also tried a different local server (`http-server -c-1`) to disable server-side caching. None of it worked. The problem was deeper.
+          </p>
+
+          <h2 class="font-bold">The Real Culprit: Tailwind v4 vs v3</h2>
+          <p>The breakthrough came when I examined the generated `output.css` file. The first line revealed the issue:</p>
+          <pre><code>/*! tailwindcss v4.1.15 | MIT License | https://tailwindcss.com */</code></pre>
+          <p>
+            Running `npm install -D tailwindcss` had installed the latest **Tailwind v4 beta**! My `tailwind.config.js` file, however, was written using the **v3 syntax** (with the `content: []` array).
+          </p>
+          <p>
+            Crucially, <b>Tailwind v4 ignores the `content` array</b>. It uses a different mechanism (often relying on framework integration or CSS `@import "tailwindcss" source(...)`) to find your template files. Because my config was v3 style, the v4 engine wasn't scanning `index.html` or `script.js` at all. This silent failure meant no utility classes were generated.
+          </p>
+
+          <h2 class="font-bold">The Correct Fix: Installing Tailwind v3</h2>
+          <p>The solution was to explicitly install the stable v3 version that matched my configuration:</p>
+          <pre><code class="language-bash"># 1. Uninstall the v4 packages (including the separate CLI)
+npm uninstall tailwindcss @tailwindcss/cli
+
+# 2. Install the stable v3 package (CLI is included)
+npm install -D tailwindcss@3
+</code></pre>
+          <p>After this, running the build command again worked perfectly:</p>
+          <pre><code class="language-bash">npx tailwindcss -i ./style.css -o ./output.css --watch
+</code></pre>
+          <p>The v3 engine correctly read the `tailwind.config.js`, scanned the files listed in `content`, and generated a complete `output.css` file. A final browser refresh (after ensuring the cache was truly cleared) brought the correct styles to life.</p>
+
+          <h2 class="font-bold">Conclusion</h2>
+          <p>
+            Coding on Android with Termux is incredibly capable, allowing a full Git and Node.js workflow. However, version mismatches, especially with rapidly evolving tools like Tailwind CSS, can cause baffling issues. If your build seems broken despite correct configuration and cleared caches, <b>always double-check your installed package versions</b> against the documentation for the syntax you're using. With the right versions aligned, your mobile coding setup can be surprisingly productive!
+          </p>
+        </div>
+
+        <div class="mt-12 flex flex-wrap gap-2">
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Termux</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Tailwind CSS</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Android</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Git</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Mobile Development</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Troubleshooting</span>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-700 flex justify-between items-center">
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="thumbs-up" class="mr-2 h-4 w-4"></i>
+            Like this article
+          </button>
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="share-2" class="mr-2 h-4 w-4"></i>
+            Share
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm">
+    <div class="text-gray-500">MM/DD/YYYY</div>
+    <div class="text-[#00FFC2]">HH:MM:SS</div>
+  </div>
+
+  <script>
+    // Clock Functionality
+    const clockElement = document.getElementById('clock');
+
+    function updateClock() {
+      const currentTime = new Date();
+      clockElement.innerHTML = `
+        <div class="text-gray-500">${currentTime.toLocaleDateString('en-US', { 
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        })}</div>
+        <div class="text-[#00FFC2]">${currentTime.toLocaleTimeString('en-US', { 
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })}</div>
+      `;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+    // Initialize Lucide Icons
+    document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+  </script>
+</body>
+
+</html>
