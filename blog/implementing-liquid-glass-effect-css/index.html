@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementing a Liquid Glass UI Effect with CSS</title>
+
+    <meta name="description" content="Learn how to create a stunning 'liquid glass' UI effect using CSS variables, backdrop-filter, and animated background shapes. A step-by-step guide." />
+
+    <meta name="keywords" content="liquid glass effect, glassmorphism, CSS UI design, frontend development, CSS tutorial, backdrop-filter, CSS variables, web design trends" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Implementing a Liquid Glass UI Effect with CSS" />
+    <meta property="og:description" content="A step-by-step guide to adding a modern, frosted glass look to your website elements using CSS variables, backdrop-filter, and subtle animations." />
+    <meta property="og:image" content="../img/liquid-glass-featured.png" /> <meta property="og:url" content="https://abbasuddin.com/blog/implementing-liquid-glass-effect-css" /> <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Implementing a Liquid Glass UI Effect with CSS" />
+    <meta name="twitter:description" content="Learn how to create the popular 'liquid glass' effect for your website using modern CSS techniques." />
+    <meta name="twitter:image" content="../img/liquid-glass-featured.png" /> <meta name="author" content="Abbas Uddin" />
+
+    <meta property="article:tag" content="CSS" />
+    <meta property="article:tag" content="UI Design" />
+    <meta property="article:tag" content="Glassmorphism" />
+    <meta property="article:tag" content="Web Development" />
+    <meta property="article:tag" content="Frontend" />
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+        /* Optional: Add Fira Code font for code blocks */
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+        body {
+            font-family: "Space Grotesk", sans-serif;
+            background-color: #1A1D21; /* Base background */
+            color: #e0e0e0; /* Base text color */
+        }
+
+        /* --- Styles for Themed Code Blocks --- */
+        .prose code::before, .prose code::after {
+            content: none;
+        }
+        .prose pre {
+            background-color: #2A2F35; /* Code block background - matches article */
+            color: #e0e0e0;
+            padding: 0;
+            border-radius: 0.75em;
+            overflow: hidden;
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+            position: relative;
+            border: 1px solid #3a3f45; /* Subtle border */
+        }
+        .code-block-header {
+            background-color: #22262A; /* Header background - slightly darker */
+            padding: 0.5em 1em;
+            border-bottom: 1px solid #00FFC2; /* Theme accent border */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space out controls and button */
+            margin-top: -25px;
+        }
+        .code-block-controls {
+            display: flex;
+            gap: 0.5em;
+        }
+        .control-dot { display: block; width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .copy-button {
+            background-color: transparent;
+            color: #00FFC2;
+            border: 1px solid #00FFC2;
+            border-radius: 0.375em;
+            padding: 0.25em 0.6em;
+            font-size: 0.8em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3em;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .copy-button:hover {
+            background-color: rgba(0, 255, 194, 0.1); /* Subtle hover */
+        }
+        .copy-button .lucide { /* Style for Lucide icons inside button */
+           width: 14px;
+           height: 14px;
+        }
+        .copy-button.copied { /* Style when copied */
+            color: #1A1D21;
+            background-color: #00FFC2;
+            border-color: #00FFC2;
+        }
+
+        .prose pre code {
+            display: block;
+            background-color: transparent;
+            padding: 1.2em 1.5em;
+            color: inherit;
+            font-family: 'Fira Code', monospace; /* Use Fira Code or other monospace */
+            font-size: 0.9em;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        /* --- End Code Block Style --- */
+
+        /* Liquid Glass Base Styles (as before) */
+        :root {
+          --c-glass: #bbbbbc; --c-light: #fff; --c-dark: #000; --c-content: #224;
+          --c-action: #0052f5; --c-bg: #E8E8E9; --glass-reflex-dark: 1;
+          --glass-reflex-light: 1; --saturation: 150%;
+        }
+        body.liquid-glass-theme { /* Applying theme via class */
+            font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale; background: var(--c-bg); color: var(--c-content);
+            transition: background 400ms ease, color 400ms ease; margin: 0; min-height: 100vh;
+            position: relative; overflow-x: hidden;
+        }
+        .glass-effect {
+            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+            backdrop-filter: blur(12px) saturate(var(--saturation));
+            -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+            border-radius: 1.5rem;
+            box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+                        inset 1.5px 2.5px 1px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent),
+                        inset -1.5px -1.5px 2px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent),
+                        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+        }
+        .background-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+        .shape { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.4; }
+        .shape1 { width: 400px; height: 400px; background: #FF6B6B; top: -100px; left: -100px; animation: animateShape 20s infinite alternate; }
+        .shape2 { width: 500px; height: 500px; background: #4D96FF; bottom: -150px; right: -150px; animation: animateShape 25s infinite alternate-reverse; }
+        .shape3 { width: 300px; height: 300px; background: #6BFFAF; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: animateShape 18s infinite alternate; }
+        @keyframes animateShape { 0% { transform: scale(1) translate(0, 0) rotate(0deg); } 100% { transform: scale(1.3) translate(50px, -50px) rotate(90deg); } }
+
+        /* Playground Button Style (as before) */
+        .playground-button { display: inline-flex; align-items: center; padding: 0.6em 1.2em; background-color: #2A2F35; color: #00FFC2; border-radius: 0.5em; text-decoration: none; font-weight: 500; transition: background-color 0.3s ease, transform 0.2s ease; border: 1px solid #00FFC2; margin-top: 0.5em; }
+        .playground-button:hover { background-color: #00FFC2; color: #1A1D21; transform: translateY(-2px); }
+        .playground-button i { margin-left: 0.5em; }
+    </style>
+</head>
+
+<body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12"> <div class="max-w-4xl mx-auto">
+        <a href="../index.html" class="inline-flex items-center mb-8 text-[#00FFC2] hover:underline group transition-all duration-300 ease-in-out">
+            <i data-lucide="chevron-left" class="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"></i>
+            Back to blogs
+        </a>
+
+        <article class="bg-[#2A2F35] rounded-lg shadow-xl overflow-hidden"> <img src="../img/liquid-glass-featured.png" alt="Liquid glass UI effect example" class="w-full h-64 object-cover" loading="lazy"/> <div class="p-8">
+                <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">Implementing a Liquid Glass UI Effect with CSS</h1>
+
+                <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <img src="https://i.ibb.co/PmJL6Gy/Picsart-24-07-12-17-15-22-479.png" alt="Author Avatar" width="40" height="40" class="rounded-full" loading="lazy"/>
+                        <span>Abbas Uddin</span>
+                    </div>
+                     <div class="flex items-center space-x-4">
+                        <span class="flex items-center"><i data-lucide="calendar" class="mr-2 h-4 w-4"></i>25/10/2025</span>
+                        <span class="flex items-center"><i data-lucide="clock" class="ml-4 mr-2 h-4 w-4"></i>7 min read</span>
+                    </div>
+                </div>
+
+                <div class="prose prose-invert prose-cyan max-w-none text-gray-300">
+                    <p>
+                        The "liquid glass" or <strong>glassmorphism</strong> effect is a popular UI trend that adds a frosted, semi-transparent look to elements, making them feel layered and modern. It relies heavily on CSS properties like <code>backdrop-filter</code> and subtle shadows. Let's walk through how to integrate this effect into an existing project.
+                    </p>
+
+                    <h2 class="font-bold">Step 1: Core CSS Setup (Variables & Base Styles)</h2>
+                    <p>
+                        First, define the core colors and styles in your main CSS file (e.g., <code>global.css</code> or <code>style.css</code>). Using CSS variables makes customization easier later.
+                    </p>
+                    <pre>
+                        <div class="code-block-header">
+                            <div class="code-block-controls"><span class="control-dot dot-red"></span><span class="control-dot dot-yellow"></span><span class="control-dot dot-green"></span></div>
+                            <button class="copy-button" aria-label="Copy code snippet">
+                                <i data-lucide="copy"></i> <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <code class="language-css">/* Add or merge these CSS Variables */
+:root {
+  --c-glass: #bbbbbc; /* Base color for glass */
+  --c-light: #fff;    /* Light color for highlights/borders */
+  /* ... rest of variables ... */
+  --saturation: 150%;   /* Saturation for backdrop filter */
+
+  /* Keep your existing project colors here too! */
+  --primary-color: #2c3e50;
+  /* ... other project variables */
+}
+
+/* Add or modify these body styles */
+body.liquid-glass-theme {
+    font-family: 'Inter', sans-serif; /* Requires importing 'Inter' font */
+    /* ... rest of body styles ... */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}</code></pre>
+                    <p>
+                        <strong>Note:</strong> You'll need to import the 'Inter' font (see Step 4) for the specified <code>font-family</code> to work. Decide whether to apply the body styles globally or conditionally using a class like <code>.liquid-glass-theme</code>.
+                    </p>
+
+                    <h2 class="font-bold">Step 2: Define the Glass Effect Class</h2>
+                    <p>
+                        Create a reusable CSS class... (text as before)
+                    </p>
+                    <pre>
+                        <div class="code-block-header">
+                            <div class="code-block-controls"><span class="control-dot dot-red"></span><span class="control-dot dot-yellow"></span><span class="control-dot dot-green"></span></div>
+                             <button class="copy-button" aria-label="Copy code snippet">
+                                <i data-lucide="copy"></i> <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <code class="language-css">/* New glass effect class */
+.glass-effect {
+    background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+    backdrop-filter: blur(12px) saturate(var(--saturation));
+    -webkit-backdrop-filter: blur(12px) saturate(var(--saturation)); /* Safari support */
+    border-radius: 1.5rem; /* Default rounding */
+    /* ... rest of box-shadow styles ... */
+}</code></pre>
+
+                    <h2 class="font-bold">Step 3: Add Animated Background Shapes</h2>
+                     <p>
+                        To enhance the effect... (text as before)
+                    </p>
+                    <p>First, add the HTML structure...</p>
+                    <pre>
+                        <div class="code-block-header">
+                            <div class="code-block-controls"><span class="control-dot dot-red"></span><span class="control-dot dot-yellow"></span><span class="control-dot dot-green"></span></div>
+                             <button class="copy-button" aria-label="Copy code snippet">
+                                <i data-lucide="copy"></i> <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <code class="language-html">&lt;body class="liquid-glass-theme"&gt; &lt;!-- Optional theme class --&gt;
+    &lt;div class="background-shapes"&gt;
+        &lt;div class="shape shape1"&gt;&lt;/div&gt;
+        &lt;div class="shape shape2"&gt;&lt;/div&gt;
+        &lt;div class="shape shape3"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Rest of your page content --&gt;
+&lt;/body&gt;</code></pre>
+                    <p>Then, add the corresponding CSS:</p>
+                     <pre>
+                        <div class="code-block-header">
+                            <div class="code-block-controls"><span class="control-dot dot-red"></span><span class="control-dot dot-yellow"></span><span class="control-dot dot-green"></span></div>
+                             <button class="copy-button" aria-label="Copy code snippet">
+                                <i data-lucide="copy"></i> <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <code class="language-css">/* Styling for the background gradient shapes */
+.background-shapes { /* ... styles as before ... */ }
+.shape { /* ... styles as before ... */ }
+.shape1 { /* ... styles as before ... */ }
+.shape2 { /* ... styles as before ... */ }
+.shape3 { /* ... styles as before ... */ }
+@keyframes animateShape { /* ... keyframes as before ... */ }
+</code></pre>
+
+                    <h2 class="font-bold">See it in Action (Playground) 🚀</h2>
+                    <p>
+                       Want to see how these pieces come together... (text as before)
+                    </p>
+                    <a href="https://codepen.io/your-username/pen/your-pen-id" target="_blank" class="playground-button"> Open CodePen Playground <i data-lucide="external-link"></i>
+                    </a>
+                     <p class="text-sm text-gray-400 mt-2"><em>(Remember to replace the placeholder URL...)</em></p>
+
+                    <h2 class="font-bold">Step 4: Import Google Font</h2>
+                    <p>
+                        Add the 'Inter' font link... (text as before)
+                    </p>
+                    <pre>
+                         <div class="code-block-header">
+                            <div class="code-block-controls"><span class="control-dot dot-red"></span><span class="control-dot dot-yellow"></span><span class="control-dot dot-green"></span></div>
+                             <button class="copy-button" aria-label="Copy code snippet">
+                                <i data-lucide="copy"></i> <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <code class="language-html">&lt;head&gt;
+    &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+    &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"&gt;
+    &lt;!-- Your other stylesheets --&gt;
+&lt;/head&gt;</code></pre>
+
+                    <h2 class="font-bold">Step 5: Apply the Glass Effect & Adjust Styles</h2>
+                    <p>
+                        Now, add the <code>.glass-effect</code> class... (text as before)
+                    </p>
+                    <pre>
+                         <div class="code-block-header">
+                            <div class="code-block-controls"><span class="control-dot dot-red"></span><span class="control-dot dot-yellow"></span><span class="control-dot dot-green"></span></div>
+                             <button class="copy-button" aria-label="Copy code snippet">
+                                <i data-lucide="copy"></i> <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                        <code class="language-html">&lt;!-- Example: Applying to a header --&gt;
+&lt;header class="glass-effect"&gt;
+    &lt;!-- Header content --&gt;
+&lt;/header&gt;
+
+&lt;!-- Example: Applying to a product card --&gt;
+&lt;div class="product-card glass-effect"&gt;
+    &lt;!-- Card content --&gt;
+&lt;/div&gt;</code></pre>
+                    <p>
+                        Finally, review your existing CSS... (list as before)
+                    </p>
+                    <p>
+                       By following these steps... (conclusion text as before) ✨
+                    </p>
+
+                </div>
+
+                <div class="mt-12 flex flex-wrap gap-2">
+                    <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">CSS</span>
+                    <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">UI Design</span>
+                    <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Tutorial</span>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-700 flex justify-between items-center">
+                    <button class="flex items-center text-[#00FFC2] hover:underline">
+                        <i data-lucide="thumbs-up" class="mr-2 h-4 w-4"></i> Like this article
+                    </button>
+                    <button class="flex items-center text-[#00FFC2] hover:underline">
+                        <i data-lucide="share-2" class="mr-2 h-4 w-4"></i> Share
+                    </button>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm">...</div>
+
+    <script>
+        // Clock Functionality (as before)
+        const clockElement = document.getElementById('clock');
+        function updateClock() { /* ... clock code ... */ }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Copy Button Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyButtons = document.querySelectorAll('.copy-button');
+
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const pre = button.closest('pre');
+                    if (!pre) return;
+
+                    const code = pre.querySelector('code');
+                    if (!code) return;
+
+                    const textToCopy = code.textContent || "";
+
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // Success feedback
+                        const copyTextElement = button.querySelector('.copy-text');
+                        const iconElement = button.querySelector('i[data-lucide="copy"]');
+                        const originalText = copyTextElement.textContent;
+                        const originalIcon = iconElement ? iconElement.outerHTML : '<i data-lucide="copy"></i>'; // Store original icon HTML
+
+                        copyTextElement.textContent = 'Copied!';
+                        if (iconElement) {
+                            // Replace icon with check mark
+                             button.querySelector('i').outerHTML = '<i data-lucide="check" class="lucide lucide-check"></i>';
+                        }
+                        button.classList.add('copied');
+
+                        // Re-initialize Lucide icons if needed for the new icon
+                        lucide.createIcons();
+
+
+                        // Revert after 2 seconds
+                        setTimeout(() => {
+                            copyTextElement.textContent = originalText;
+                            if (button.querySelector('i[data-lucide="check"]')) {
+                                button.querySelector('i').outerHTML = originalIcon; // Restore original icon
+                            }
+                            button.classList.remove('copied');
+                            // Re-initialize Lucide icons again to ensure the copy icon is back
+                            lucide.createIcons();
+                        }, 2000);
+
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                        // Optional: Show error feedback to user
+                        const copyTextElement = button.querySelector('.copy-text');
+                        copyTextElement.textContent = 'Error';
+                         setTimeout(() => {
+                           copyTextElement.textContent = 'Copy';
+                         }, 2000);
+                    });
+                });
+            });
+
+             // Initialize Lucide icons on load
+            lucide.createIcons();
+        });
+
+
+    </script>
+</body>
+</html>
