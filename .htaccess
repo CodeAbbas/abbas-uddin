@@ -1,0 +1,88 @@
+# === Abbas Uddin's .htaccess File ===
+# This file handles redirects, caching, security, and URL rewriting.
+
+# --- URL Rewrite Engine ---
+# Turn on the rewrite engine
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- Canonical Redirects (Force HTTPS and non-WWW) ---
+  # This forces all traffic to the single, secure version of site.
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://abbasuddin.com%{REQUEST_URI} [L,R=301]
+
+  # --- Pretty URLs ---
+  # 1. Redirect /index.html to /
+  RewriteRule ^index\.html$ / [R=301,L]
+  
+  # 2. Redirect /folder/index.html to /folder/ (Good for your blog posts)
+  RewriteRule ^(.*)/index\.html$ /$1/ [R=301,L]
+
+  # 3. Remove .html extension from browser URL
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^\ ]+)\.html
+  RewriteRule ^([^\ ]+)\.html$ /$1 [R=301,L]
+
+  # 4. Internally map /page (no extension) to /page.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L,QSA]
+</IfModule>
+
+# --- Browser Caching (Performance) ---
+# Tell browsers to cache static files for faster loading
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+
+  # Don't cache dynamic files
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/json "access plus 0 seconds"
+  ExpiresByType text/xml "access plus 0 seconds"
+  
+  # Cache CSS, JS, and Media for a long time
+  ExpiresByType text/css "access 1 year"
+  ExpiresByType application/javascript "access 1 year"
+  ExpiresByType text/javascript "access 1 year"
+  
+  ExpiresByType image/webp "access 1 month"
+  ExpiresByType image/png "access 1 month"
+  ExpiresByType image/jpeg "access 1 month"
+  ExpiresByType image/jpg "access 1 month"
+  ExpiresByType image/svg+xml "access 1 month"
+  
+  # Fonts
+  ExpiresByType application/x-font-ttf "access 1 year"
+  ExpiresByType font/opentype "access 1 year"
+  ExpiresByType application/font-woff "access 1 year"
+  ExpiresByType application/vnd.ms-fontobject "access 1 year"
+</IfModule>
+
+# --- Security ---
+# Disable directory browsing (prevents people from seeing lists of files)
+Options -Indexes
+
+# Protect this .htaccess file from being viewed
+<Files ".htaccess">
+  Require all denied
+</Files>
+
+# Set security headers
+<IfModule mod_headers.c>
+  # Prevent MIME-sniffing
+  Header set X-Content-Type-Options "nosniff"
+  # Prevent clickjacking
+  Header set X-Frame-Options "SAMEORIGIN"
+  # Control referrer information
+  Header set Referrer-Policy "no-referrer-when-downgrade"
+</IfModule>
+
+# --- SEO ---
+# This tells Google and other search engines not to index
+# any of the client testimonial images.
+<IfModule mod_headers.c>
+  <FilesMatch "^img/(client1|client2|client3)\.webp$">
+    Header set X-Robots-Tag "noindex"
+  </FilesMatch>
+</IfModule>
