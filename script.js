@@ -354,7 +354,7 @@ class NavigationPage {
           this.onScroll();
       });
       $(window).resize(() => {
-          this.onResize();
+          this.onResize.bind(this)();
       });
   }
 
