@@ -380,7 +380,8 @@ class NavigationPage {
       this.lastScroll = $(window).scrollTop();
   }
   onResize() {
-    console.log("Window resized!");
+    this.checkHeaderPosition();
+    this.findCurrentTabSelector();
   }
 
   checkHeaderPosition() {
