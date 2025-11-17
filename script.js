@@ -354,7 +354,7 @@ class NavigationPage {
           this.onScroll();
       });
       $(window).resize(() => {
-          this.onResize.bind(this)();
+          this.onResize();
       });
   }
 
@@ -378,6 +378,9 @@ class NavigationPage {
       this.checkHeaderPosition();
       this.findCurrentTabSelector();
       this.lastScroll = $(window).scrollTop();
+  }
+  onResize() {
+    console.log("Window resized!");
   }
 
   checkHeaderPosition() {
