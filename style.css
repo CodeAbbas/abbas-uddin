@@ -245,6 +245,13 @@ a {
 
   .nav{
     height: 100svh;
+    width: 100svw;
+  }
+  .nav-container{
+    height: 60px;
+    border-radius: 40px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(3, 218, 198, 0.1), rgba(3, 218, 198, 0.05));
   }
   .nav h1,
   .slider h1 {
@@ -258,7 +265,8 @@ a {
   }
 
   .nav-tab {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    letter-spacing: 0;
   }
 
   .time {
@@ -505,7 +513,7 @@ span {
 }
 
 .section-padding {
-  padding: 80px 0
+  padding: 40px 0 80px
 }
 
 .section-heading h4 {
