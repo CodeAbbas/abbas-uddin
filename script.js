@@ -276,21 +276,31 @@ document.addEventListener('DOMContentLoaded', () => {
   animateStats();
 
   // BACK TO TOP FUNCTIONALITY
-  const backToTopButton = document.querySelector(".back-to-top");
+  const backToTopButton = document.querySelector(".to-top"); // Fixed class name to match HTML
+  const aboutSection = document.querySelector("#about"); // Target the About section
 
-  if (backToTopButton) {
-    // Show/hide button based on scroll position
+  if (backToTopButton && aboutSection) {
+    // Initial state: Hidden
+    backToTopButton.style.opacity = "0";
+    backToTopButton.style.pointerEvents = "none";
+    backToTopButton.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+
+    // Show/hide button based on About section position
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
+      const triggerPoint = aboutSection.offsetTop - 100; // Trigger slightly before reaching the section
+      
+      if (window.scrollY > triggerPoint) {
         backToTopButton.style.opacity = "1";
         backToTopButton.style.pointerEvents = "auto";
+        backToTopButton.style.transform = "translateY(0)";
       } else {
         backToTopButton.style.opacity = "0";
         backToTopButton.style.pointerEvents = "none";
+        backToTopButton.style.transform = "translateY(20px)"; // Slide down effect
       }
     });
 
-    // Scroll to top when clicked
+    // Smooth Scroll to top when clicked
     backToTopButton.addEventListener("click", (e) => {
       e.preventDefault();
       window.scrollTo({
@@ -298,12 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         behavior: "smooth",
       });
     });
-
-    // Initial state
-    backToTopButton.style.opacity = "0";
-    backToTopButton.style.pointerEvents = "none";
-    backToTopButton.style.transition = "opacity 0.3s ease, transform 0.3s ease";
-  }
+  } //.to-top
 });
 
 // CLOCK

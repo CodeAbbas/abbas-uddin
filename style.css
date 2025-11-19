@@ -422,16 +422,16 @@ a {
   height: 40px;
   width: 40px;
   text-decoration: none;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
   border-radius: 50%;
   text-align: center;
   background-repeat: no-repeat;
   background-position: center;
+  opacity: 0; 
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 999;
 }
-.to-top:hover {
 
-}
 
 /*  3. Global CSS */
 /*-------------------------------------------*/
@@ -702,6 +702,12 @@ a.about-button:hover {
     width: 320px;
     height: 320px;
     margin: 20px auto;
+  }
+  .background-paths{
+    height: 95svh;
+  }
+  .paths{
+    height: 95svh;
   }
 }
 
