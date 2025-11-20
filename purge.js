@@ -3,12 +3,12 @@ const postcss = require('postcss');
 let purgecss = require('@fullhuman/postcss-purgecss'); // Require the module
 const cssnano = require('cssnano');
 
-// Check if purgecss needs to be accessed via .default (common issue with module types)
+
 if (purgecss && typeof purgecss !== 'function' && typeof purgecss.default === 'function') {
   purgecss = purgecss.default;
 } else if (typeof purgecss !== 'function') {
   console.error('⛔ Error: Could not load purgecss function correctly. Check package installation.');
-  process.exit(1); // Exit if it's still not a function
+  process.exit(1);
 }
 
 
@@ -22,8 +22,8 @@ fs.readFile(inputFile, (err, css) => {
 
   // Configure the PostCSS processor
   postcss([
-    purgecss({ // Use the (potentially corrected) purgecss variable
-      content: [ // Tell PurgeCSS where to look for classes
+    purgecss({ 
+      content: [
         './*.html',
         './**/*.html',
         './*.js',
