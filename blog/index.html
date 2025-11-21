@@ -2,58 +2,58 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abbas Uddin - Blog</title>
-
-    <!-- Google tag (gtag.js) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abbas Uddin - Blog</title>
+  
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8GPFG7PWH"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
+    
     gtag('config', 'G-S8GPFG7PWH');
   </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Development version -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <!-- Production version -->
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
-
-        body {
-            font-family: "Space Grotesk", sans-serif;
-        }
-    </style>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- Development version -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Production version -->
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+    
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+  </style>
 </head>
 
 <body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
-    <div class="max-w-4xl mx-auto">
-        <header class="mb-12">
-            <h1 class="text-[#00FFC2] text-4xl md:text-5xl font-bold mb-4">BLOG</h1>
-            <p class="text-gray-400 tracking-wide">
-                Insights on frontend development, design, and technology
-            </p>
-        </header>
-
-        <!-- Search Input -->
-        <div class="mb-8 relative">
-            <input type="text" id="searchInput" placeholder="Search posts..."
-                class="w-full bg-[#22262A] text-white border border-gray-700 rounded-lg py-2 px-4 pl-10 focus:outline-none focus:border-[#00FFC2]" />
-            <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
-        </div>
-
-        <!-- Blog Posts Container -->
-        <div id="postsContainer" class="space-y-8"></div>
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-12">
+      <h1 class="text-[#00FFC2] text-4xl md:text-5xl font-bold mb-4">BLOG</h1>
+      <p class="text-gray-400 tracking-wide">
+        Insights on frontend development, design, and technology
+      </p>
+    </header>
+    
+    <!-- Search Input -->
+    <div class="mb-8 relative">
+      <input type="text" id="searchInput" placeholder="Search posts..." class="w-full bg-[#22262A] text-white border border-gray-700 rounded-lg py-2 px-4 pl-10 focus:outline-none focus:border-[#00FFC2]" />
+      <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
     </div>
-
-    <!-- Digital Clock -->
-    <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm"></div>
-      <!-- Footer -->
+    
+    <!-- Blog Posts Container -->
+    <div id="postsContainer" class="space-y-8"></div>
+  </div>
+  
+  <!-- Digital Clock -->
+  <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm"></div>
+  <!-- Footer -->
   <footer class="mt-16 bg-[#22262A] text-white py-12 rounded-lg">
     <div class="max-w-4xl mx-auto px-6 ">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -93,121 +93,151 @@
       </div>
     </div>
   </footer>
+  
+  <script>
+    // 1. The Data (No extra 'folder' field needed!)
+    const posts = [
+    {
+        title: "The Developer's Guide to CSS Minification with PostCSS & CSSNano",
+        date: "24/10/2025",
+        excerpt: "Stop fighting with configuration files. Learn the direct, foolproof method to minify your CSS for better website performance using simple CLI commands.",
+        readTime: "5 min read",
+        tags: ["PostCSS", "CSSNano", "Web Performance", "Development Tools"],
+        image: "/blog/img/Developer's Guide to CSS Minification with PostCSS & CSSNano.webp"
+    },
+    {
+        title: "Setting Up a Full GitHub + Tailwind CSS Workflow on Android with Termux",
+        date: "23/10/2025",
+        excerpt: "Learn how to manage a GitHub project, use Tailwind CSS v3, and troubleshoot common issues like version mismatches, all from your Android device using Termux.",
+        readTime: "7 min read",
+        tags: ["Termux", "Tailwind CSS", "Android", "Git", "Mobile Development"],
+        image: "img/Github on termux.png" 
+    },
+    {
+        title: "10 Best Parallax Flip Cards for Engaging User Interfaces",
+        date: "15/01/2025",
+        excerpt: "One trend that’s taken the spotlight is the use of Parallax Flip Cards, combining smooth parallax scrolling with card-flipping animations for a stunning 3D effect.",
+        readTime: "8 min read",
+        tags: ["Web Design", "Parallax Cards", "CSS Animation"],
+        image: "img/10 Best Parallax Flip Cards for Engaging User Interfaces.webp"
+    },
+    {
+        title: "Technological Innovations of 2024",
+        date: "01/01/2025",
+        excerpt: "Discover the most groundbreaking technological advancements of 2024 that are shaping our digital future.",
+        readTime: "5 min read",
+        tags: ["Innovations 2024", "Technology Trends", "Future Tech", "AI"],
+        image: "img/Technological Innovations of 2024.jpg"
+    },     
+    {
+        title: "Trending Programming Languages Developers Should Watch in 2025",
+        date: "10/11/2024",
+        excerpt: "Explore why Rust, Python, TypeScript, Go, and Kotlin are the top programming languages in 2024.",
+        readTime: "3 min read",
+        tags: ["Programming Languages", "Developer Trends", "Backend Development"],
+        image: "/blog/img/Trending Programming Languages Developers Should Watch in 2025.webp"
+    },
+     {
+        title: "Mastering CSS Grid and Flexbox",
+        date: "2024-01-15",
+        excerpt: "A comprehensive guide to creating complex layouts with modern CSS techniques. Learn how to build responsive designs with ease.",
+        readTime: "6 min read",
+        tags: ["CSS", "Layout", "Responsive Design"],
+        image: "img/css-grid-and-flex.jpg"
+    }, {
+        title: "The Evolution of JavaScript Frameworks",
+        date: "2024-01-10",
+        excerpt: "From jQuery to React and beyond: how JavaScript frameworks have shaped modern web development and what the future holds.",
+        readTime: "7 min read",
+        tags: ["JavaScript", "Frameworks", "Web Development"],
+        image: "img/The Evolution of JavaScript Frameworks.jpg"
+    }
+    ];
 
-    <script>
-        // Blog posts data
-        const posts = [
-        {
-    title: "Setting Up a Full GitHub + Tailwind CSS Workflow on Android with Termux",
-    date: "23/10/2025",
-    excerpt: "Learn how to manage a GitHub project, use Tailwind CSS v3, and troubleshoot common issues like version mismatches, all from your Android device using Termux.",
-    readTime: "7 min read",
-    tags: ["Termux", "Tailwind CSS", "Android", "Git", "Mobile Development", "Troubleshooting"],
-    image: "img/Github on termux.png" 
-},
-        {
-            title: "10 Best Parallax Flip Cards for Engaging User Interfaces",
-            date: "15/01/2025",
-            excerpt: "One trend that’s taken the spotlight is the use of Parallax Flip Cards, combining smooth parallax scrolling with card-flipping animations for a stunning 3D effect. Here are 10 amazing examples from CodePen to inspire your next project.",
-            readTime: "8 min read",
-            tags: ["Web Design", "Parallax Cards", "CSS Animation"],
-            image: "img/10 Best Parallax Flip Cards for Engaging User Interfaces.webp"
-        },
-        {
-            title: "Technological Innovations of 2024",
-            date: "01/01/2025",
-            excerpt: "Discover the most groundbreaking technological advancements of 2024 that are shaping our digital future.",
-            readTime: "5 min read",
-            tags: ["Innovations 2024", "Technology Trends", "Future Tech", "AI"],
-            image: "img/Technological Innovations of 2024.jpg"
-        },     
-        {
-            title: "Trending Programming Languages Developers Should Watch in 2024",
-            date: "10/11/2024",
-            excerpt: "Explore why Rust, Python, TypeScript, Go, and Kotlin are the top programming languages in 2024. Learn their unique strengths and how they’re shaping modern development trends.",
-            readTime: "3 min read",
-            tags: ["Programming Languages", "Developer Trends", "Backend Development", "Frontend Development"],
-            image: "img/Trending-Programming-Languages-Developers-Should-Watch-in-2024.jpg"
-        },
-         {
-            title: "Mastering CSS Grid and Flexbox",
-            date: "2024-01-15",
-            excerpt: "A comprehensive guide to creating complex layouts with modern CSS techniques. Learn how to build responsive designs with ease.",
-            readTime: "6 min read",
-            tags: ["CSS", "Layout", "Responsive Design"],
-            image: "img/css-grid-and-flex.jpg"
-        }, {
-            title: "The Evolution of JavaScript Frameworks",
-            date: "2024-01-10",
-            excerpt: "From jQuery to React and beyond: how JavaScript frameworks have shaped modern web development and what the future holds.",
-            readTime: "7 min read",
-            tags: ["JavaScript", "Frameworks", "Web Development"],
-            image: "img/The Evolution of JavaScript Frameworks.jpg"
-        }
-        ];
-        // Rendering posts
-        const postsContainer = document.getElementById('postsContainer');
-        const searchInput = document.getElementById('searchInput');
+    // 2. The Helper Function (Standardizes your links)
+    function createSlug(text) {
+      return text
+        .toLowerCase()               // Make lowercase
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special chars like ' + &
+        .replace(/\s+/g, '-')         // Replace spaces with hyphens
+        .replace(/-+/g, '-');         // Remove duplicate hyphens
+    }
 
-        function renderPosts(searchTerm = '') {
-            postsContainer.innerHTML = '';
-            const filteredPosts = posts.filter(post =>
-                post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-            );
-            filteredPosts.forEach(post => {
-                const postElement = document.createElement('article');
-                postElement.classList = 'bg-[#22262A] rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-[#00FFC2]/10 hover:shadow-xl';
-                postElement.innerHTML = `
-          <div class="md:flex">
-            <div class="md:flex-shrink-0">
-              <img src="${post.image}" alt="${post.title}" class=" w-full object-fill aspect-[16/9] md:h-full md:w-64">
-            </div>
-            <div class="p-6">
-              <div class="flex items-center text-sm text-gray-400 mb-2">
-                <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
-                <span>${post.date}</span>
-                <i data-lucide="clock" class="ml-4 mr-2 h-4 w-4"></i>
-                <span>${post.readTime}</span>
-              </div>
-              <h2 class="text-xl font-semibold mb-2 text-[#00FFC2]">
-                <a href="/blog/${post.title.toLowerCase().replace(/\s+/g, '-')}" class="hover:underline">${post.title}</a>
-              </h2>
-              <p class="text-gray-300 mb-4">${post.excerpt}</p>
-              <div class="flex flex-wrap gap-2 mb-4">
-                ${post.tags.map(tag => `<span class="px-2 py-1 text-xs bg-[#2A2F35] text-[#00FFC2] rounded-full">${tag}</span>`).join('')}
-              </div>
-              <a href="/blog/${post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}" class="inline-flex items-center text-[#00FFC2] hover:underline group">
-                Read more
-                <i data-lucide="chevron-right" class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"></i>
-              </a>
-            </div>
+    // 3. Rendering posts
+    const postsContainer = document.getElementById('postsContainer');
+    const searchInput = document.getElementById('searchInput');
+
+    function renderPosts(searchTerm = '') {
+        postsContainer.innerHTML = '';
+        const filteredPosts = posts.filter(post =>
+            post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+        );
+        
+        filteredPosts.forEach(post => {
+            // Generate the link ONCE using the helper function
+            const postLink = `/blog/${createSlug(post.title)}`;
+
+            const postElement = document.createElement('article');
+            postElement.className = 'bg-[#22262A] rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-[#00FFC2]/10 hover:shadow-xl';
+            
+            postElement.innerHTML = `
+      <div class="md:flex">
+        <div class="md:flex-shrink-0">
+          <img src="${post.image}" alt="${post.title}" class="w-full object-cover aspect-[16/9] md:h-full md:w-64">
+        </div>
+        <div class="p-6">
+          <div class="flex items-center text-sm text-gray-400 mb-2">
+            <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
+            <span>${post.date}</span>
+            <i data-lucide="clock" class="ml-4 mr-2 h-4 w-4"></i>
+            <span>${post.readTime}</span>
           </div>
-        `;
-                postsContainer.appendChild(postElement);
-            });
-        }
-        // Initial render of all posts
-        renderPosts();
-        // Filter posts on search input change
-        searchInput.addEventListener('input', (e) => {
-            renderPosts(e.target.value);
+          
+          <h2 class="text-xl font-semibold mb-2 text-[#00FFC2]">
+            <a href="${postLink}" class="hover:underline">${post.title}</a>
+          </h2>
+          
+          <p class="text-gray-300 mb-4 line-clamp-3">${post.excerpt}</p>
+          
+          <div class="flex flex-wrap gap-2 mb-4">
+            ${post.tags.map(tag => `<span class="px-2 py-1 text-xs bg-[#2A2F35] text-[#00FFC2] rounded-full">${tag}</span>`).join('')}
+          </div>
+          
+          <a href="${postLink}" class="inline-flex items-center text-[#00FFC2] hover:underline group">
+            Read more
+            <i data-lucide="chevron-right" class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </div>
+      </div>
+    `;
+            postsContainer.appendChild(postElement);
         });
-        // Clock functionality
-        const clockElement = document.getElementById('clock');
+    }
 
-        function updateClock() {
-            const currentTime = new Date();
-            clockElement.innerHTML = `
-        <div class="text-gray-500">${currentTime.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</div>
-        <div class="text-[#00FFC2]">${currentTime.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
-      `;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-        // Initialize Lucide icons
-        document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
-    </script>
+    // Initial render
+    renderPosts();
+
+    // Search functionality
+    searchInput.addEventListener('input', (e) => {
+        renderPosts(e.target.value);
+    });
+
+    // Clock functionality
+    const clockElement = document.getElementById('clock');
+    function updateClock() {
+        const currentTime = new Date();
+        clockElement.innerHTML = `
+    <div class="text-gray-500">${currentTime.toLocaleDateString('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit' })}</div>
+    <div class="text-[#00FFC2]">${currentTime.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
+  `;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+    
+    // Icons
+    document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+</script>
 </body>
 
 </html>

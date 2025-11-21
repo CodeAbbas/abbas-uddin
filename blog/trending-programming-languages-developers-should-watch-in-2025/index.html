@@ -62,24 +62,24 @@
 
     <!-- Single Post Article -->
     <article class="bg-[#22262A] rounded-lg shadow-xl overflow-hidden">
-      <img src="https://i.ibb.co/D986fsG/Trending-Programming-Languages-Developers-Should-Watch-in-2024.jpg" alt="Blog post featured image" class="w-full h-64 object-cover" />
+      <img src="../img/Trending Programming Languages Developers Should Watch in 2025.webp" alt="Blog post featured image" class="w-full h-64 object-cover" />
 
-      <div class="p-8">
+      <div class="p-4">
         <!-- Post Title (Empty for now) -->
         <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">Trending Programming Languages Developers Should Watch in 2024</h1>
 
         <!-- Post Metadata (Author, Date, Read Time) -->
         <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
-          <div class="flex items-center space-x-4 mb-4 md:mb-0">
-            <img src="https://i.ibb.co/PmJL6Gy/Picsart-24-07-12-17-15-22-479.png" alt="Author Avatar" width="40" height="40" class="rounded-full" />
-            <span>Abbas Uddin</span>
-          </div>
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center">
+          <div class="flex items-center space-x-2 mb-3 md:mb-0  px-3 py-2 text-sm border border-[#2A2F35] rounded-full">
+  <img src="../../img/abbasuddin.webp" alt="Author Avatar" width="40" height="40" class=" bg-[#2A2F35] rounded-full" />
+  <span class="px-3 py-2 text-sm bg-[#2A2F35] rounded-full">Abbas Uddin</span>
+</div>
+          <div class="flex items-center space-x-2">
+            <span class="flex items-center text-sm bg-[#2A2F35] rounded-full px-2 py-1">
               <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
               10/11/2024
             </span>
-            <span class="flex items-center">
+            <span class="flex items-center text-sm bg-[#2A2F35] rounded-full px-2 py-1">
               <i data-lucide="clock" class="mr-2 h-4 w-4"></i>
               3 min read
             </span>
@@ -170,7 +170,7 @@
     function updateClock() {
       const currentTime = new Date();
       clockElement.innerHTML = `
-        <div class="text-gray-500">${currentTime.toLocaleDateString('en-US', { 
+        <div class="text-gray-500">${currentTime.toLocaleDateString('en-UK', { 
           year: 'numeric',
           month: '2-digit',
           day: '2-digit'

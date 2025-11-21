@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Developer's Guide to CSS Minification with PostCSS & CSSNano</title>
+
+  <meta name="description" content="Learn the most reliable way to minify CSS using PostCSS and CSSNano. Bypass configuration errors and optimize your website's performance with simple CLI commands." />
+
+  <meta name="keywords" content="postcss, cssnano, minify css, web performance, nodejs, frontend development, cli, optimization" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The Developer's Guide to CSS Minification with PostCSS & CSSNano" />
+  <meta property="og:description" content="Stop fighting with configuration files. Learn the direct, foolproof method to minify your CSS for better website performance." />
+  <meta property="og:image" content="../img/css-grid-and-flex.jpg" /> 
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Developer's Guide to CSS Minification with PostCSS & CSSNano" />
+  <meta name="twitter:description" content="A straightforward guide to reducing CSS file size using industry-standard tools." />
+  <meta name="author" content="Abbas Uddin" />
+
+  <meta property="article:tag" content="PostCSS" />
+  <meta property="article:tag" content="CSSNano" />
+  <meta property="article:tag" content="Web Performance" />
+  <meta property="article:tag" content="Development Tools" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    p{
+      text-align: justify;
+    }
+    .prose code::before, .prose code::after {
+      content: none; /* Remove backticks added by prose plugin */
+    }
+    .prose pre {
+        background-color: #2A2F35; /* Darker background for code blocks */
+        color: #e0e0e0;
+        padding: 1em;
+        border-radius: 0.5em;
+        overflow-x: auto;
+    }
+    .prose pre code {
+        background-color: transparent;
+        padding: 0;
+        color: inherit;
+    }
+    /* Highlight command line arguments */
+    .cmd-arg {
+        color: #00FFC2;
+    }
+  </style>
+</head>
+
+<body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
+  <div class="max-w-4xl mx-auto">
+    <a href="../index.html" class="inline-flex items-center mb-8 text-[#00FFC2] hover:underline group transition-all duration-300 ease-in-out">
+      <i data-lucide="chevron-left" class="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"></i>
+      Back to blogs
+    </a>
+
+    <article class="bg-[#22262A] rounded-lg overflow-hidden">
+      <img src="/blog/img/the-developers-guide-to-css-minification-with-postcss-cssnano.webp" alt="Optimizing Code" class="w-full h-64 object-cover" style="object-position: center;" />
+
+      <div class="p-4">
+        <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">The Developer's Guide to CSS Minification with PostCSS & CSSNano</h1>
+
+        <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
+          <div class="flex items-center space-x-3 mb-3 md:mb-0  px-3 py-2 text-sm border border-[#2A2F35] rounded-full">
+            <img src="../../img/abbasuddin.webp" alt="Author Avatar" width="40" height="40" class=" bg-[#2A2F35] rounded-full" />
+            <span class="px-3 py-2 text-sm bg-[#2A2F35] rounded-full">Abbas Uddin</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="flex items-center px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
+              <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
+              20/11/2025 </span>
+            <span class="flex items-center  px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
+              <i data-lucide="clock" class="mr-2 h-4 w-4"></i>
+              5 min read </span>
+          </div>
+        </div>
+
+        <div class="prose prose-invert prose-cyan max-w-none text-gray-300">
+          <p>
+            Performance is critical for modern web development. One of the most effective ways to speed up your site is by <strong>minifying your CSS</strong>—stripping out whitespace, comments, and redundant code to drastically reduce file size. 
+          </p>
+          <p>
+            While heavy frameworks often handle this automatically, sometimes you just need a simple, manual way to optimize a project without setting up a complex build pipeline. Whether you're maintaining a legacy project, building a simple static site, or coding in a constrained environment, knowing how to manually control your build process is a superpower.
+          </p>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">The Goal</h2>
+          <p>We want to take a standard stylesheet (e.g., <code>style.css</code>) and compress it into a production-ready file (<code>style.min.css</code>) that retains all functionality but loads much faster.</p>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Step 1: Install the Essential Tools</h2>
+          <p>We'll be using <strong>PostCSS</strong> (a tool for transforming CSS with JavaScript) and <strong>cssnano</strong> (a modern, modular compression tool). Open your terminal in your project folder and run:</p>
+          <pre><code class="language-bash">npm install postcss postcss-cli cssnano</code></pre>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">The Common Headache: Configuration Hell</h2>
+          <p>
+            The standard approach is to create a <code>postcss.config.js</code> file. However, this often leads to frustrating "module type" errors in Node.js:
+          </p>
+          <pre><code class="language-bash">TypeError: require(...) is not a function</code></pre>
+          <p>
+            This happens because of conflicts between "CommonJS" (require) and "ES Modules" (import) in different Node.js environments. Instead of wasting time debugging configuration files, there is a faster, more reliable way.
+          </p>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">The Solution: Direct CLI Commands</h2>
+          <p>By passing arguments directly to the PostCSS Command Line Interface (CLI), we bypass configuration issues entirely. This command works universally across almost any environment.</p>
+          <pre><code class="language-bash">npx postcss ./style.css --use cssnano --no-map -o ./style.min.css</code></pre>
+          
+          <h3 class="font-bold mt-4 mb-2">Why this works:</h3>
+          <ul class="list-disc pl-5 space-y-2 mb-6">
+            <li><code>npx postcss ./style.css</code>: Uses the local PostCSS installation without needing global access.</li>
+            <li><code>--use cssnano</code>: Explicitly tells PostCSS to use the minifier plugin.</li>
+            <li><code><span class="cmd-arg">--no-map</span></code>: <strong>Important!</strong> This disables source maps. If you forget this, your "minified" file might actually be larger than the original because it includes a map reference to the source code.</li>
+            <li><code>-o ./style.min.css</code>: Defines your output file.</li>
+          </ul>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Advanced: The Custom Build Script</h2>
+          <p>
+            If you need to chain multiple tools (like PurgeCSS to remove unused styles <em>before</em> minifying), a CLI command can get too long. In that case, writing a simple Node.js script gives you total control and stability.
+          </p>
+          <p>Create a file named <code>build-css.js</code>:</p>
+          <pre><code class="language-javascript">const fs = require('fs');
+const postcss = require('postcss');
+const cssnano = require('cssnano');
+
+// Define your files
+const inputFile = './style.css';
+const outputFile = './style.min.css';
+
+fs.readFile(inputFile, (err, css) => {
+  if (err) throw err;
+
+  // Process the CSS
+  postcss([
+    cssnano({ preset: 'default' }) // You can add other plugins here too!
+  ])
+  .process(css, { from: inputFile, to: outputFile, map: false })
+  .then(result => {
+    fs.writeFile(outputFile, result.css, () => true);
+    console.log(`✅ Success! Minified CSS saved to ${outputFile}`);
+  });
+});</code></pre>
+          <p>Run it with <code>node build-css.js</code>. This method is bulletproof because it explicitly defines the build process in standard JavaScript code.</p>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Final Step: Update Your HTML</h2>
+          <p>Don't forget to switch your HTML link to the new, optimized file.</p>
+          <pre><code class="language-html">&lt;!-- Old --&gt;
+&lt;link rel="stylesheet" href="style.css"&gt;
+
+&lt;!-- New --&gt;
+&lt;link rel="stylesheet" href="style.min.css"&gt;</code></pre>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Conclusion</h2>
+          <p>
+            You don't always need complex build tools like Webpack or Vite for simple optimizations. By using direct CLI commands or simple scripts, you gain full control over your assets and ensure your workflow remains robust, regardless of your development environment.
+          </p>
+        </div>
+
+        <div class="mt-12 flex flex-wrap gap-2">
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">PostCSS</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">CSSNano</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Performance</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Web Dev</span>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-700 flex justify-between items-center">
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="thumbs-up" class="mr-2 h-4 w-4"></i>
+            Like this article
+          </button>
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="share-2" class="mr-2 h-4 w-4"></i>
+            Share
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+  </script>
+</body>
+
+</html>
