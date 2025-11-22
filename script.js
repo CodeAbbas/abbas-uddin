@@ -342,7 +342,6 @@ window.onload = function() {
       connectParticles: true
   });
 };
-
 // NAVIGATION SYSTEM
 class NavigationPage {
   constructor() {
