@@ -83,8 +83,7 @@ body::-webkit-scrollbar-thumb {
 /* Clock */
 
 
-.nav,
-.slider {
+.nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -147,8 +146,8 @@ h1:hover {
 }
 
 h3.span {
-  font-size: 2vw;
-  letter-spacing: 0.7em;
+  font-size: 2.3vw;
+  letter-spacing: 0.6em;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 300;
   color: #faebd7;
@@ -255,7 +254,7 @@ a {
   }
   .nav h1,
   .slider h1 {
-    font-size: 8vw;
+    font-size: 9vw;
   }
 
   .nav h2,
@@ -752,8 +751,6 @@ a.about-button:hover {
 
 /* ===== SKILLS SECTION STYLES ===== */
 .skills-showcase {
-  
-  background:#1e1f26;
   position: relative;
   overflow: hidden;
 }
@@ -819,7 +816,7 @@ a.about-button:hover {
 
 /* Column Styles */
 .skills-column {
-  background: rgba(25, 25, 25, 0.7);
+  /*background: rgba(25, 25, 25, 0.7);*/
   border-radius: 1rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -878,7 +875,7 @@ a.about-button:hover {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 2.25rem;
+  left: 2.58rem;
   width: 2px;
   background: linear-gradient(to bottom, #03dac6, rgba(3, 218, 198, 0.1));
 }
@@ -895,7 +892,7 @@ a.about-button:hover {
 
 .timeline-dot {
   position: absolute;
-  left: 0;
+  left: 10px;
   top: 0.5rem;
   width: 1rem;
   height: 1rem;
@@ -1195,7 +1192,7 @@ a.about-button:hover {
 /* Projects Filter */
 .projects-section {
   padding: 6rem 0;
-  background-color: #1e1f26;
+  background-color: var(--background);
   color: #ffffff;
 }
 
@@ -1244,7 +1241,7 @@ a.about-button:hover {
 
 /* Project Card */
 .project-card {
-  background-color: #111a1f;
+  background-color: var(--background);
   border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
@@ -2313,7 +2310,7 @@ a.about-button:hover {
 
 /* Copyright Section */
 .copyright-container {
-  background-color: #0d1318;
+  background-color: var(--background);
   padding: 2rem 0;
   position: relative;
 }
