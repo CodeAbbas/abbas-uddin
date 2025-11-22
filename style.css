@@ -719,6 +719,7 @@ a.about-button:hover {
   }
   .content p{
   font-size: 16px;
+  text-align: justify;
   }
   .hero .social-icon {
     float: none; /* Remove float */
