@@ -151,6 +151,10 @@ h3.span {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 300;
   color: #faebd7;
+  background: linear-gradient(135deg, rgba(3, 218, 198, 0.15), rgba(3, 218, 198, 0.05));
+  padding: 4px;
+  border: 1px solid rgba(3, 218, 198, 0.3);
+  border-radius: 10px;
   z-index: 4;
 }
 
