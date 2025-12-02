@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Console | Abbas Uddin</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+
+  <style>
+    /* --- SHARED THEME --- */
+    :root {
+      --bg-dark: #1A1C22;
+      --neon-cyan: #03dac6;
+      --neon-red: #ff2a2a; 
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #e0e0e0;
+      --msg-me: rgba(255, 42, 42, 0.15);
+      --msg-other: rgba(3, 218, 198, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Backgrounds */
+    .bg-glow { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 42, 42, 0.05) 0%, transparent 70%); border-radius: 50%; top: -200px; left: -200px; z-index: -1; pointer-events: none; }
+    .bg-glow-2 { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(3, 218, 198, 0.05) 0%, transparent 70%); border-radius: 50%; bottom: -100px; right: -100px; z-index: -1; pointer-events: none; }
+
+    .container { width: 100%; max-width: 600px; padding: 1.5rem; display: flex; flex-direction: column; height: 100%; position: relative; }
+
+    /* --- AUTH OVERLAY --- */
+    #authOverlay {
+      position: absolute; inset: 0; 
+      background: rgba(26, 28, 34, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+    }
+    
+    .login-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--neon-red);
+      padding: 2.5rem;
+      border-radius: 24px;
+      text-align: center;
+      width: 90%; max-width: 350px;
+      box-shadow: 0 0 30px rgba(255, 42, 42, 0.1);
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .auth-input {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--glass-border);
+      color: var(--neon-red);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      letter-spacing: 3px;
+      font-family: inherit;
+      outline: none; transition: 0.3s;
+    }
+    .auth-input:focus { border-color: var(--neon-red); box-shadow: 0 0 15px rgba(255, 42, 42, 0.2); }
+
+    .unlock-btn {
+      background: var(--neon-red); color: #000; font-weight: 700;
+backdrop-filter: blur(0px);
+      border: none; padding: 12px; border-radius: 12px;
+      cursor: pointer; transition: 0.3s; text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+    .unlock-btn:hover { box-shadow: 0 0 20px rgba(255, 42, 42, 0.4); transform: scale(1.02); }
+    .unlock-btn:disabled { background: #555; cursor: wait; transform: none; box-shadow: none; }
+
+    #loginStatus { font-size: 0.8rem; color: #888; min-height: 1.2em; }
+
+    /* --- HEADER --- */
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding: 0.5rem; }
+    h1 { font-size: 1.2rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--neon-red); background: rgba(255, 42, 42, 0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255, 42, 42, 0.2); }
+    .dot { width: 6px; height: 6px; background: var(--neon-red); border-radius: 50%; }
+
+    /* --- CHAT AREA --- */
+    .chat-box { flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px); }
+    .messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+    .messages::-webkit-scrollbar { width: 4px; } .messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+    .msg { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; line-height: 1.4; position: relative; word-wrap: break-word; }
+    .msg-user { align-self: flex-start; background: var(--msg-other); border: 1px solid var(--neon-cyan); border-bottom-left-radius: 2px; color: #fff; }
+    .msg-admin { align-self: flex-end; background: var(--msg-me); border: 1px solid var(--neon-red); border-bottom-right-radius: 2px; color: #fff; }
+    
+    .label { font-size: 0.65rem; opacity: 0.7; margin-bottom: 4px; display: block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* --- INPUT --- */
+    .input-row { padding: 1rem; background: rgba(0, 0, 0, 0.2); border-top: 1px solid var(--glass-border); display: flex; gap: 10px; }
+    input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 12px; color: #fff; outline: none; }
+    input:focus { border-color: var(--neon-red); }
+    button { background: var(--neon-red); color: #000; border: none; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+    button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 42, 42, 0.4); }
+
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="container">
+    
+    <div id="authOverlay">
+      <div class="login-card">
+        <i data-lucide="shield-alert" style="color: var(--neon-red); width: 48px; height: 48px; margin: 0 auto;"></i>
+        <h2 style="color:#fff; font-size: 1.5rem; margin: 0;">Restricted Access</h2>
+        <p style="color: #888; font-size: 0.9rem; margin: 0;">Enter admin credentials to uplink.</p>
+        
+        <input type="password" id="passInput" class="auth-input" placeholder="ACCESS CODE" autocomplete="off">
+        <button id="unlockBtn" class="unlock-btn">UNLOCK TERMINAL</button>
+        
+        <div id="loginStatus"></div>
+      </div>
+    </div>
+
+    <header>
+      <h1><i data-lucide="terminal-square" style="color: var(--neon-red);"></i> Admin Console</h1>
+      <div class="status-badge">
+        <div class="dot"></div>
+        <span>Secure</span>
+      </div>
+    </header>
+
+    <div class="chat-box">
+      <div class="messages" id="msgList">
+        <div style="text-align: center; color: #555; font-size: 0.8rem; margin-top: 20px;">
+          -- WAITING FOR INCOMING TRANSMISSION --
+        </div>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="msgInput" placeholder="Reply as Admin..." autocomplete="off">
+        <button id="sendBtn"><i data-lucide="send"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // 1. CONFIGURATION 
+    const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
+
+    // STATE
+    let socket;
+    let ADMIN_PASSWORD = "";
+
+    // DOM ELEMENTS
+    const authOverlay = document.getElementById('authOverlay');
+    const passInput = document.getElementById('passInput');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const loginStatus = document.getElementById('loginStatus');
+    const msgList = document.getElementById('msgList');
+    const msgInput = document.getElementById('msgInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // --- AUTHENTICATION HANDLERS ---
+    
+    function triggerLogin() {
+      const pass = passInput.value.trim();
+      if (pass.length > 0) {
+        ADMIN_PASSWORD = pass;
+        loginStatus.textContent = "Attempting Uplink...";
+        loginStatus.style.color = "var(--neon-cyan)";
+        unlockBtn.disabled = true;
+        unlockBtn.textContent = "CONNECTING...";
+        
+        initConnection();
+      } else {
+        loginStatus.textContent = "Password required.";
+        loginStatus.style.color = "var(--neon-red)";
+      }
+    }
+
+    // Login via Button Click
+    unlockBtn.addEventListener('click', triggerLogin);
+
+    // Login via Enter Key
+    passInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') triggerLogin();
+    });
+
+    function initConnection() {
+      // Initialize Socket
+      socket = io(SERVER_URL);
+
+      // --- CONNECTION SUCCESS ---
+      socket.on('connect', () => {
+        loginStatus.textContent = "Connection Established.";
+        // Hide overlay
+        authOverlay.style.opacity = '0';
+        setTimeout(() => authOverlay.style.display = 'none', 300);
+      });
+
+      // --- CONNECTION ERROR (Debugging) ---
+      socket.on('connect_error', (err) => {
+        console.error("Connection failed:", err);
+        loginStatus.textContent = "Connection Failed. Server might be sleeping.";
+        loginStatus.style.color = "var(--neon-red)";
+        unlockBtn.disabled = false;
+        unlockBtn.textContent = "RETRY UPLINK";
+      });
+
+      // --- PASSWORD CHECK (Server Response) ---
+      socket.on('auth_error', (msg) => {
+        // Show error if server rejects password
+        loginStatus.textContent = "⛔ " + msg;
+        loginStatus.style.color = "var(--neon-red)";
+        
+        // Reset UI
+        authOverlay.style.display = 'flex';
+        authOverlay.style.opacity = '1';
+        unlockBtn.disabled = false;
+        unlockBtn.textContent = "UNLOCK TERMINAL";
+        passInput.value = "";
+        passInput.focus();
+      });
+
+      // --- MESSAGE RECEIVER ---
+      socket.on('chat message', (data) => {
+        // data: { text, senderId, isAdmin }
+        const type = data.isAdmin ? 'admin' : 'user';
+        addMessage(data.text, type);
+      });
+    }
+
+    // --- MESSAGING ---
+    function addMessage(text, type) {
+      const div = document.createElement('div');
+      div.className = `msg msg-${type}`;
+      
+      const label = type === 'admin' ? 'YOU (ADMIN)' : 'VISITOR';
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      div.innerHTML = `
+        <span class="label" style="color: ${type === 'admin' ? 'var(--neon-red)' : 'var(--neon-cyan)'}">${label}</span>
+        ${text}
+        <span class="time" style="font-size: 0.65rem; opacity: 0.5; margin-top: 4px; display: block; text-align: right;">${time}</span>
+      `;
+      
+      msgList.appendChild(div);
+      msgList.scrollTop = msgList.scrollHeight;
+    }
+
+    function sendReply() {
+      const text = msgInput.value.trim();
+      if (!text) return;
+
+      // SEND WITH PASSWORD FOR VERIFICATION
+      socket.emit('chat message', {
+        text: text,
+        senderId: 'ADMIN',
+        isAdmin: true,
+        password: ADMIN_PASSWORD // Server verifies this
+      });
+
+      msgInput.value = '';
+      msgInput.focus();
+    }
+
+    sendBtn.addEventListener('click', sendReply);
+    msgInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendReply();
+    });
+
+  </script>
+</body>
+</html>
