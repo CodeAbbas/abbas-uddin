@@ -2,8 +2,10 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
-  --background: #1A1C22;
-  --main-color: #03dac6;
+  --background: #20201F;
+  /*--background: #1A1C22;*/
+  --main-color: #EE6E4D;
+  /*--main-color: #03dac6;*/
   --hover: #ff0266;
   --fourth: #faebd7;
 }
