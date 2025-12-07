@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ultimate Termux Command Reference for Mobile Developers</title>
+
+  <meta name="description" content="A comprehensive guide to essential Termux commands for Android development. Master environment setup, file management, Git version control, and Node.js workflows on the go." />
+
+  <meta name="keywords" content="Termux, Android Development, Command Line, Git, Node.js, Mobile Coding, Linux on Android" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The Ultimate Termux Command Reference for Mobile Developers" />
+  <meta property="og:description" content="Turn your Android device into a portable development machine with this comprehensive Termux command cheat sheet." />
+  <meta property="og:image" content="../img/termux-hero.webp" /> 
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    
+    /* Custom Code Block Styling to match your theme */
+    .prose pre {
+        background-color: #2A2F35;
+        color: #e0e0e0;
+        padding: 1em;
+        border-radius: 0.5em;
+        overflow-x: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .command {
+        color: #00FFC2;
+        font-weight: bold;
+    }
+  </style>
+</head>
+
+<body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
+  <div class="max-w-4xl mx-auto">
+    <a href="../index.html" class="inline-flex items-center mb-8 text-[#00FFC2] hover:underline group transition-all duration-300 ease-in-out">
+      <i data-lucide="chevron-left" class="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"></i>
+      Back to blogs
+    </a>
+
+    <article class="bg-[#22262A] rounded-xl shadow-xl overflow-hidden">
+      <div class="w-full h-64 bg-gray-900 flex items-center justify-center text-gray-900">
+        <i data-lucide="terminal" class="h-36 w-36 border border-2 border-gray-300 rounded-md text-gray-100"></i>
+      </div>
+
+      <div class="p-4 md:p-8">
+        <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">The Ultimate Termux Command Reference for Mobile Developers</h1>
+
+        <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
+          <div class="flex items-center space-x-3 mb-3 md:mb-0 px-3 py-2 text-sm border border-[#2A2F35] rounded-full">
+            <img src="../../img/abbasuddin.webp" alt="Author Avatar" width="40" height="40" class="bg-[#2A2F35] rounded-full" />
+            <span class="px-3 py-2 text-sm bg-[#2A2F35] rounded-full">Abbas Uddin</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="flex items-center px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
+              <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
+              03/12/2025
+            </span>
+            <span class="flex items-center px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
+              <i data-lucide="clock" class="mr-2 h-4 w-4"></i>
+              6 min read
+            </span>
+          </div>
+        </div>
+
+        <div class="prose prose-invert prose-cyan max-w-none text-gray-300">
+          <p>
+            For developers who value portability and efficiency, Termux is an indispensable tool. It transforms your Android device into a powerful Linux environment, allowing you to code, manage files, and version control your projects from anywhere. 
+          </p>
+          <p>
+            Whether you are fixing a bug on the train or setting up a full development environment on your tablet, knowing the right commands is key. Below is a comprehensive reference guide to the essential Termux commands you need to know.
+          </p>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">I. Installation & Environment Setup</h2>
+          <p>Before you start coding, you need to ensure your environment is stable and up to date. Run these commands immediately after installing Termux.</p>
+          
+          <ul class="list-none pl-0 space-y-4">
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">pkg update</span><br>
+                Updates the local package list. Essential before any install or upgrade.
+            </li>
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">pkg upgrade</span><br>
+                Upgrades all installed packages to keep your system secure and stable.
+            </li>
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">pkg install &lt;package&gt;</span><br>
+                Installs a new package (e.g., <code>pkg install nodejs</code>, <code>pkg install git</code>).
+            </li>
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">termux-setup-storage</span><br>
+                Grants Termux access to shared Android storage. This is crucial for accessing files in <code>/sdcard</code> or your downloads folder.
+            </li>
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">termux-change-repo</span><br>
+                Allows you to change the package repository mirror if download speeds are slow.
+            </li>
+          </ul>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">II. File Management & Navigation</h2>
+          <p>Navigating a command-line interface requires muscle memory. These commands allow you to move through directories and manipulate files efficiently.</p>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="text-[#00FFC2] border-b border-gray-700">
+                  <th class="py-2">Command</th>
+                  <th class="py-2">Function</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">pwd</td><td class="py-2">Print Working Directory. Shows your current location.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">ls -al</td><td class="py-2">List all files in long format (shows permissions, size, hidden files).</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">cd &lt;path&gt;</td><td class="py-2">Change Directory (e.g., <code>cd ~/storage/downloads/</code>).</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">mkdir -p &lt;path&gt;</td><td class="py-2">Make Directory. The <code>-p</code> flag creates parent directories if they don't exist.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">mv &lt;src&gt; &lt;dest&gt;</td><td class="py-2">Move or Rename files/directories.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">cp -r &lt;src&gt; &lt;dest&gt;</td><td class="py-2">Copy files or directories recursively.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">rm -r &lt;file/dir&gt;</td><td class="py-2">Remove files or directories. <strong>Caution:</strong> Deletion is permanent.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">nano &lt;file&gt;</td><td class="py-2">Opens the Nano text editor for quick file modifications.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">cat &lt;file&gt;</td><td class="py-2">Concatenate (print) file contents to the screen.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">III. Version Control (Git)</h2>
+          <p>For any developer, Git is non-negotiable. Termux handles Git workflows flawlessly, allowing you to sync with GitHub or GitLab.</p>
+          <pre><code class="language-bash"># Start a new repository
+git init
+
+# Clone an existing project
+git clone https://github.com/username/repo.git
+
+# Stage all changes
+git add .
+
+# Save changes with a message
+git commit -m "My update message"
+
+# Upload to remote server
+git push origin main
+
+# Update local project
+git pull origin main
+
+# Check file status
+git status</code></pre>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">IV. Development (Node.js/JavaScript)</h2>
+          <p>As a Front-End developer, your stack likely revolves around JavaScript. Here is how to manage your Node environment in Termux.</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>Run JS files:</strong> <code>node file.js</code></li>
+            <li><strong>Initialize Project:</strong> <code>npm init -y</code> (creates a default package.json)</li>
+            <li><strong>Install Dependencies:</strong> <code>npm install express</code> (or any other package)</li>
+            <li><strong>Start Application:</strong> <code>npm start</code> (runs the script defined in package.json)</li>
+            <li><strong>Scaffold Projects:</strong> <code>npx create-next-app</code> (useful for Next.js setups)</li>
+          </ul>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">V. Networking & Utilities</h2>
+          <p>These utilities help you diagnose connection issues or integrate Termux with the rest of your Android system.</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-[#1A1D21] p-4 rounded border border-gray-700">
+                <h3 class="text-[#00FFC2] font-mono mb-2">ping &lt;host&gt;</h3>
+                <p class="text-sm">Tests network connectivity (e.g., <code>ping google.com</code>).</p>
+            </div>
+            <div class="bg-[#1A1D21] p-4 rounded border border-gray-700">
+                <h3 class="text-[#00FFC2] font-mono mb-2">ifconfig</h3>
+                <p class="text-sm">Displays network interface configurations, including your IP address.</p>
+            </div>
+            <div class="bg-[#1A1D21] p-4 rounded border border-gray-700">
+                <h3 class="text-[#00FFC2] font-mono mb-2">sshd</h3>
+                <p class="text-sm">Starts the Secure Shell Daemon, allowing you to SSH into your phone from a computer.</p>
+            </div>
+            <div class="bg-[#1A1D21] p-4 rounded border border-gray-700">
+                <h3 class="text-[#00FFC2] font-mono mb-2">termux-open &lt;file&gt;</h3>
+                <p class="text-sm">Opens a file using the default Android app (e.g., open an HTML file in Chrome).</p>
+            </div>
+          </div>
+
+          <h2 class="font-bold mt-8">Conclusion</h2>
+          <p>
+            Termux is more than just a terminal emulator; it is a bridge that brings desktop-grade development tools to your mobile device. By mastering these commands, you can maintain productivity regardless of your location.
+          </p>
+        </div>
+
+        <div class="mt-12 flex flex-wrap gap-2">
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Termux</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Development</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Productivity</span>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-700 flex justify-between items-center">
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="thumbs-up" class="mr-2 h-4 w-4"></i>
+            Like this article
+          </button>
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="share-2" class="mr-2 h-4 w-4"></i>
+            Share
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm">
+    <div class="text-gray-500">MM/DD/YYYY</div>
+    <div class="text-[#00FFC2]">HH:MM:SS</div>
+  </div>
+
+  <script>
+    // Clock Functionality
+    const clockElement = document.getElementById('clock');
+
+    function updateClock() {
+      const currentTime = new Date();
+      clockElement.innerHTML = `
+        <div class="text-gray-500">${currentTime.toLocaleDateString('en-UK', { 
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        })}</div>
+        <div class="text-[#00FFC2]">${currentTime.toLocaleTimeString('en-US', { 
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })}</div>
+      `;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+    
+    // Initialize Lucide Icons
+    document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+  </script>
+</body>
+</html>
