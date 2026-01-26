@@ -616,6 +616,9 @@ a:hover {
   text-align: center;
   border: 1px solid var(--main-color);
 }
+.hero .social-icon span i {
+  font-size: 18px;
+}
 .social-icon span:hover {
   background: var(--background);
   color: var(--hover);
@@ -675,7 +678,7 @@ a.about-button:hover {
   margin: 20px auto;
   object-fit: cover;
   border: 1px solid var(--main-color);
-  border-radius: 20px;
+  border-radius: 40px;
   background: rgba(69, 72, 84);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
@@ -688,7 +691,7 @@ a.about-button:hover {
 .hero-img img {
   width: 100%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: 40px;
   filter: drop-shadow(2px 2px 4px var(--main-color));
 }
 
@@ -874,14 +877,18 @@ a.about-button:hover {
   position: relative;
 }
 
-.education-timeline::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 2.58rem;
-  width: 2px;
-  background: linear-gradient(to bottom, #03dac6, rgba(3, 218, 198, 0.1));
+
+.education-timeline:before {
+    background: linear-gradient(180deg, #03dac6, rgba(3, 218, 198, .1));
+    bottom: 0;
+    content: "";
+    left: 3.05rem;
+    position: absolute;
+    top: 0;
+    width: 8rem;
+    position: absolute;
+    top: 0;
+    width: 2px;
 }
 
 .timeline-item {
@@ -894,16 +901,17 @@ a.about-button:hover {
   margin-bottom: 0;
 }
 
+
 .timeline-dot {
-  position: absolute;
-  left: 10px;
-  top: 0.5rem;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background: #03dac6;
-  box-shadow: 0 0 0 4px rgba(3, 218, 198, 0.2);
-  z-index: 1;
+    background: #03dac6;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(3, 218, 198, .2);
+    height: 1rem;
+    left: 9.8px;
+    position: absolute;
+    top: .5rem;
+    width: 1rem;
+    z-index: 1;
 }
 
 .timeline-content {
@@ -1140,6 +1148,26 @@ a.about-button:hover {
   .skills-showcase {
     padding: 4rem 0;
   }
+  .education-timeline:before {
+    background: linear-gradient(180deg, #03dac6, rgba(3, 218, 198, .1));
+    bottom: 0;
+    content: "";
+    left: 2.58rem;
+    position: absolute;
+    top: 0;
+    width: 2px;
+}
+.timeline-dot {
+    background: #03dac6;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(3, 218, 198, .2);
+    height: 1rem;
+    left: 10px;
+    position: absolute;
+    top: .5rem;
+    width: 1rem;
+    z-index: 1;
+}
 
   .section-heading {
     font-size: 2rem;
@@ -1331,7 +1359,7 @@ a.about-button:hover {
 
 /* Project Footer */
 .project-footer {
-  display: flex;
+  display: ;
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
@@ -1355,19 +1383,24 @@ a.about-button:hover {
 /* Project Links */
 .project-links {
   display: flex;
-  gap: 0.75rem;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .project-link {
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.05);
+ 
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(3, 218, 198, 0.15), rgba(3, 218, 198, 0.05));
+  border: 1px solid rgba(3, 218, 198, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #03dac6;
   transition: all 0.3s ease;
+}
+.project-link i {
+  margin-right: 0.4rem;
 }
 
 .project-link:hover {
@@ -1375,7 +1408,6 @@ a.about-button:hover {
   color: #0a0e11;
   transform: translateY(-3px);
 }
-
 /* View All Button */
 .view-all-container {
   display: flex;
@@ -1390,7 +1422,7 @@ a.about-button:hover {
   color: #03dac6;
   padding: 0.75rem 1.5rem;
   border: 2px solid #03dac6;
-  border-radius: 0.25rem;
+  border-radius: 0.8rem;
   font-weight: 600;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -2335,6 +2367,7 @@ a.about-button:hover {
   height: 3.5rem;
   background: linear-gradient(135deg, rgba(3, 218, 198, 0.2), rgba(3, 218, 198, 0.05));
   border-radius: 0.5rem;
+  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
