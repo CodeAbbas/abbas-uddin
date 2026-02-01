@@ -1,56 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <title>Blog - Abbas Uddin | Frontend Developer in London</title>
+  <meta name="title" content="Blog - Abbas Uddin | Frontend Developer in London">
+  <meta name="description" content="Explore articles by Abbas Uddin on Frontend Development, React, Next.js, and tech insights. Follow my journey as a developer and smart traveler in London.">
+  <meta name="keywords" content="Abbas Uddin Blog, Frontend Developer, Web Development Tutorials, React, Next.js, Tailwind CSS, Tech Blog, London Developer">
+  <meta name="author" content="Abbas Uddin">
+  <meta name="theme-color" content="#03dac6">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://abbasuddin.com/blog/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abbasuddin.com/blog/">
+  <meta property="og:title" content="Blog - Abbas Uddin | Frontend Developer">
+  <meta property="og:description" content="Read insights on Frontend Development, React, and modern web tech. Connecting code with creativity.">
+  <meta property="og:image" content="https://abbasuddin.com/assets/images/blog-og-image.jpg">
+  
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://abbasuddin.com/blog/">
+  <meta property="twitter:title" content="Blog - Abbas Uddin | Frontend Developer">
+  <meta property="twitter:description" content="Read insights on Frontend Development, React, and modern web tech. Connecting code with creativity.">
+  <meta property="twitter:image" content="https://abbasuddin.com/assets/images/blog-og-image.jpg">
+  
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8GPFG7PWH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
     
-    <title>Blog - Abbas Uddin | Frontend Developer in London</title>
-    <meta name="title" content="Blog - Abbas Uddin | Frontend Developer in London">
-    <meta name="description" content="Explore articles by Abbas Uddin on Frontend Development, React, Next.js, and tech insights. Follow my journey as a developer and smart traveler in London.">
-    <meta name="keywords" content="Abbas Uddin Blog, Frontend Developer, Web Development Tutorials, React, Next.js, Tailwind CSS, Tech Blog, London Developer">
-    <meta name="author" content="Abbas Uddin">
-    <meta name="theme-color" content="#03dac6">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://abbasuddin.com/blog/">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://abbasuddin.com/blog/">
-    <meta property="og:title" content="Blog - Abbas Uddin | Frontend Developer">
-    <meta property="og:description" content="Read insights on Frontend Development, React, and modern web tech. Connecting code with creativity.">
-    <meta property="og:image" content="https://abbasuddin.com/assets/images/blog-og-image.jpg">
-
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://abbasuddin.com/blog/">
-    <meta property="twitter:title" content="Blog - Abbas Uddin | Frontend Developer">
-    <meta property="twitter:description" content="Read insights on Frontend Development, React, and modern web tech. Connecting code with creativity.">
-    <meta property="twitter:image" content="https://abbasuddin.com/assets/images/blog-og-image.jpg">
-
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8GPFG7PWH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-S8GPFG7PWH');
-    </script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    
-    <style>
-        body {
-            font-family: "Space Grotesk", sans-serif;
-        }
-    </style>
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script type="application/ld+json">
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-S8GPFG7PWH');
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  
+  <style>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+  </style>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Blog",
@@ -72,8 +74,9 @@
       "name": "Abbas Uddin's Tech Blog",
       "description": "A collection of articles and tutorials on frontend development, React, Next.js, and software engineering."
     }
-    </script>
+  </script>
 </head>
+
 <body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
   <div class="max-w-4xl mx-auto">
     <header class="mb-12">
@@ -140,98 +143,113 @@
     // 1. The Data (No extra 'folder' field needed!)
     const posts = [
     {
-        title: "The Developer's Guide to CSS Minification with PostCSS & CSSNano",
-        date: "24/10/2025",
-        excerpt: "Stop fighting with configuration files. Learn the direct, foolproof method to minify your CSS for better website performance using simple CLI commands.",
-        readTime: "5 min read",
-        tags: ["PostCSS", "CSSNano", "Web Performance", "Development Tools"],
-        image: "/blog/img/Developer's Guide to CSS Minification with PostCSS & CSSNano.webp"
+      "title": "Running a Private AI Copilot on the Redmi Note 10 Pro",
+      "slug": "running-private-ai-copilot-on-android-termux",
+      "date": "2026-02-01",
+      "author": "Abbas Uddin",
+      "description": "How I turned a mid-range Android phone into a completely offline, privacy-first coding assistant using Termux and Qwen 2.5.",
+      "tags": [
+        "AI",
+        "Android",
+        "Termux",
+        "Local LLM",
+        "Productivity"
+      ],
+      "readTime": "8 min read",
+      "coverImage": "/images/blog/local-ai-android.jpg"
     },
     {
-        title: "Setting Up a Full GitHub + Tailwind CSS Workflow on Android with Termux",
-        date: "23/10/2025",
-        excerpt: "Learn how to manage a GitHub project, use Tailwind CSS v3, and troubleshoot common issues like version mismatches, all from your Android device using Termux.",
-        readTime: "7 min read",
-        tags: ["Termux", "Tailwind CSS", "Android", "Git", "Mobile Development"],
-        image: "img/Github on termux.png" 
+      title: "The Developer's Guide to CSS Minification with PostCSS & CSSNano",
+      date: "24/10/2025",
+      excerpt: "Stop fighting with configuration files. Learn the direct, foolproof method to minify your CSS for better website performance using simple CLI commands.",
+      readTime: "5 min read",
+      tags: ["PostCSS", "CSSNano", "Web Performance", "Development Tools"],
+      image: "/blog/img/Developer's Guide to CSS Minification with PostCSS & CSSNano.webp"
     },
     {
-        title: "10 Best Parallax Flip Cards for Engaging User Interfaces",
-        date: "15/01/2025",
-        excerpt: "One trend that’s taken the spotlight is the use of Parallax Flip Cards, combining smooth parallax scrolling with card-flipping animations for a stunning 3D effect.",
-        readTime: "8 min read",
-        tags: ["Web Design", "Parallax Cards", "CSS Animation"],
-        image: "img/10 Best Parallax Flip Cards for Engaging User Interfaces.webp"
+      title: "Setting Up a Full GitHub + Tailwind CSS Workflow on Android with Termux",
+      date: "23/10/2025",
+      excerpt: "Learn how to manage a GitHub project, use Tailwind CSS v3, and troubleshoot common issues like version mismatches, all from your Android device using Termux.",
+      readTime: "7 min read",
+      tags: ["Termux", "Tailwind CSS", "Android", "Git", "Mobile Development"],
+      image: "img/Github on termux.png"
     },
     {
-        title: "Technological Innovations of 2024",
-        date: "01/01/2025",
-        excerpt: "Discover the most groundbreaking technological advancements of 2024 that are shaping our digital future.",
-        readTime: "5 min read",
-        tags: ["Innovations 2024", "Technology Trends", "Future Tech", "AI"],
-        image: "img/Technological Innovations of 2024.jpg"
-    },     
-    {
-        title: "Trending Programming Languages Developers Should Watch in 2025",
-        date: "10/11/2024",
-        excerpt: "Explore why Rust, Python, TypeScript, Go, and Kotlin are the top programming languages in 2024.",
-        readTime: "3 min read",
-        tags: ["Programming Languages", "Developer Trends", "Backend Development"],
-        image: "/blog/img/Trending Programming Languages Developers Should Watch in 2025.webp"
+      title: "10 Best Parallax Flip Cards for Engaging User Interfaces",
+      date: "15/01/2025",
+      excerpt: "One trend that’s taken the spotlight is the use of Parallax Flip Cards, combining smooth parallax scrolling with card-flipping animations for a stunning 3D effect.",
+      readTime: "8 min read",
+      tags: ["Web Design", "Parallax Cards", "CSS Animation"],
+      image: "img/10 Best Parallax Flip Cards for Engaging User Interfaces.webp"
     },
-     {
-        title: "Mastering CSS Grid and Flexbox",
-        date: "2024-01-15",
-        excerpt: "A comprehensive guide to creating complex layouts with modern CSS techniques. Learn how to build responsive designs with ease.",
-        readTime: "6 min read",
-        tags: ["CSS", "Layout", "Responsive Design"],
-        image: "img/css-grid-and-flex.jpg"
+    {
+      title: "Technological Innovations of 2024",
+      date: "01/01/2025",
+      excerpt: "Discover the most groundbreaking technological advancements of 2024 that are shaping our digital future.",
+      readTime: "5 min read",
+      tags: ["Innovations 2024", "Technology Trends", "Future Tech", "AI"],
+      image: "img/Technological Innovations of 2024.jpg"
+    },
+    {
+      title: "Trending Programming Languages Developers Should Watch in 2025",
+      date: "10/11/2024",
+      excerpt: "Explore why Rust, Python, TypeScript, Go, and Kotlin are the top programming languages in 2024.",
+      readTime: "3 min read",
+      tags: ["Programming Languages", "Developer Trends", "Backend Development"],
+      image: "/blog/img/Trending Programming Languages Developers Should Watch in 2025.webp"
+    },
+    {
+      title: "Mastering CSS Grid and Flexbox",
+      date: "2024-01-15",
+      excerpt: "A comprehensive guide to creating complex layouts with modern CSS techniques. Learn how to build responsive designs with ease.",
+      readTime: "6 min read",
+      tags: ["CSS", "Layout", "Responsive Design"],
+      image: "img/css-grid-and-flex.jpg"
     }, {
-        title: "The Evolution of JavaScript Frameworks",
-        date: "2024-01-10",
-        excerpt: "From jQuery to React and beyond: how JavaScript frameworks have shaped modern web development and what the future holds.",
-        readTime: "7 min read",
-        tags: ["JavaScript", "Frameworks", "Web Development"],
-        image: "img/The Evolution of JavaScript Frameworks.jpg"
+      title: "The Evolution of JavaScript Frameworks",
+      date: "2024-01-10",
+      excerpt: "From jQuery to React and beyond: how JavaScript frameworks have shaped modern web development and what the future holds.",
+      readTime: "7 min read",
+      tags: ["JavaScript", "Frameworks", "Web Development"],
+      image: "img/The Evolution of JavaScript Frameworks.jpg"
     },
     {
-    title: "The Ultimate Termux Command Reference for Mobile Developers",
-    date: "03/12/2025",
-    excerpt: "A comprehensive guide to essential Termux commands for Android development. Master environment setup, file management, Git version control, and Node.js workflows on the go.",
-    readTime: "6 min read",
-    tags: ["Termux", "Android Development", "Command Line", "Git", "Node.js"],
-    image: "/blog/img/Termux.webp"
-}
-    ];
-
+      title: "The Ultimate Termux Command Reference for Mobile Developers",
+      date: "03/12/2025",
+      excerpt: "A comprehensive guide to essential Termux commands for Android development. Master environment setup, file management, Git version control, and Node.js workflows on the go.",
+      readTime: "6 min read",
+      tags: ["Termux", "Android Development", "Command Line", "Git", "Node.js"],
+      image: "/blog/img/Termux.webp"
+    }];
+    
     // 2. The Helper Function (Standardizes your links)
     function createSlug(text) {
       return text
-        .toLowerCase()               // Make lowercase
+        .toLowerCase() // Make lowercase
         .replace(/[^a-z0-9\s-]/g, '') // Remove special chars like ' + &
-        .replace(/\s+/g, '-')         // Replace spaces with hyphens
-        .replace(/-+/g, '-');         // Remove duplicate hyphens
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-'); // Remove duplicate hyphens
     }
-
+    
     // 3. Rendering posts
     const postsContainer = document.getElementById('postsContainer');
     const searchInput = document.getElementById('searchInput');
-
+    
     function renderPosts(searchTerm = '') {
-        postsContainer.innerHTML = '';
-        const filteredPosts = posts.filter(post =>
-            post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-        );
+      postsContainer.innerHTML = '';
+      const filteredPosts = posts.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+      
+      filteredPosts.forEach(post => {
+        // Generate the link ONCE using the helper function
+        const postLink = `/blog/${createSlug(post.title)}`;
         
-        filteredPosts.forEach(post => {
-            // Generate the link ONCE using the helper function
-            const postLink = `/blog/${createSlug(post.title)}`;
-
-            const postElement = document.createElement('article');
-            postElement.className = 'bg-[#22262A] rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-[#00FFC2]/10 hover:shadow-xl';
-            
-            postElement.innerHTML = `
+        const postElement = document.createElement('article');
+        postElement.className = 'bg-[#22262A] rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-[#00FFC2]/10 hover:shadow-xl';
+        
+        postElement.innerHTML = `
       <div class="md:flex">
         <div class="md:flex-shrink-0">
           <img src="${post.image}" alt="${post.title}" class="w-full object-cover aspect-[16/9] md:h-full md:w-64">
@@ -261,23 +279,24 @@
         </div>
       </div>
     `;
-            postsContainer.appendChild(postElement);
-        });
+        postsContainer.appendChild(postElement);
+      });
     }
-
+    
     // Initial render
     renderPosts();
-
+    
     // Search functionality
     searchInput.addEventListener('input', (e) => {
-        renderPosts(e.target.value);
+      renderPosts(e.target.value);
     });
-
+    
     // Clock functionality
     const clockElement = document.getElementById('clock');
+    
     function updateClock() {
-        const currentTime = new Date();
-        clockElement.innerHTML = `
+      const currentTime = new Date();
+      clockElement.innerHTML = `
     <div class="text-gray-500">${currentTime.toLocaleDateString('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit' })}</div>
     <div class="text-[#00FFC2]">${currentTime.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
   `;
@@ -287,7 +306,7 @@
     
     // Icons
     document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
-</script>
+  </script>
 </body>
 
 </html>

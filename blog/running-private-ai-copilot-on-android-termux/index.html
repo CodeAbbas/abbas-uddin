@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A guide to running a private, local AI coding assistant on a Redmi Note 10 Pro using Termux, llama.cpp, and Qwen 2.5.">
+    <meta name="author" content="Abbas Uddin">
+    <title>Building a Local AI Copilot on Android | Abbas Uddin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        pre { background-color: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; }
+        code { font-family: 'Fira Code', monospace; }
+        .prose h2 { margin-top: 2rem; margin-bottom: 1rem; font-weight: 700; color: #111827; }
+        .prose p { margin-bottom: 1.25rem; line-height: 1.75; color: #374151; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .highlight { color: #3b82f6; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-xl font-bold text-gray-900 tracking-tight">Abbas<span class="text-blue-600">.Dev</span></a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-sm font-medium text-gray-500 hover:text-gray-900">Home</a>
+                    <a href="/blog" class="text-sm font-medium text-gray-900">Blog</a>
+                    <a href="https://github.com/CodeAbbas" target="_blank" class="text-sm font-medium text-gray-500 hover:text-blue-600">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-white pt-16 pb-12">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <div class="text-center">
+                <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-100 rounded-full mb-4">
+                    AI & Mobile Development
+                </span>
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+                    Running a Private AI Copilot on the Redmi Note 10 Pro
+                </h1>
+                <p class="text-lg text-gray-500 mb-8">
+                    How I turned a mid-range Android phone into a completely offline, privacy-first coding assistant using Termux and Qwen 2.5.
+                </p>
+                <div class="flex items-center justify-center space-x-3">
+                    <div class="flex flex-col items-center">
+                        <span class="text-sm font-medium text-gray-900">Abbas Uddin</span>
+                        <span class="text-sm text-gray-500">February 1, 2026 · 8 min read</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 pb-20">
+        <article class="prose prose-lg prose-blue mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            
+            <p>
+                As a developer who values privacy and efficiency, I wanted a solution that didn't rely on cloud APIs or monthly subscriptions. I wanted a "Second Brain" that lived in my pocket—specifically, on my <strong>Redmi Note 10 Pro Max</strong>.
+            </p>
+            <p>
+                The challenge? This phone runs on a <strong>Snapdragon 732G</strong> with limited RAM. It's not a flagship. Yet, with the right optimization, I managed to run a <strong>1.5 Billion Parameter</strong> model that helps me write React and Tailwind code completely offline.
+            </p>
+
+            <h2>The Hardware Constraints</h2>
+            <p>
+                Running AI locally is a game of resource management. Here is the reality of the hardware I was working with:
+            </p>
+            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                <li><strong>Processor:</strong> Snapdragon 732G (Octa-core)</li>
+                <li><strong>RAM:</strong> 12GB (8GB Physical + 4GB Swap/Flex)</li>
+                <li><strong>Bottleneck:</strong> The CPU speed and thermal throttling.</li>
+            </ul>
+
+            <h2>The Software Stack</h2>
+            <p>
+                To bypass Android's limitations, I used a "Split Stack" approach:
+            </p>
+            <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                <li><strong>The Engine:</strong> <span class="font-mono text-blue-600">Termux</span> running a compiled version of <span class="font-mono">llama.cpp</span>.</li>
+                <li><strong>The Model:</strong> <span class="font-mono text-blue-600">Qwen 2.5 (1.5B Instruct)</span> quantized to q4_k_m for memory efficiency.</li>
+                <li><strong>The Interface:</strong> <span class="font-mono text-blue-600">ChatterUI</span>, connected via localhost API.</li>
+            </ol>
+
+            <h2>Step 1: Compiling the Engine</h2>
+            <p>
+                The standard packages weren't enough. I had to build <code>llama.cpp</code> from source to optimize it for my specific hardware.
+            </p>
+            <pre><code>pkg update && pkg upgrade
+pkg install git cmake clang wget ninja
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+
+# CPU Build (Most Stable for 732G)
+cmake -B build -DGGML_VULKAN=OFF
+cmake --build build --config Release -j4</code></pre>
+
+            <h2>Step 2: The "Smart" Shortcut</h2>
+            <p>
+                Typing server commands every time is tedious. I created a permanent alias in my <code>.bashrc</code> file. This single command, <code>ai</code>, launches the server with optimal thread settings (4 threads) to prevent overheating.
+            </p>
+            <pre><code>alias ai="cd ~/llama.cpp && ./build/bin/llama-server \
+-m qwen2.5-1.5b-instruct-q4_k_m.gguf \
+-c 2048 \
+--host 0.0.0.0 \
+--port 8080 \
+-t 4 -b 512"</code></pre>
+
+            <h2>Step 3: Connecting the Interface</h2>
+            <p>
+                I used <strong>ChatterUI</strong> as the frontend. The secret was to configure it as a "Generic OpenAI" connection pointing to the local Termux server:
+            </p>
+            <ul class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <li><strong>Base URL:</strong> <code class="text-red-500">http://127.0.0.1:8080/v1</code></li>
+                <li><strong>API Key:</strong> (Any random string)</li>
+                <li><strong>System Prompt:</strong> Custom "Abbas Assistant" persona.</li>
+            </ul>
+
+            <h2>The Result</h2>
+            <p>
+                I now have a completely offline AI that:
+            </p>
+            <ul>
+                <li>Knows my coding style (React + Tailwind).</li>
+                <li>Costs £0.00 to run.</li>
+                <li>Works on the London Underground without signal.</li>
+                <li>Keeps my data 100% private.</li>
+            </ul>
+            <p>
+                It’s not ChatGPT-4, but for instant logic checks, regex generation, and boilerplate code, it is faster than unlocking my phone and opening a browser.
+            </p>
+            
+            <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <p class="text-blue-800 font-semibold mb-2">Want to try this?</p>
+                <p class="text-sm text-blue-700">
+                    Check out the full documentation on my <a href="https://github.com/CodeAbbas" class="underline hover:text-blue-900">GitHub</a> or ask me on <a href="#" class="underline hover:text-blue-900">LinkedIn</a>.
+                </p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">
+                &copy; 2026 Abbas Uddin. Built with Tailwind CSS & Local AI.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

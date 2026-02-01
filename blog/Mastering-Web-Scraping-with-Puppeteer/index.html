@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mastering Web Scraping with Puppeteer: A Developer's Guide</title>
+
+  <meta name="description" content="Learn how to build powerful web scrapers using Puppeteer. Control headless Chrome, handle dynamic content, and extract data efficiently with Node.js." />
+
+  <meta name="keywords" content="Puppeteer, Web Scraping, Node.js, Headless Chrome, Automation, Data Extraction, JavaScript" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Mastering Web Scraping with Puppeteer: A Developer's Guide" />
+  <meta property="og:description" content="Automate the web and extract data with precision using Google's Puppeteer library." />
+  <meta property="og:image" content="../img/puppeteer-hero.webp" /> 
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+    
+    /* Custom Code Block Styling to match your theme */
+    .prose pre {
+        background-color: #2A2F35;
+        color: #e0e0e0;
+        padding: 1em;
+        border-radius: 0.5em;
+        overflow-x: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .command {
+        color: #00FFC2;
+        font-weight: bold;
+    }
+    /* Syntax highlighting colors for the manual code blocks */
+    .code-keyword { color: #ff79c6; }
+    .code-function { color: #8be9fd; }
+    .code-string { color: #f1fa8c; }
+    .code-comment { color: #6272a4; font-style: italic; }
+  </style>
+</head>
+
+<body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
+  <div class="max-w-4xl mx-auto">
+    <a href="../index.html" class="inline-flex items-center mb-8 text-[#00FFC2] hover:underline group transition-all duration-300 ease-in-out">
+      <i data-lucide="chevron-left" class="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"></i>
+      Back to blogs
+    </a>
+
+    <article class="bg-[#22262A] rounded-xl shadow-xl overflow-hidden">
+      <div class="w-full h-64 bg-gray-900 flex items-center justify-center text-gray-900">
+        <i data-lucide="bot" class="h-36 w-36 border border-2 border-gray-300 rounded-md text-gray-100"></i>
+      </div>
+
+      <div class="p-4 md:p-8">
+        <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">Mastering Web Scraping with Puppeteer: A Developer's Guide</h1>
+
+        <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
+          <div class="flex items-center space-x-3 mb-3 md:mb-0 px-3 py-2 text-sm border border-[#2A2F35] rounded-full">
+            <img src="../../img/abbasuddin.webp" alt="Author Avatar" width="40" height="40" class="bg-[#2A2F35] rounded-full" />
+            <span class="px-3 py-2 text-sm bg-[#2A2F35] rounded-full">Abbas Uddin</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="flex items-center px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
+              <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
+              05/01/2026
+            </span>
+            <span class="flex items-center px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
+              <i data-lucide="clock" class="mr-2 h-4 w-4"></i>
+              8 min read
+            </span>
+          </div>
+        </div>
+
+        <div class="prose prose-invert prose-cyan max-w-none text-gray-300">
+          <p>
+            Data is the fuel of the modern web, but it isn't always available via a clean API. When you need to gather information from websites that render content dynamically using JavaScript, traditional HTTP request libraries often fall short.
+          </p>
+          <p>
+            Enter <strong>Puppeteer</strong>. Developed by Google, this Node.js library provides a high-level API to control Chrome or Chromium over the DevTools Protocol. It allows you to scrape Single Page Applications (SPAs), take screenshots, and automate form submissions just as a real user would.
+          </p>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">I. Setting Up Your Environment</h2>
+          <p>Getting started is straightforward. You'll need Node.js installed on your machine. Create a new directory for your scraper and initialize a project.</p>
+          
+          <ul class="list-none pl-0 space-y-4">
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">npm init -y</span><br>
+                Initializes a new Node.js project with default settings.
+            </li>
+            <li class="bg-[#1A1D21] p-4 rounded-lg">
+                <span class="command">npm install puppeteer</span><br>
+                Downloads the library and a compatible version of Chrome.
+            </li>
+          </ul>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">II. The Basic Scraper</h2>
+          <p>Let's write a simple script that launches a browser, navigates to a URL, and grabs the page title. Save this as <code>index.js</code>.</p>
+
+          <pre><code class="language-javascript"><span class="code-keyword">const</span> puppeteer = <span class="code-function">require</span>(<span class="code-string">'puppeteer'</span>);
+
+(<span class="code-keyword">async</span> () => {
+  <span class="code-comment">// Launch the browser</span>
+  <span class="code-keyword">const</span> browser = <span class="code-keyword">await</span> puppeteer.<span class="code-function">launch</span>({ headless: <span class="code-keyword">"new"</span> });
+  <span class="code-keyword">const</span> page = <span class="code-keyword">await</span> browser.<span class="code-function">newPage</span>();
+
+  <span class="code-comment">// Navigate to a URL</span>
+  <span class="code-keyword">await</span> page.<span class="code-function">goto</span>(<span class="code-string">'https://developer.chrome.com/'</span>);
+
+  <span class="code-comment">// Extract the title</span>
+  <span class="code-keyword">const</span> title = <span class="code-keyword">await</span> page.<span class="code-function">title</span>();
+  console.<span class="code-function">log</span>(<span class="code-string">`Page Title: ${title}`</span>);
+
+  <span class="code-keyword">await</span> browser.<span class="code-function">close</span>();
+})();</code></pre>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">III. Handling Dynamic Content</h2>
+          <p>One of Puppeteer's greatest strengths is waiting for elements to load. Unlike simple HTML parsers, Puppeteer executes the page's JavaScript.</p>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="text-[#00FFC2] border-b border-gray-700">
+                  <th class="py-2">Method</th>
+                  <th class="py-2">Description</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">page.goto(url, options)</td><td class="py-2">Navigates to a URL. Use <code>{waitUntil: 'networkidle0'}</code> to wait for all network traffic to stop.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">page.waitForSelector(sel)</td><td class="py-2">Pauses execution until the element defined by the selector appears in the DOM.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">page.click(selector)</td><td class="py-2">Simulates a mouse click on an element.</td></tr>
+                <tr class="border-b border-gray-800"><td class="py-2 font-mono">page.type(selector, text)</td><td class="py-2">Types text into an input field.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">IV. Extracting Data</h2>
+          <p>To get data <em>out</em> of the page context and into your Node.js environment, you use the <code>evaluate</code> method. This runs code directly inside the browser's console.</p>
+          <pre><code class="language-javascript"><span class="code-comment">// Get a list of blog post titles</span>
+<span class="code-keyword">const</span> data = <span class="code-keyword">await</span> page.<span class="code-function">evaluate</span>(() => {
+  <span class="code-keyword">const</span> posts = document.<span class="code-function">querySelectorAll</span>(<span class="code-string">'.blog-card h2'</span>);
+  <span class="code-keyword">return</span> Array.<span class="code-function">from</span>(posts).<span class="code-function">map</span>(post => post.textContent);
+});
+
+console.<span class="code-function">log</span>(data);</code></pre>
+
+          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">V. Advanced Features: Screenshots & PDFs</h2>
+          <p>Puppeteer is also excellent for visual testing or generating reports. You can capture the exact state of a webpage instantly.</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-[#1A1D21] p-4 rounded border border-gray-700">
+                <h3 class="text-[#00FFC2] font-mono mb-2">page.screenshot()</h3>
+                <p class="text-sm">Saves an image. <br><code>{path: 'example.png', fullPage: true}</code></p>
+            </div>
+            <div class="bg-[#1A1D21] p-4 rounded border border-gray-700">
+                <h3 class="text-[#00FFC2] font-mono mb-2">page.pdf()</h3>
+                <p class="text-sm">Generates a PDF of the page. <br><code>{path: 'page.pdf', format: 'A4'}</code></p>
+            </div>
+          </div>
+
+          <h2 class="font-bold mt-8">Conclusion</h2>
+          <p>
+            Puppeteer opens up a world of possibilities for automation and data collection. However, with great power comes great responsibility. Always respect the website's <code>robots.txt</code> file and Terms of Service when scraping.
+          </p>
+        </div>
+
+        <div class="mt-12 flex flex-wrap gap-2">
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Puppeteer</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Node.js</span>
+          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Web Scraping</span>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-700 flex justify-between items-center">
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="thumbs-up" class="mr-2 h-4 w-4"></i>
+            Like this article
+          </button>
+          <button class="flex items-center text-[#00FFC2] hover:underline">
+            <i data-lucide="share-2" class="mr-2 h-4 w-4"></i>
+            Share
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm">
+    <div class="text-gray-500">MM/DD/YYYY</div>
+    <div class="text-[#00FFC2]">HH:MM:SS</div>
+  </div>
+
+  <script>
+    // Clock Functionality
+    const clockElement = document.getElementById('clock');
+
+    function updateClock() {
+      const currentTime = new Date();
+      clockElement.innerHTML = `
+        <div class="text-gray-500">${currentTime.toLocaleDateString('en-UK', { 
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        })}</div>
+        <div class="text-[#00FFC2]">${currentTime.toLocaleTimeString('en-US', { 
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })}</div>
+      `;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+    
+    // Initialize Lucide Icons
+    document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+  </script>
+</body>
+</html>
