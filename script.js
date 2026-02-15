@@ -1,7 +1,7 @@
 // ALL ANIMATIONS AND INITIALIZATIONS
 document.addEventListener('DOMContentLoaded', () => {
   // SVG PATH ANIMATION
-  const svg = document.querySelector('.paths');
+  /*const svg = document.querySelector('.paths');
 
   function createPath(position, index) {
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -29,7 +29,90 @@ document.addEventListener('DOMContentLoaded', () => {
       const position = i % 2 === 0 ? 1 : -1;
       const path = createPath(position, i);
       animatePath(path);
-  }
+  }*/
+    const canvas = document.getElementById('wave-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let waves = [];
+
+    // Configuration
+    const config = {
+        waveCount: 3,
+        // The color gradient: transparent -> cyan -> transparent
+        colorStart: 'rgba(3, 218, 198, 0)', 
+        colorMid:   'rgba(3, 218, 198, 0.15)', // Very light opacity (15%)
+        colorEnd:   'rgba(3, 218, 198, 0)',
+        speed: 0.005,
+        amplitude: 50, // Height of the wave peaks
+        frequency: 0.01 // How tight the waves are
+    };
+
+    function init() {
+        resize();
+        window.addEventListener('resize', resize);
+        createWaves();
+        animate();
+    }
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+
+    function createWaves() {
+        waves = [];
+        for (let i = 0; i < config.waveCount; i++) {
+            waves.push({
+                y: height / 2, // Center the wave vertically
+                length: 0.01 + i * 0.002, // Different wavelengths
+                amplitude: config.amplitude + i * 20, // Different heights
+                speed: config.speed + i * 0.002, // Different speeds
+                offset: Math.random() * 100 // Random starting position
+            });
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Create the gradient fill
+        // Runs vertically from top to bottom of the canvas
+        const gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, config.colorStart);
+        gradient.addColorStop(0.5, config.colorMid); // Brightest in the middle
+        gradient.addColorStop(1, config.colorEnd);
+
+        ctx.fillStyle = gradient;
+
+        // Draw each wave
+        waves.forEach((wave) => {
+            ctx.beginPath();
+            ctx.moveTo(0, height / 2);
+
+            // Generate the wave points
+            for (let x = 0; x < width; x++) {
+                // Sine wave formula: y = A * sin(B * x + C)
+                const y = wave.y + Math.sin(x * wave.length + wave.offset) * wave.amplitude;
+                ctx.lineTo(x, y);
+            }
+
+            // Close the path to fill it
+            // Draw down to bottom-right, then bottom-left, then close
+            ctx.lineTo(width, height);
+            ctx.lineTo(0, height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Move the wave for next frame
+            wave.offset += wave.speed;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    // Start
+    init();
 
   // PROJECT CARD ANIMATIONS
   const projectCards = document.querySelectorAll('.project-card');

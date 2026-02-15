@@ -85,7 +85,6 @@ JavaScript, and WordPress theme development.">
   
   <link href="https://db.onlinewebfonts.com/c/f115fc2cc723b6f305748febd6d3ea99?family=F7Segment" rel="stylesheet" type="text/css" />
   <!--extra link-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   
@@ -105,6 +104,7 @@ JavaScript, and WordPress theme development.">
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2WGFR69" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <sectio class="nav">
+    <canvas id="wave-canvas"></canvas>
     <div id="clock">
       <p class="date">{{ date }}</p>
       <p class="time">{{ time }}</p>
@@ -140,10 +140,7 @@ JavaScript, and WordPress theme development.">
       <a class="nav-tab" href="#contact">CONTACT</a>
       <span class="nav-tab-slider"></span>
     </div>
-    <div class="background-paths">
-      <svg class="paths" viewBox="0 0 696 316" fill="none">
-      </svg>
-    </div>
+    
   </sectio>
   <main class="main">
     <section class='hero section-padding' id='about'>

@@ -81,8 +81,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* Clock */
-
-
 .nav {
   display: flex;
   flex-direction: column;
@@ -90,9 +88,30 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   height: 100vh;
   position: relative;
-  background-color: var(--background);
+  background-color: var(--background);background-image: 
+    linear-gradient(rgba(3, 218, 198, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(3, 218, 198, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
   text-align: center;
   padding: 0 2em;
+}
+
+/* The Wave Canvas */
+#wave-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;  
+}
+
+
+.nav-content {
+  position: relative;
+  z-index: 2;
 }
 
 .slider1 {
@@ -400,22 +419,6 @@ a {
   -webkit-animation-delay: 2.1s;
 }
 
-.background-paths {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  pointer-events: none;
-  background-color: var(--background);
-}
-.paths {
-  color: #03dac6;
-  width: 100%;
-  height: 100vh;
-}
-
-
 .to-top {
   color: var(--main-color);
   font-size: 30px;
@@ -604,33 +607,38 @@ a:hover {
 
 .hero .social-icon {
   float: left;
+  gap: 15px; 
 }
 
 .hero .social-icon span {
-  color: var(--main-color);
-  box-shadow: 0 2px 3px rgba(3, 218, 198, 0.2);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 5px;
-  line-height: 40px;
-  text-align: center;
-  border: 1px solid var(--main-color);
-}
+  color: var(--main-color);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(3, 218, 198, 0.15), rgba(3, 218, 198, 0.05));
+  border: 1px solid rgba(3, 218, 198, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;}
 .hero .social-icon span i {
   font-size: 18px;
+  line-height: 0; 
 }
-.social-icon span:hover {
-  background: var(--background);
-  color: var(--hover);
-  border: solid 1px var(--hover);
-  box-shadow: 0px 0px 1px 1px var(--hover);
+
+/* Hover State */
+.hero .social-icon span:hover {
+  background: var(--main-color);
+  color: var(--background); /* Ensure this variable is your dark background color */
+  box-shadow: 0 0 10px var(--main-color); /* Adds a stronger glow on hover */
+  transform: translateY(-3px); /* Adds a subtle 'lift' effect */
 }
 
 .profile-btns {
   float: right
 }
 
-/**/
 a.about-button {
   display: inline-block;
   padding: 10px 10px;
@@ -728,11 +736,11 @@ a.about-button:hover {
   text-align: justify;
   }
   .hero .social-icon {
-    float: none; /* Remove float */
+    float: none;
     display: flex;
     gap: 7px;
     justify-content: center;
-    width: 100%; /* Ensure full width for centering */
+    width: 100%; 
     margin:0 auto 20px;
   }
 
@@ -1359,7 +1367,6 @@ a.about-button:hover {
 
 /* Project Footer */
 .project-footer {
-  display: ;
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
