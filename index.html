@@ -237,30 +237,57 @@ JavaScript, and WordPress theme development.">
                     <span class="timeline-period">Jan 2024 - Sep 2026</span>
                     <div class="timeline-details">
                       <h5>Core Modules:</h5>
+                      
+                      <div class="module-tabs">
+                        <button class="tab-btn active" onclick="openTab(event, 'year1')">Year 1</button>
+                        <button class="tab-btn" onclick="openTab(event, 'year2')">Year 2</button>
+                        <button class="tab-btn" onclick="openTab(event, 'year3')">Year 3</button>
+                      </div>
+
+                      <div id="year1" class="tab-content" style="display: block;">
+                        <ul>
+                          <li><strong>Problem Solving for Computing:</strong> Logic, algorithms, and computational thinking.</li>
+                          <li><strong>Introduction to Databases:</strong> Relational database design, SQL, and data management.</li>
+                          <li><strong>Innovation and Society:</strong> Technological impact, ethics, and digital innovation.</li>
+                          <li><strong>Client Side Development:</strong> Front-end web development utilizing HTML, CSS, and JS.</li>
+                          <li><strong>Mathematics for Computer Scientists:</strong> Discrete math, algebra, and logical structures.</li>
+                          <li><strong>Introduction to Physical Computing:</strong> Hardware components, sensors, and basic architecture.</li>
+                        </ul>
+                      </div>
+
+                      <div id="year2" class="tab-content" style="display: none;">
+                        <ul>
+                          <li><strong>Programming in Practice:</strong> Advanced coding techniques and software development lifecycles.</li>
+                          <li><strong>Systems Security:</strong> Threat mitigation, cryptography, and securing IT environments.</li>
+                          <li><strong>Software Product and Process Management:</strong> Agile methodologies and project management.</li>
+                          <li><strong>Computer Networking:</strong> Network protocols, routing, and IT infrastructure.</li>
+                          <li><strong>Data Analytics:</strong> Data processing, visualization, and statistical analysis.</li>
+                          <li><strong>Server Side Development:</strong> Back-end architecture, API design, and database integration.</li>
+                        </ul>
+                      </div>
+
+                      <div id="year3" class="tab-content" style="display: none;">
+                        <ul>
+                          <li><strong>Full-Stack Strategies and Development:</strong> End-to-end application architecture and deployment.</li>
+                          <li><strong>Cloud Native Development:</strong> Scalable cloud solutions, microservices, and containerization.</li>
+                          <li><strong>Computing Systems Project:</strong> Major final year (40 Credits) research and development project.</li>
+                          <li><strong>Computer Vision and AI:</strong> Image processing, machine learning models, and AI algorithms.</li>
+                          <li><strong>Edge and Embedded Systems Intelligence:</strong> IoT devices, edge computing, and sensor networks.</li>
+                          <li><strong>Social, Sustainable and Ethical Computing:</strong> Green computing, tech legislation, and professional ethics.</li>
+                        </ul>
+                      </div>
+
+                      <h5 style="margin-top: 15px;">Key Projects:</h5>
                       <ul>
-                        <li>Discrete Mathematics: Algebra, arithmetic, equations, and functions applied to computing.
-                        </li>
-                        <li>Physical Computing: Computer architecture, hardware components, and system operations.</li>
-                        <li>Systems Security: Threats, attacks, risk mitigation, and security in IT projects.</li>
-                        <li>Object-Oriented Programming: Techniques, abstract data structures, code management, and
-                          testing.</li>
-                        <li>Cloud Architectures: Scalable solutions, AWS, Azure, and high-performance development.</li>
-                        <li>Fundamentals of AI: Formulating AI problems, algorithms, and application development.</li>
-                      </ul>
-                      <h5>Key Projects:</h5>
-                      <ul>
-                        <li><strong>Inventory Management System</strong>: Developed a web-based application using Java
-                          and MySQL for real-time inventory tracking, incorporating secure user authentication.</li>
-                        <li><strong>IoT Smart Home Prototype</strong>: Designed a physical computing project using
-                          Raspberry Pi to control home appliances via a mobile app.</li>
-                        <li><strong>AI-Powered Chatbot</strong>: Built a chatbot using Python and TensorFlow for
-                          customer service automation, integrating natural language processing.</li>
+                        <li><strong>Inventory Management System:</strong> Real-time tracking using Java and MySQL.</li>
+                        <li><strong>IoT Smart Home Prototype:</strong> Raspberry Pi appliance control via mobile app.</li>
+                        <li><strong>AI-Powered Chatbot:</strong> NLP customer service bot using Python and TensorFlow.</li>
                       </ul>
                     </div>
                   </div>
                 </div>
                 
-                <div class="timeline-item">
+                <d iv class="timeline-item">
                   <div class="timeline-dot"></div>
                   <div class="timeline-content">
                     <h4>Sylhet International University</h4>
@@ -458,7 +485,16 @@ JavaScript, and WordPress theme development.">
                 
                 <div class="skill-bar">
                   <div class="skill-info">
-                    <span class="skill-name">WordPress</span>
+                    <span class="skill-name">Java <span style="color: inherit; font-size: 0.8rem;">(Laravel)</span></span>
+                    <span class="skill-percent">75%</span>
+                  </div>
+                  <div class="skill-progress">
+                    <div class="progress-bar" data-width="75%"></div>
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-info">
+                    <span class="skill-name">MongoDB</span>
                     <span class="skill-percent">85%</span>
                   </div>
                   <div class="skill-progress">
@@ -678,28 +714,25 @@ JavaScript, and WordPress theme development.">
         <div class='text-center mb-50'>
           <h4 class='tc-title tc-title-center'>WHAT CAN I DO</h4>
         </div>
-        <div class='row1'>
+        <div class=' grid grid-cols-2 md:grid-cols-2'>
           <!-- services items -->
           <div class='services-items'>
-            <div class='col-md-4'>
+            <div class=''>
               <div class='item'>
                 <span class='fa-solid fa-laptop'></span>
                 <h5>Web Development</h5>
-                <p>Fusce quis volutpat porta, ut tincidunt eros est nec diam erat quis volutpat porta</p>
               </div>
             </div>
             <div class='col-md-4 bord'>
               <div class='item'>
                 <span class='fa fa-mobile'></span>
                 <h5>Responsive Design</h5>
-                <p>Fusce quis volutpat porta, ut tincidunt eros est nec diam erat quis volutpat porta</p>
               </div>
             </div>
             <div class='col-md-4'>
               <div class='item'>
                 <span class='fa-solid fa-code'></span>
                 <h5>Clean Code</h5>
-                <p>Fusce quis volutpat porta, ut tincidunt eros est nec diam erat quis volutpat porta</p>
               </div>
             </div>
           </div>
@@ -708,21 +741,18 @@ JavaScript, and WordPress theme development.">
               <div class='item'>
                 <span class='fa-brands fa-figma'></span>
                 <h5>Graphic Design</h5>
-                <p>Fusce quis volutpat porta, ut tincidunt eros est nec diam erat quis volutpat porta</p>
               </div>
             </div>
             <div class='col-md-4 bord'>
               <div class='item'>
                 <span class='fa-brands fa-searchengin'></span>
                 <h5>SEO</h5>
-                <p>Fusce quis volutpat porta, ut tincidunt eros est nec diam erat quis volutpat porta</p>
               </div>
             </div>
             <div class='col-md-4'>
               <div class='item'>
                 <span class='fa-solid fa-headset'></span>
                 <h5>Unlimited Support</h5>
-                <p>Fusce quis volutpat porta, ut tincidunt eros est nec diam erat quis volutpat porta</p>
               </div>
             </div>
           </div>

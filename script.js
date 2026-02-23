@@ -507,5 +507,25 @@ class NavigationPage {
           this.currentTab = newCurrentTab;
       }
   }
+  
 }
 new NavigationPage();
+
+// Function for Education Tabs
+function openTab(evt, yearName) {
+  // Hide all tab content
+  const tabcontent = document.getElementsByClassName("tab-content");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Remove the "active" class from all tab buttons
+  const tablinks = document.getElementsByClassName("tab-btn");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove("active");
+  }
+
+  // Show the specific tab content and set the clicked button as active
+  document.getElementById(yearName).style.display = "block";
+  evt.currentTarget.classList.add("active");
+}
