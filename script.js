@@ -329,38 +329,34 @@ document.addEventListener('DOMContentLoaded', () => {
   animateStats();
 
   // BACK TO TOP FUNCTIONALITY
-  const backToTopButton = document.querySelector(".to-top"); // Fixed class name to match HTML
-  const aboutSection = document.querySelector("#about"); // Target the About section
+  // FLOATING DOCK FUNCTIONALITY (CHAT & TO-TOP)
+  const floatingDock = document.getElementById("floating-dock");
+  const toTopBtn = document.getElementById("to-top-btn");
+  const aboutSection = document.querySelector("#about"); // Target the About section to know when to show it
 
-  if (backToTopButton && aboutSection) {
-    // Initial state: Hidden
-    backToTopButton.style.opacity = "0";
-    backToTopButton.style.pointerEvents = "none";
-    backToTopButton.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-
-    // Show/hide button based on About section position
+  if (floatingDock && aboutSection) {
+    // Show/hide dock based on scroll position
     window.addEventListener("scroll", () => {
-      const triggerPoint = aboutSection.offsetTop - 100; // Trigger slightly before reaching the section
-
+      // Trigger slightly before reaching the end of the hero section
+      const triggerPoint = aboutSection.offsetTop - 100; 
+      
       if (window.scrollY > triggerPoint) {
-        backToTopButton.style.opacity = "1";
-        backToTopButton.style.pointerEvents = "auto";
-        backToTopButton.style.transform = "translateY(0)";
+        floatingDock.classList.add("is-visible");
       } else {
-        backToTopButton.style.opacity = "0";
-        backToTopButton.style.pointerEvents = "none";
-        backToTopButton.style.transform = "translateY(20px)"; // Slide down effect
+        floatingDock.classList.remove("is-visible");
       }
     });
 
-    // Smooth Scroll to top when clicked
-    backToTopButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
+    // Smooth Scroll to top when the arrow is clicked
+    if (toTopBtn) {
+      toTopBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
       });
-    });
+    }
   } //.to-top
 });
 

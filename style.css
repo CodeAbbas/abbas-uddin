@@ -458,6 +458,98 @@ a {
   transition: all 0.4s ease;
   z-index: 999;
 }
+/* =========================================
+   FLOATING ACTION DOCK (CHAT | TO-TOP)
+   ========================================= */
+.floating-dock {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  background: rgba(26, 28, 34, 0.75); /* Frosted glass base */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(3, 218, 198, 0.2);
+  border-radius: 20px;
+  padding: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  
+  /* Initial hidden state */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Class added by JS when scrolling */
+.floating-dock.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.dock-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dock-btn i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.chat-btn i {
+  margin-right: 8px;
+  color: var(--main-color);
+}
+
+/* Hover Effects */
+.dock-btn:hover {
+  background: rgba(3, 218, 198, 0.15);
+  color: var(--main-color);
+}
+
+.chat-btn:hover i {
+  transform: scale(1.1);
+}
+
+.to-top-btn:hover i {
+  transform: translateY(-3px); /* Arrow points up on hover */
+}
+
+.to-top-btn {
+  padding: 8px 14px;
+}
+
+.dock-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(3, 218, 198, 0.3);
+  margin: 0 4px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 576px) {
+  .floating-dock {
+    bottom: 15px;
+    right: 15px;
+    padding: 4px;
+  }
+  .dock-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
 
 
 /*  3. Global CSS */
@@ -1630,14 +1722,18 @@ a.about-button:hover {
     font-size: 1.75rem;
   }
 
-  .project-header {
-    flex-direction: column;
-    text-align: center;
+.project-header {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
   }
 
   .project-icon {
-    margin-right: 0;
-    margin-bottom: 1rem;
+    display: none;
+  }
+  
+  .project-title-container {
+    width: 100%;
   }
 
   .project-footer {
@@ -1646,11 +1742,13 @@ a.about-button:hover {
   }
 
   .project-tech {
-    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .project-links {
-    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .projects-grid {
@@ -2533,9 +2631,9 @@ a.about-button:hover {
 }
 
 @media (max-width: 576px) {
-  .stats-grid {
-    grid-template-columns: 2fr;
-    gap: 2.5rem;
+.stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .stat-number {
