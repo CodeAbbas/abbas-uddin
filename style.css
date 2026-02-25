@@ -7,18 +7,19 @@
   --hover: #ff0266;
   --fourth: #faebd7;
 }
-html{
+
+html {
   scroll-behavior: smooth;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  
+
   font-family: "Space Grotesk", sans-serif;
   --sb-track-color: var(--background);
   --sb-thumb-color: var(--main-color);
@@ -44,12 +45,20 @@ body::-webkit-scrollbar-thumb {
 
 @supports not selector(::-webkit-scrollbar) {
   body {
-      scrollbar-color: var(--sb-thumb-color)
-                     var(--sb-track-color);
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }
 
 
+::selection {
+  background-color: var(--main-color); 
+  color: var(--background);
+}
+
+::-moz-selection {
+  background-color: var(--main-color);
+  color: var(--background);
+}
 
 /* Clock */
 #clock {
@@ -95,6 +104,7 @@ body::-webkit-scrollbar-thumb {
   text-align: center;
   padding: 0 2em;
 }
+
 
 /* The Wave Canvas */
 #wave-canvas {
@@ -149,10 +159,14 @@ body::-webkit-scrollbar-thumb {
   transition: all 0.3s ease;
   z-index: 3;
 }
-
+.nav h1:hover{
+  color: var(--hover);
+  text-shadow: 3px 3px 0px rgba(3, 218, 198, 1);
+}
 h1:hover {
   transform: translate3d(0, -10px, 22px);
   color: var(--hover);
+  text-shadow: 0 4px 8px rgba(3, 218, 198, 0.2);
 }
 
 .slider h2 {
@@ -209,6 +223,12 @@ a {
   position: fixed;
   top: 0;
 }
+.nav-container.nav-container--scrolled {
+  position: fixed;
+  top: 0;
+  bottom: auto; 
+  z-index: 9999;
+}
 
 .nav-tab {
   display: flex;
@@ -221,7 +241,8 @@ a {
   font-size: 2vw;
 }
 
-.nav-tab:hover {
+.nav-tab:hover,
+.nav-tab.active {
   color: var(--background);
   background: var(--main-color);
   transition: all 0.5s ease;
@@ -700,13 +721,6 @@ a.about-button:hover {
   height: 100%;
   border-radius: 40px;
   filter: drop-shadow(2px 2px 4px var(--main-color));
-}
-
-.background1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
 }
 
 /*Media Queries for hero-img*/
@@ -2051,7 +2065,7 @@ a.about-button:hover {
 .contact-icon {
   width: 3rem;
   height: 3rem;
-  border-radius: 50%;
+  border-radius: 1.25rem;
   background: linear-gradient(135deg, rgba(3, 218, 198, 0.15), rgba(0, 180, 216, 0.15));
   display: flex;
   align-items: center;
@@ -2089,15 +2103,16 @@ a.about-button:hover {
 .social-link {
   width: 3rem;
   height: 3rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(3, 218, 198, 0.15), rgba(3, 218, 198, 0.05));
+  border: 1px solid rgba(3, 218, 198, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #03dac6;
   transition: all 0.3s ease;
   text-decoration: none;
-  border: 1px solid rgba(3, 218, 198, 0.1);
+  font-size: 1.2rem;
 }
 
 .social-link:hover {

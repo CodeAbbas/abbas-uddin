@@ -1,160 +1,130 @@
 // ALL ANIMATIONS AND INITIALIZATIONS
 document.addEventListener('DOMContentLoaded', () => {
-  // SVG PATH ANIMATION
-  /*const svg = document.querySelector('.paths');
+  const canvas = document.getElementById('wave-canvas');
+  const ctx = canvas.getContext('2d');
 
-  function createPath(position, index) {
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', `M-${380 - index * 5 * position} -${189 + index * 6}C-${380 - index * 5 * position} -${189 + index * 6} -${312 - index * 5 * position} ${216 - index * 6} ${152 - index * 5 * position} ${343 - index * 6}C${616 - index * 5 * position} ${470 - index * 6} ${684 - index * 5 * position} ${875 - index * 6} ${684 - index * 5 * position} ${875 - index * 6}`);
-      path.setAttribute('stroke', 'currentColor');
-      path.setAttribute('stroke-width', 0.5 + index * 0.03);
-      path.setAttribute('stroke-opacity', 0.1 + index * 0.03);
-      svg.appendChild(path);
-      return path;
+  let width, height;
+  let waves = [];
+
+  // Configuration
+  const config = {
+    waveCount: 3,
+    // The color gradient: transparent -> cyan -> transparent
+    colorStart: 'rgba(3, 218, 198, 0)',
+    colorMid: 'rgba(3, 218, 198, 0.15)', // Very light opacity (15%)
+    colorEnd: 'rgba(3, 218, 198, 0)',
+    speed: 0.005,
+    amplitude: 50, // Height of the wave peaks
+    frequency: 0.01 // How tight the waves are
+  };
+
+  function init() {
+    resize();
+    window.addEventListener('resize', resize);
+    createWaves();
+    animate();
   }
 
-  function animatePath(path) {
-      const length = path.getTotalLength();
-      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-      gsap.to(path, {
-          strokeDashoffset: 0,
-          duration: 20 + Math.random() * 10,
-          repeat: -1,
-          yoyo: true,
-          ease: "none"
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+
+  function createWaves() {
+    waves = [];
+    for (let i = 0; i < config.waveCount; i++) {
+      waves.push({
+        y: height / 2, // Center the wave vertically
+        length: 0.01 + i * 0.002, // Different wavelengths
+        amplitude: config.amplitude + i * 20, // Different heights
+        speed: config.speed + i * 0.002, // Different speeds
+        offset: Math.random() * 100 // Random starting position
       });
+    }
   }
 
-  for (let i = 0; i < 36; i++) {
-      const position = i % 2 === 0 ? 1 : -1;
-      const path = createPath(position, i);
-      animatePath(path);
-  }*/
-    const canvas = document.getElementById('wave-canvas');
-    const ctx = canvas.getContext('2d');
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
 
-    let width, height;
-    let waves = [];
+    // Create the gradient fill
+    // Runs vertically from top to bottom of the canvas
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, config.colorStart);
+    gradient.addColorStop(0.5, config.colorMid); // Brightest in the middle
+    gradient.addColorStop(1, config.colorEnd);
 
-    // Configuration
-    const config = {
-        waveCount: 3,
-        // The color gradient: transparent -> cyan -> transparent
-        colorStart: 'rgba(3, 218, 198, 0)', 
-        colorMid:   'rgba(3, 218, 198, 0.15)', // Very light opacity (15%)
-        colorEnd:   'rgba(3, 218, 198, 0)',
-        speed: 0.005,
-        amplitude: 50, // Height of the wave peaks
-        frequency: 0.01 // How tight the waves are
-    };
+    ctx.fillStyle = gradient;
 
-    function init() {
-        resize();
-        window.addEventListener('resize', resize);
-        createWaves();
-        animate();
-    }
+    // Draw each wave
+    waves.forEach((wave) => {
+      ctx.beginPath();
+      ctx.moveTo(0, height / 2);
 
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
+      // Generate the wave points
+      for (let x = 0; x < width; x++) {
+        // Sine wave formula: y = A * sin(B * x + C)
+        const y = wave.y + Math.sin(x * wave.length + wave.offset) * wave.amplitude;
+        ctx.lineTo(x, y);
+      }
 
-    function createWaves() {
-        waves = [];
-        for (let i = 0; i < config.waveCount; i++) {
-            waves.push({
-                y: height / 2, // Center the wave vertically
-                length: 0.01 + i * 0.002, // Different wavelengths
-                amplitude: config.amplitude + i * 20, // Different heights
-                speed: config.speed + i * 0.002, // Different speeds
-                offset: Math.random() * 100 // Random starting position
-            });
-        }
-    }
+      // Close the path to fill it
+      // Draw down to bottom-right, then bottom-left, then close
+      ctx.lineTo(width, height);
+      ctx.lineTo(0, height);
+      ctx.closePath();
+      ctx.fill();
 
-    function animate() {
-        ctx.clearRect(0, 0, width, height);
+      // Move the wave for next frame
+      wave.offset += wave.speed;
+    });
 
-        // Create the gradient fill
-        // Runs vertically from top to bottom of the canvas
-        const gradient = ctx.createLinearGradient(0, 0, 0, height);
-        gradient.addColorStop(0, config.colorStart);
-        gradient.addColorStop(0.5, config.colorMid); // Brightest in the middle
-        gradient.addColorStop(1, config.colorEnd);
+    requestAnimationFrame(animate);
+  }
 
-        ctx.fillStyle = gradient;
-
-        // Draw each wave
-        waves.forEach((wave) => {
-            ctx.beginPath();
-            ctx.moveTo(0, height / 2);
-
-            // Generate the wave points
-            for (let x = 0; x < width; x++) {
-                // Sine wave formula: y = A * sin(B * x + C)
-                const y = wave.y + Math.sin(x * wave.length + wave.offset) * wave.amplitude;
-                ctx.lineTo(x, y);
-            }
-
-            // Close the path to fill it
-            // Draw down to bottom-right, then bottom-left, then close
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
-
-            // Move the wave for next frame
-            wave.offset += wave.speed;
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    // Start
-    init();
+  // Start
+  init();
 
   // PROJECT CARD ANIMATIONS
   const projectCards = document.querySelectorAll('.project-card');
   const techTags = document.querySelectorAll('.tech-tag');
-  
+
   // Reset animations
   projectCards.forEach(card => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(30px)';
     card.style.animation = 'none';
   });
-  
+
   // Staggered animation for tech tags
   techTags.forEach((tag, index) => {
     const delay = 0.1 + (index % 4) * 0.1;
     tag.style.transition = `all 0.3s ease ${delay}s`;
   });
-  
+
   // Animate project cards on scroll
   const animateProjectCards = () => {
     const triggerBottom = window.innerHeight * 0.85;
-    
+
     projectCards.forEach((card, index) => {
       const cardTop = card.getBoundingClientRect().top;
-      
+
       if (cardTop < triggerBottom) {
         card.style.animation = `fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards ${index * 0.2}s`;
       }
     });
   };
-  
+
   // Add hover effect for project cards
   projectCards.forEach(card => {
-    card.addEventListener('mouseenter', function() {
+    card.addEventListener('mouseenter', function () {
       const tags = this.querySelectorAll('.tech-tag');
       tags.forEach((tag, index) => {
         tag.style.transform = 'translateY(-5px)';
         tag.style.opacity = '1';
       });
     });
-    
-    card.addEventListener('mouseleave', function() {
+
+    card.addEventListener('mouseleave', function () {
       const tags = this.querySelectorAll('.tech-tag');
       tags.forEach((tag, index) => {
         tag.style.transform = 'translateY(0)';
@@ -162,19 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
-  
+
   // Check project cards on scroll
   window.addEventListener('scroll', animateProjectCards);
-  
+
   // Initial check for project cards
   animateProjectCards();
 
   // Parallax effect for background elements
-  window.addEventListener('mousemove', function(e) {
+  window.addEventListener('mousemove', function (e) {
     const bgElements = document.querySelectorAll('.bg-element');
     const x = e.clientX / window.innerWidth;
     const y = e.clientY / window.innerHeight;
-    
+
     bgElements.forEach(element => {
       const speed = element.classList.contains('bg-element-1') ? 30 : 20;
       element.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
@@ -183,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // PROGRESS BAR ANIMATION
   const progressBars = document.querySelectorAll('.progress-bar');
-  
+
   const progressObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -193,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, { threshold: 0.2 });
-  
+
   progressBars.forEach(bar => {
     progressObserver.observe(bar);
   });
@@ -286,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // CONTACT FORM VALIDATION
-  
+
 
   // TESTIMONIAL AND CONTACT ANIMATION ON SCROLL
   const animateTestimonialsOnScroll = () => {
@@ -371,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show/hide button based on About section position
     window.addEventListener("scroll", () => {
       const triggerPoint = aboutSection.offsetTop - 100; // Trigger slightly before reaching the section
-      
+
       if (window.scrollY > triggerPoint) {
         backToTopButton.style.opacity = "1";
         backToTopButton.style.pointerEvents = "auto";
@@ -398,8 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
 var clock = new Vue({
   el: '#clock',
   data: {
-      time: '',
-      date: ''
+    time: '',
+    date: ''
   }
 });
 
@@ -417,54 +387,44 @@ function zeroPadding(num, digit) {
   return num.toString().padStart(digit, '0');
 }
 
-// PARTICLES BACKGROUND
-window.onload = function() {
-  Particles.init({
-      selector: ".background1",
-      color: ["#03dac6", "#ff0266", "#000000"],
-      connectParticles: true
-  });
-};
 // NAVIGATION SYSTEM
 class NavigationPage {
   constructor() {
-      this.currentId = null;
-      this.currentTab = null;
-      this.tabContainerHeight = 70;
-      this.lastScroll = 0;
-      let self = this;
+    this.currentId = null;
+    this.currentTab = null;
+    this.tabContainerHeight = 70;
+    this.lastScroll = 0;
+    let self = this;
 
-      $(".nav-tab").click(function (event) {
-          self.onTabClick(event, $(this));
-      });
-      $(window).scroll(() => {
-          this.onScroll();
-      });
-      $(window).resize(() => {
-          this.onResize();
-      });
+    $(".nav-tab").click(function (event) {
+      self.onTabClick(event, $(this));
+    });
+    $(window).scroll(() => {
+      this.onScroll();
+    });
+    $(window).resize(() => {
+      this.onResize();
+    });
   }
 
   onTabClick(event, element) {
-      const href = element.attr("href");
-      
-      // Check if href starts with '#' (in-page anchor)
-      if (href.startsWith("#")) {
-          event.preventDefault();
-          const targetElement = $(href);
-          if (targetElement.length) {
-              let scrollTop = targetElement.offset().top - this.tabContainerHeight + 1;
-              $("html, body").animate({ scrollTop: scrollTop }, 600);
-          }
+    const href = element.attr("href");
+
+    // Check if href starts with '#' (in-page anchor)
+    if (href.startsWith("#")) {
+      event.preventDefault();
+      const targetElement = $(href);
+      if (targetElement.length) {
+        let scrollTop = targetElement.offset().top - this.tabContainerHeight + 1;
+        $("html, body").animate({ scrollTop: scrollTop }, 600);
       }
-      // For non-anchor hrefs (e.g., './blog/'), allow default navigation
-      // No action needed; browser handles it
+    }
   }
 
   onScroll() {
-      this.checkHeaderPosition();
-      this.findCurrentTabSelector();
-      this.lastScroll = $(window).scrollTop();
+    this.checkHeaderPosition();
+    this.findCurrentTabSelector();
+    this.lastScroll = $(window).scrollTop();
   }
   onResize() {
     this.checkHeaderPosition();
@@ -472,42 +432,49 @@ class NavigationPage {
   }
 
   checkHeaderPosition() {
-    const headerHeight = 75;
-    if ($(window).scrollTop() > headerHeight) {
-        $(".nav-container").addClass("nav-container--scrolled");
+    const triggerPoint = window.innerHeight - this.tabContainerHeight;
+
+    if ($(window).scrollTop() > triggerPoint) {
+      $(".nav-container").addClass("nav-container--scrolled");
     } else {
-        $(".nav-container").removeClass("nav-container--scrolled");
+      $(".nav-container").removeClass("nav-container--scrolled");
     }
-}
+  }
 
   findCurrentTabSelector() {
-      let newCurrentId;
-      let newCurrentTab;
-      let self = this;
+    let newCurrentId;
+    let newCurrentTab;
+    let self = this;
 
-      $(".nav-tab").each(function () {
-          let id = $(this).attr("href");
-          // Only process hrefs starting with '#' for in-page navigation
-          if (id.startsWith("#")) {
-              let target = $(id);
-              if (target.length) {
-                  let offsetTop = target.offset().top - self.tabContainerHeight;
-                  let offsetBottom = target.offset().top + target.height() - self.tabContainerHeight;
-                  
-                  if ($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
-                      newCurrentId = id;
-                      newCurrentTab = $(this);
-                  }
-              }
+    $(".nav-tab").each(function () {
+      let id = $(this).attr("href");
+      // Only process hrefs starting with '#' for in-page navigation
+      if (id.startsWith("#")) {
+        let target = $(id);
+        if (target.length) {
+          let offsetTop = target.offset().top - self.tabContainerHeight;
+          let offsetBottom = target.offset().top + target.height() - self.tabContainerHeight;
+
+          if ($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
+            newCurrentId = id;
+            newCurrentTab = $(this);
           }
-      });
-
-      if (this.currentId !== newCurrentId) {
-          this.currentId = newCurrentId;
-          this.currentTab = newCurrentTab;
+        }
       }
+    });
+
+    if (this.currentId !== newCurrentId) {
+      this.currentId = newCurrentId;
+      this.currentTab = newCurrentTab;
+
+      $(".nav-tab").removeClass("active");
+
+      if (this.currentTab) {
+        this.currentTab.addClass("active");
+      }
+    }
   }
-  
+
 }
 new NavigationPage();
 
@@ -529,3 +496,4 @@ function openTab(evt, yearName) {
   document.getElementById(yearName).style.display = "block";
   evt.currentTarget.classList.add("active");
 }
+
