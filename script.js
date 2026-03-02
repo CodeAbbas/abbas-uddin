@@ -492,4 +492,10 @@ function openTab(evt, yearName) {
   document.getElementById(yearName).style.display = "block";
   evt.currentTarget.classList.add("active");
 }
-
+// Dynamic footer(copyright )year
+document.addEventListener('DOMContentLoaded', () => {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+});
