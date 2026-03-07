@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/f1live",
+      "destination": "https://v0-f1live.vercel.app/f1live"
+    },
+    {
+      "source": "/f1live/:match*",
+      "destination": "https://v0-f1live.vercel.app/f1live/:match*"
+    }
+  ]
+}
