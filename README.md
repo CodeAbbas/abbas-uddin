@@ -1,6 +1,6 @@
 
 # **Abbas Uddin**  
-<a href="https://abbasuddin.com/" align="center">**https://abbasuddin.com/**</a>
+<a href="https://abbasuddin.dev/" align="center">**https://abbasuddin.dev/**</a>
 
 ### **Frontend Developer**  
  📍 **London, United Kingdom**  
@@ -11,11 +11,11 @@
 
 👋 Hi, I’m **Abbas Uddin**, a passionate frontend developer with a love for crafting intuitive and responsive web experiences. I'm currently honing my skills in **JavaScript, React, and Tailwindcss**, and always eager to explore new technologies to expand my knowledge and expertise.  
 
-🔭 **Check out my latest project here**: [Abbas Uddin](https://abbasuddin.com/) 
+🔭 **Check out my latest project here**: [Abbas Uddin](https://abbasuddin.dev/) 
 
 🌱 **Currently Learning**: Advanced **JavaScript** concepts, **C**, and **C++**.  
 
-👨‍💻 **All of my projects** are available on my [Portfolio](https://abbasuddin.com/#projects).  
+👨‍💻 **All of my projects** are available on my [Portfolio](https://abbasuddin.dev/#projects).  
 
 📫 **How to reach me**: [abbax.uddin@gmail.com](mailto:abbax.uddin@gmail.com).  
 
@@ -82,7 +82,7 @@ I work with the following tools and languages to build clean, scalable, and effi
 
 Here are some of my notable projects:  
 
-- **[Abbas Uddin Portfolio](https://abbasuddin.com/)**  
+- **[Abbas Uddin Portfolio](https://abbasuddin.dev/)**  
   A modern, responsive portfolio showcasing my projects, skills, and experience.  
 
 - **[E-commerce Website](https://z99xh8.csb.app/)**  

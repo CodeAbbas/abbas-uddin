@@ -10,7 +10,7 @@
   # This forces all traffic to the single, secure version of site.
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} ^www\. [NC]
-  RewriteRule ^ https://abbasuddin.com%{REQUEST_URI} [L,R=301]
+  RewriteRule ^ https://abbasuddin.dev%{REQUEST_URI} [L,R=301]
 
   # --- Pretty URLs ---
   # 1. Redirect /index.html to /
