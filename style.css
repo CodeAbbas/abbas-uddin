@@ -182,7 +182,7 @@ h3.span {
   font-size: 2.3vw;
   letter-spacing: 0.6em;
   font-family: "Space Grotesk", sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   color: #faebd7;
   background: linear-gradient(135deg, rgba(3, 218, 198, 0.15), rgba(3, 218, 198, 0.05));
   padding: 4px;
@@ -289,13 +289,28 @@ a {
   .nav{
     height: 100svh;
     width: 100svw;
-  }
-  .nav-container{
+  }.nav-container {
     height: 60px;
+    width: 96%; 
+    margin: 0 auto; 
+    left: 0;
+    right: 0;
     border-radius: 40px;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(3, 218, 198, 0.1), rgba(3, 218, 198, 0.05));
+    /* Premium Glassmorphism */
+    background: rgba(26, 28, 34, 0.65); /* Dark semi-transparent base */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    /* Edge Definition & Shadow */
+    border: .5px solid rgba(3, 218, 198, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
+  .nav-container.nav-container--scrolled {
+    top: 3px;
+    bottom: auto;
+  }
+  
   .nav h1,
   .slider h1 {
     font-size: 9vw;
@@ -460,35 +475,50 @@ a {
 }
 /* =========================================
    FLOATING ACTION DOCK (CHAT | TO-TOP)
-   ========================================= */
+   =========================================*/
 .floating-dock {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: auto;
+  right: 50%;
+  transform: translateX(-50%) translateY(20px);
+  
   display: flex;
   align-items: center;
-  background: rgba(26, 28, 34, 0.75); /* Frosted glass base */
+  background: rgba(26, 28, 34, 0.35);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(3, 218, 198, 0.2);
-  border-radius: 20px;
+  border-radius: 40px;
   padding: 6px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   z-index: 999;
   
-  /* Initial hidden state */
   opacity: 0;
   pointer-events: none;
-  transform: translateY(20px);
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Class added by JS when scrolling */
 .floating-dock.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateX(-78%) translateY(0);
 }
+
+/* --- DESKTOP DESIGN (Screens larger than 768px) --- */
+@media (min-width: 769px) {
+  .floating-dock {
+    /* Reset centering and move to bottom-right */
+    left: auto;
+    right: 30px;
+    transform: translateX(0) translateY(20px);
+  }
+
+  .floating-dock.is-visible {
+    transform: translateX(0) translateY(0);
+  }
+}
+
 
 .dock-btn {
   display: flex;
