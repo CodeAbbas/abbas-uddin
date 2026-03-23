@@ -105,8 +105,6 @@ body::-webkit-scrollbar-thumb {
   padding: 0 2em;
 }
 
-
-/* The Wave Canvas */
 #wave-canvas {
   position: absolute;
   top: 0;
@@ -423,7 +421,6 @@ a {
   left: auto;
   right: 50%;
   transform: translateX(-50%) translateY(20px);
-  
   display: flex;
   align-items: center;
   background: rgba(26, 28, 34, 0.35);
@@ -443,13 +440,12 @@ a {
 .floating-dock.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-78%) translateY(0);
+  transform: translateX(-78%) translate(0);
 }
 
-/* --- DESKTOP DESIGN (Screens larger than 768px) --- */
+/* --- (Screens larger than 768px) --- */
 @media (min-width: 769px) {
   .floating-dock {
-    /* Reset centering and move to bottom-right */
     left: auto;
     right: 30px;
     transform: translateX(0) translateY(20px);
@@ -2182,6 +2178,7 @@ a.about-button:hover {
   transition: all 0.3s ease;
   text-decoration: none;
   font-size: 1.2rem;
+  z-index: 999;
 }
 
 .social-link:hover {

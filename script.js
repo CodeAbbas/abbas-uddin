@@ -327,17 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial check for stats
   animateStats();
-
-  // BACK TO TOP FUNCTIONALITY
   // FLOATING DOCK FUNCTIONALITY (CHAT & TO-TOP)
   const floatingDock = document.getElementById("floating-dock");
   const toTopBtn = document.getElementById("to-top-btn");
-  const aboutSection = document.querySelector("#about"); // Target the About section to know when to show it
+  const aboutSection = document.querySelector("#about");
 
   if (floatingDock && aboutSection) {
     // Show/hide dock based on scroll position
     window.addEventListener("scroll", () => {
-      // Trigger slightly before reaching the end of the hero section
       const triggerPoint = aboutSection.offsetTop - 100; 
       
       if (window.scrollY > triggerPoint) {
