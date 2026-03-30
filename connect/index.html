@@ -235,31 +235,30 @@
     }
 
     .inside-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      width: 35px;
-      height: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-    .inside-btn:hover {
-      background: rgba(255, 255, 255, 0.1) !important;
-      border-radius: 8px;
-      transform: scale(1.1);
-    }
+/* Force the color to stay Neon Cyan even when disabled */
+.send-accent, 
+.send-accent:disabled {
+  color: var(--neon-cyan) !important;
+  opacity: 1 !important; /* Prevents browser-default dimming */
+}
 
-    .send-accent { color: var(--neon-cyan) !important; }
-
-    .inside-btn:disabled {
-      color: #444 !important;
-      cursor: default;
-      transform: none;
-    }
+/* Only change the cursor so the user knows they can't click it yet */
+.inside-btn:disabled {
+  cursor: default;
+  transform: none;
+}
 
     #uploadProgress {
       position: absolute;
@@ -356,26 +355,28 @@
       const validHistory = history.filter(item => (now - item.timestamp) < EXPIRATION_MS);
       validHistory.forEach(data => addMessageToUI(data.text, data.type, data.isAdmin, data.timeStr, data.file));
     }
+
     function playIncomingSound() {
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
 
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(660, audioCtx.currentTime); 
-    oscillator.frequency.exponentialRampToValueAtTime(330, audioCtx.currentTime + 0.15);
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(660, audioCtx.currentTime); 
+        oscillator.frequency.exponentialRampToValueAtTime(330, audioCtx.currentTime + 0.15);
 
-    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
 
-    oscillator.start();
-    oscillator.stop(audioCtx.currentTime + 0.15);
-  } catch (e) { }
-}
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.15);
+      } catch (e) { }
+    }
+
     function saveMessage(text, type, isAdmin, timeStr, file = null) {
       const raw = localStorage.getItem(STORAGE_KEY);
       let history = raw ? JSON.parse(raw) : [];
@@ -388,8 +389,9 @@
       statusBadge.classList.remove('offline');
       statusText.textContent = "Online";
       msgInput.disabled = false;
-      sendBtn.disabled = false;
       attachBtn.disabled = false;
+      // Button state depends on input content
+      updateSendButtonState();
     });
 
     socket.on('disconnect', () => {
@@ -400,9 +402,9 @@
     });
 
     socket.on('chat message', (data) => {
-      if (data.isAdmin) {
-    playIncomingSound();
-  }
+      if (data.isAdmin && data.senderId !== socket.id) {
+        playIncomingSound();
+      }
       let type = data.isAdmin ? 'other' : (data.senderId === socket.id ? 'me' : null);
       if (!type) return;
 
@@ -448,6 +450,15 @@
       lucide.createIcons();
     }
 
+    // --- BUTTON STATE MANAGEMENT ---
+    function updateSendButtonState() {
+      const hasText = msgInput.value.trim() !== "";
+      const hasFile = currentFile !== null;
+      sendBtn.disabled = !(hasText || hasFile);
+    }
+
+    msgInput.addEventListener('input', updateSendButtonState);
+
     // --- FILE LOGIC ---
     attachBtn.addEventListener('click', () => fileInput.click());
 
@@ -466,12 +477,11 @@
         reader.readAsDataURL(file);
         msgInput.placeholder = "Add a caption...";
       } else {
-        // Show file icon for non-images
         imagePreview.src = "https://cdn-icons-png.flaticon.com/512/2991/2991112.png"; 
         msgInput.placeholder = `File: ${file.name}`;
       }
       
-      sendBtn.disabled = false;
+      updateSendButtonState();
     });
 
     function clearAttachment() {
@@ -480,7 +490,8 @@
       previewContainer.style.display = 'none';
       imagePreview.src = '';
       msgInput.placeholder = "Type a message...";
-      if (!msgInput.value.trim()) sendBtn.disabled = true;
+      updateSendButtonState();
+      lucide.createIcons();
     }
 
     cancelFileBtn.addEventListener('click', clearAttachment);
@@ -519,9 +530,13 @@
       if (currentFile) {
         sendBtn.disabled = true;
         msgInput.disabled = true;
+        attachBtn.disabled = true;
         fileData = await uploadFile(currentFile).catch(() => null);
+        
         sendBtn.disabled = false;
         msgInput.disabled = false;
+        attachBtn.disabled = false;
+
         if (!fileData) {
           addMessageToUI('Upload failed.', 'other', true);
           clearAttachment();
@@ -538,6 +553,7 @@
       
       msgInput.value = '';
       clearAttachment();
+      sendBtn.disabled = true; // LOCK BUTTON AFTER SEND
       msgInput.focus();
     }
 

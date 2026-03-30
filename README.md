@@ -1,68 +1,78 @@
-[![MasterHead](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7p1jhNTbcTHtqV9qp_ELTcUrgVtp9pp__GCzPkOnUvgZUzG0kV18J2ZJ&s=10)](https://abbasuddin.dev/)
-<h1 align="center">Hi 🙋‍♂️, I'm Abbas Uddin</h1>
-<h3 align="center">A passionate Front-End Developer based in London, UK</h3>
-<div align="center">
- <a href="https://www.linkedin.com/in/abbas-dev" target="_blank">
- <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="25" alt="linkedin logo" />
- </a>
- <a href="https://twitter.com/abbas_uddin_01/" target="_blank">
- <img src="https://img.shields.io/static/v1?message=Twitter&logo=x&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="25" alt="twitter logo" />
- </a>
- <a href="https://codepen.io/codeabbas" target="_blank">
- <img src="https://img.shields.io/static/v1?message=Codepen&logo=codepen&label=&color=000000&logoColor=white&labelColor=&style=for-the-badge" height="25" alt="codepen logo" />
- </a>
-</div>
+# Real-time Customer Support Widget (Frontend)
 
-<img align="right" alt="Coding" width="400" src="/img/AbbasUddin_animation.webp"/>
+This repository hosts the frontend client for a custom-built, real-time customer support widget, designed to provide seamless interaction between website visitors and administrators. This widget transforms standard customer inquiries into an engaging, live chat experience, complete with rich media support.
 
-<div>
- <img src="https://komarev.com/ghpvc/?username=codeabbas&label=Profile%20views&color=0e75b6&style=flat" alt="codeabbas" />
- <img align="right" src="https://img.shields.io/badge/London-UK-0e75b6?style=flat&logo=googlemaps&logoColor=white" alt="Location: London, UK" />
-</div>
+---
 
-- 🔭 I'm currently working on my **Computing Systems Project (Dissertation)** and **Portfolio at [abbasuddin.dev](https://abbasuddin.dev/)**
+## ✨ Features
 
-- 🌱 I'm currently learning **Next.js, Laravel, Cloud Native Development, AngularJS**
+*   **Real-time Messaging:** Instantaneous two-way communication between site visitors and support administrators powered by Socket.IO.
+*   **Secure Admin Console:** A dedicated, password-protected (client-side overlay) admin interface (`connect/admin.html`) to manage conversations.
+*   **Cloudinary File Attachments:** Visitors and administrators can securely share files (images, documents, etc.) via Cloudinary integration, enhancing support interactions.
+*   **Email Notifications:** Administrators receive instant email alerts (via EmailJS) when a new visitor initiates a chat, ensuring prompt responses.
+*   **Chat History Persistence:** Client-side chat history is retained locally for a defined period (e.g., 30 minutes) to maintain context during a session.
+*   **Responsive Design:** Optimized for a smooth user experience across various devices.
 
-- 👨‍💻 All of my projects are available at<br>
- <a href="https://abbasuddin.dev/">
- <img src="https://img.shields.io/badge/abbasuddin.dev-FFFFFF?style=flat&logo=googlechrome" alt="abbasuddin.dev" width="250" height="50"/>
-</a>
+---
 
-- 📫 How to reach me **abbax.uddin@gmail.com**
+## 🚀 Tech Stack
 
-<h3 align="left">👩‍💻 About Me</h3>
+*   **Frontend Language:** Vanilla JavaScript
+*   **Real-time Communication:** Socket.IO Client
+*   **Email Notifications:** EmailJS
+*   **Styling:** Custom CSS (with potential for Tailwind CSS integration, as seen in main portfolio)
+*   **Icons:** Lucide Icons
 
-<p align="left">I'm <b>Abbas Uddin</b>, a Front-End Developer based in <b>London, UK</b>.<br><br>
-- 🎓 Final-year BSc (Hons) Computing Systems student at Ulster University London<br>
-- 🏆 Dean's List Award recipient for Outstanding Academic Achievement (2024/25)<br>
-- 💻 Specialising in front-end and full-stack web development<br>
-- ⚡ In my free time I love to travel, watch series/movies, and hang out.</p>
+---
 
-<h3 align="left">🖥️ Connect with me:</h3>
+## 🔗 Linking to Your Backend Server
 
-<p align="left">
- <a href="https://codepen.io/codeabbas" target="blank"><img align="center" src="img/codepen.png" alt="codeabbas" height="35" width="35" /></a>&nbsp;
- <a href="https://twitter.com/abbas_uddin_01" target="blank"><img align="center" src="img/twitter.png" alt="abbas_uddin_01" height="35" width="35" /></a>&nbsp;
- <a href="https://linkedin.com/in/abbas-dev" target="blank"><img align="center" src="img/linkedin-logo.png" alt="abbas-dev" height="35" width="35" /></a>&nbsp;
- <a href="https://github.com/CodeAbbas/" target="blank"><img src="img/github.png" alt="CodeAbbas" align="center" height="35" width="35"/></a>&nbsp;
- <a href="https://fb.com/codeabbas" target="blank"><img align="center" src="img/facebook.png" alt="codeabbas" height="35" width="35" /></a>&nbsp;
- <a href="https://instagram.com/code_abbas" target="blank"><img align="center" src="img/instagram.png" alt="code_abbas" height="35" width="35" /></a>&nbsp;
- <a href="mailto:abbax.uddin@gmail.com?subject=Reaching%20Out" target="blank"><img align="center" src="img/mail.png" alt="code_abbas" height="35" width="35" /></a>
-</p>
+This frontend widget requires a compatible backend server to function. The default backend URL is configured within the JavaScript files.
 
-<h3 align="left">🛠 Languages and Tools</h3>
+**To connect this frontend to your deployed backend server (e.g., on Render.com):**
 
-<div align="left">
- <img src="https://skillicons.dev/icons?i=html,css,javascript,typescript,react,nextjs,tailwind" />
- <img src="https://skillicons.dev/icons?i=angular,bootstrap,php,laravel,python,java,mysql" />
- <img src="https://skillicons.dev/icons?i=git,github,docker,linux" />
-</div>
+1.  **Locate the `SERVER_URL` variable:**
+    *   Open `connect/index.html` and `connect/admin.html` in a text editor.
+    *   Find the line similar to: `const SERVER_URL = "https://your-backend-server.onrender.com";`
+2.  **Update the URL:** Replace `"https://your-backend-server.onrender.com"` with the actual URL of your deployed backend chat server.
+    *   Example: `const SERVER_URL = "https://your-actual-chat-server-name.onrender.com";`
+3.  **Save and Deploy:** Save the changes to both `index.html` and `admin.html`, then redeploy your frontend application to make the connection live.
 
-<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=codeabbas&show_icons=true&locale=en&layout=compact" alt="codeabbas" /></p>
+**Important Backend Setup (Ensuring Security & Functionality):**
 
-<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=codeabbas&show_icons=true&locale=en" alt="codeabbas" /></p>
+Ensure your backend server (e.g., `abbas-chat-server.onrender.com`) is correctly configured with:
 
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=codeabbas&" alt="codeabbas" /></p>
+*   **File Upload Endpoint:** An `/upload` endpoint using `multer` and a cloud storage provider (like Cloudinary) to handle file attachments.
+*   **Cloudinary Credentials:** `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` must be set as environment variables on your backend deployment.
+*   **Server-Side XSS Sanitization:** All incoming text messages must be escaped/sanitized on the server before broadcasting to prevent Cross-Site Scripting.
+*   **Secure Admin Authentication:** The admin console's "password" authentication is currently client-side and **highly insecure**. Implement robust SERVER-SIDE authentication for your admin panel.
 
-![abbasuddin](https://drive.google.com/uc?export=download&id=1BjpFFmWvafRdo7Zl7yh_W9m3a-Rv_G5-)
+---
+
+## 🛠 Setup & Usage
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/CodeAbbas/abbas-uddin.git
+    cd abbas-uddin
+    ```
+2.  **Open `connect/index.html`:**
+    *   For testing, you can open `connect/index.html` directly in your browser.
+    *   For deployment, serve the entire frontend project via a web server (e.g., Nginx, Apache, or a static site host).
+3.  **Access Admin Console:**
+    *   Open `connect/admin.html` in your browser. You will be prompted for the admin access code to connect.
+    *   **(Security Note:** Remember to implement server-side authentication for this page.)
+
+---
+
+## ⚠️ Security Notes & Future Improvements
+
+*   **Admin Authentication:** The current client-side password overlay for `admin.html` is **not secure** and should be replaced with robust server-side authentication (e.g., JWT, session-based login).
+*   **Server-Side Validation:** All user input (text messages, file metadata) must be thoroughly validated and sanitized on the backend.
+*   **Error Handling:** Enhance client-side error handling for file uploads and network disconnections.
+*   **UI/UX for File Uploads:** Add progress indicators, file type/size validation feedback, and attachment previews before sending.
+*   **Scalability:** Consider a dedicated database for chat messages for long-term persistence and search, rather than just client-side local storage.
+
+---
+
+Thank you for exploring this real-time customer support widget!
