@@ -48,7 +48,7 @@
       position: absolute; inset: 0; 
       background: rgba(26, 28, 34, 0.98);
       backdrop-filter: blur(20px);
-      z-index: 100;
+      z-index: 200;
       display: flex; align-items: center; justify-content: center;
     }
     
@@ -79,16 +79,11 @@
 
     .unlock-btn {
       background: var(--neon-red); color: #000; font-weight: 700;
-backdrop-filter: blur(0px);
       border: none; padding: 12px; border-radius: 12px;
       cursor: pointer; transition: 0.3s; text-transform: uppercase;
-      letter-spacing: 1px;
-      width: 100%;
+      letter-spacing: 1px; width: 100%;
     }
     .unlock-btn:hover { box-shadow: 0 0 20px rgba(255, 42, 42, 0.4); transform: scale(1.02); }
-    .unlock-btn:disabled { background: #555; cursor: wait; transform: none; box-shadow: none; }
-
-    #loginStatus { font-size: 0.8rem; color: #888; min-height: 1.2em; }
 
     /* --- HEADER --- */
     header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding: 0.5rem; }
@@ -97,31 +92,53 @@ backdrop-filter: blur(0px);
     .dot { width: 6px; height: 6px; background: var(--neon-red); border-radius: 50%; }
 
     /* --- CHAT AREA --- */
-    .chat-box { flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px); }
+    .chat-box { flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px); position: relative; }
     .messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
     .messages::-webkit-scrollbar { width: 4px; } .messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
-    .msg { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; line-height: 1.4; position: relative; word-wrap: break-word; }
+    .msg { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; line-height: 1.4; position: relative; word-wrap: break-word; animation: slideIn 0.3s ease; }
     .msg-user { align-self: flex-start; background: var(--msg-other); border: 1px solid var(--neon-cyan); border-bottom-left-radius: 2px; color: #fff; }
     .msg-admin { align-self: flex-end; background: var(--msg-me); border: 1px solid var(--neon-red); border-bottom-right-radius: 2px; color: #fff; }
     
     .label { font-size: 0.65rem; opacity: 0.7; margin-bottom: 4px; display: block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* --- INPUT --- */
-    .input-row { padding: 1rem; background: rgba(0, 0, 0, 0.2); border-top: 1px solid var(--glass-border); display: flex; gap: 10px; }
-    input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 12px; color: #fff; outline: none; }
-    input:focus { border-color: var(--neon-red); }
-    button { background: var(--neon-red); color: #000; border: none; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-    button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 42, 42, 0.4); }
-
-    .attach-btn {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--glass-border);
-        color: var(--text-main);
+    /* --- FLOATING PREVIEW (RED) --- */
+    .floating-preview {
+      display: none;
+      position: absolute;
+      bottom: 85px;
+      left: 1rem;
+      z-index: 100;
+      animation: slideUp 0.3s ease-out;
     }
-    .attach-btn:hover { background: rgba(255, 42, 42, 0.05); border-color: var(--neon-red); box-shadow: none; transform: none;}
-    .attach-btn:disabled { background: rgba(255, 255, 255, 0.03); border-color: var(--glass-border); color: #666; cursor: default; }
+    .preview-content {
+      position: relative;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      padding: 6px;
+      border: 1px solid var(--neon-red);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 42, 42, 0.2);
+    }
+    .preview-content img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; display: block; }
+    .cancel-badge { position: absolute; top: -10px; right: -10px; background: var(--bg-dark); color: var(--neon-red); border-radius: 50%; cursor: pointer; display: flex; box-shadow: 0 0 10px rgba(255, 42, 42, 0.5); }
 
+    /* --- INPUT AREA --- */
+    .input-row { padding: 1rem; background: rgba(0, 0, 0, 0.2); border-top: 1px solid var(--glass-border); display: flex; width: 100%; }
+    .input-wrapper {
+      display: flex; align-items: center; flex: 1; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border); border-radius: 12px; padding: 4px 8px; transition: 0.3s; position: relative; overflow: hidden;
+    }
+    .input-wrapper:focus-within { border-color: var(--neon-red); background: rgba(255, 42, 42, 0.05); }
+
+    #msgInput { flex: 1; background: transparent !important; border: none !important; padding: 10px; color: #fff; outline: none; font-family: inherit; }
+    .inside-btn { background: transparent; border: none; color: var(--text-main); width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+    .send-accent { color: var(--neon-red) !important; }
+    
+    #uploadProgress { position: absolute; top: 0; left: 0; height: 2px; background: var(--neon-red); width: 0%; transition: width 0.1s; z-index: 10; }
+
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -135,35 +152,35 @@ backdrop-filter: blur(0px);
       <div class="login-card">
         <i data-lucide="shield-alert" style="color: var(--neon-red); width: 48px; height: 48px; margin: 0 auto;"></i>
         <h2 style="color:#fff; font-size: 1.5rem; margin: 0;">Restricted Access</h2>
-        <p style="color: #888; font-size: 0.9rem; margin: 0;">Enter admin credentials to uplink.</p>
-        
-        <input type="password" id="passInput" class="auth-input" placeholder="ACCESS CODE" autocomplete="off">
+        <input type="password" id="passInput" class="auth-input" placeholder="ACCESS CODE">
         <button id="unlockBtn" class="unlock-btn">UNLOCK TERMINAL</button>
-        
-        <div id="loginStatus"></div>
+        <div id="loginStatus" style="font-size: 0.8rem; color: #888; margin-top: 5px;"></div>
       </div>
     </div>
 
     <header>
       <h1><i data-lucide="terminal-square" style="color: var(--neon-red);"></i> Admin Console</h1>
-      <div class="status-badge">
-        <div class="dot"></div>
-        <span>Secure</span>
-      </div>
+      <div class="status-badge"><div class="dot"></div><span>Secure</span></div>
     </header>
 
     <div class="chat-box">
-      <div class="messages" id="msgList">
-        <div style="text-align: center; color: #555; font-size: 0.8rem; margin-top: 20px;">
-          -- WAITING FOR INCOMING TRANSMISSION --
+      <div class="messages" id="msgList"></div>
+
+      <div id="filePreviewContainer" class="floating-preview">
+        <div class="preview-content">
+          <img id="imagePreview" src="" alt="Preview">
+          <div id="cancelFileBtn" class="cancel-badge"><i data-lucide="circle-x"></i></div>
         </div>
       </div>
 
       <div class="input-row">
-        <button id="attachBtn" class="attach-btn"><i data-lucide="paperclip"></i></button>
-        <input type="file" id="fileInput" style="display: none;">
-        <input type="text" id="msgInput" placeholder="Reply as Admin..." autocomplete="off">
-        <button id="sendBtn"><i data-lucide="send"></i></button>
+        <div class="input-wrapper">
+          <div id="uploadProgress"></div>
+          <button id="attachBtn" class="inside-btn"><i data-lucide="paperclip"></i></button>
+          <input type="file" id="fileInput" style="display: none;">
+          <input type="text" id="msgInput" placeholder="Reply as Admin..." disabled>
+          <button id="sendBtn" class="inside-btn send-accent" disabled><i data-lucide="send"></i></button>
+        </div>
       </div>
     </div>
 
@@ -171,16 +188,10 @@ backdrop-filter: blur(0px);
 
   <script>
     lucide.createIcons();
-
-    // 1. CONFIGURATION 
     const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
 
-    // STATE
-    let socket;
-    let ADMIN_PASSWORD = "";
-    let currentFile = null; // NEW: To hold the file selected for upload
+    let socket, ADMIN_PASSWORD = "", currentFile = null;
 
-    // DOM ELEMENTS
     const authOverlay = document.getElementById('authOverlay');
     const passInput = document.getElementById('passInput');
     const unlockBtn = document.getElementById('unlockBtn');
@@ -188,236 +199,149 @@ backdrop-filter: blur(0px);
     const msgList = document.getElementById('msgList');
     const msgInput = document.getElementById('msgInput');
     const sendBtn = document.getElementById('sendBtn');
-    const attachBtn = document.getElementById('attachBtn'); // NEW
-    const fileInput = document.getElementById('fileInput'); // NEW
+    const attachBtn = document.getElementById('attachBtn');
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('filePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const cancelFileBtn = document.getElementById('cancelFileBtn');
+    const progressBar = document.getElementById('uploadProgress');
 
-    // --- AUTHENTICATION HANDLERS ---
-    
     function triggerLogin() {
       const pass = passInput.value.trim();
-      if (pass.length > 0) {
+      if (pass) {
         ADMIN_PASSWORD = pass;
-        loginStatus.textContent = "Attempting Uplink...";
-        loginStatus.style.color = "var(--neon-cyan)";
-        unlockBtn.disabled = true;
-        unlockBtn.textContent = "CONNECTING...";
-        
+        loginStatus.textContent = "Connecting...";
         initConnection();
-      } else {
-        loginStatus.textContent = "Password required.";
-        loginStatus.style.color = "var(--neon-red)";
       }
     }
 
-    // Login via Button Click
     unlockBtn.addEventListener('click', triggerLogin);
-
-    // Login via Enter Key
-    passInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') triggerLogin();
-    });
+    passInput.addEventListener('keypress', (e) => e.key === 'Enter' && triggerLogin());
 
     function initConnection() {
-      // Initialize Socket
       socket = io(SERVER_URL);
-
-      // --- CONNECTION SUCCESS ---
       socket.on('connect', () => {
-        loginStatus.textContent = "Connection Established.";
-        // Hide overlay
-        authOverlay.style.opacity = '0';
-        setTimeout(() => authOverlay.style.display = 'none', 300);
-        attachBtn.disabled = false; // NEW: Enable attachment button
-        sendBtn.disabled = false; // Ensure send button is enabled
+        authOverlay.style.display = 'none';
         msgInput.disabled = false;
+        sendBtn.disabled = false;
       });
-
-      // --- CONNECTION ERROR (Debugging) ---
-      socket.on('connect_error', (err) => {
-        console.error("Connection failed:", err);
-        loginStatus.textContent = "Connection Failed. Server might be sleeping.";
-        loginStatus.style.color = "var(--neon-red)";
-        unlockBtn.disabled = false;
-        unlockBtn.textContent = "RETRY UPLINK";
-        attachBtn.disabled = true; // NEW: Disable attachment button on error
-        sendBtn.disabled = true;
-        msgInput.disabled = true;
-      });
-
-      // --- PASSWORD CHECK (Server Response) ---
       socket.on('auth_error', (msg) => {
-        // Show error if server rejects password
-        loginStatus.textContent = "⛔ " + msg;
-        loginStatus.style.color = "var(--neon-red)";
-        
-        // Reset UI
-        authOverlay.style.display = 'flex';
-        authOverlay.style.opacity = '1';
-        unlockBtn.disabled = false;
-        unlockBtn.textContent = "UNLOCK TERMINAL";
-        passInput.value = "";
-        passInput.focus();
-        attachBtn.disabled = true; // NEW: Ensure disabled after auth error
-        sendBtn.disabled = true;
-        msgInput.disabled = true;
+        alert(msg);
+        location.reload();
       });
-
-      // --- MESSAGE RECEIVER ---
       socket.on('chat message', (data) => {
-        // data: { text, senderId, isAdmin, file: {url, filename, mimetype} }
-        const type = data.isAdmin ? 'admin' : 'user';
-        addMessage(data.text, type, data.file); // Pass file data
-      });
+  const type = data.isAdmin ? 'admin' : 'user';
+  addMessage(data.text, type, data.file);
+  
+  if (!data.isAdmin) {
+    playNotificationSound();
+  }
+});
     }
 
-    // --- XSS ESCAPING (ALREADY ADDED) ---
     function escapeHTML(str) {
-        const div = document.createElement('div');
-        div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
     }
 
-    // --- UPDATED UI RENDERING ---
-    function addMessage(text, type, file = null) { // NEW: added file param
+    function addMessage(text, type, file = null) {
       const div = document.createElement('div');
       div.className = `msg msg-${type}`;
-      
       const label = type === 'admin' ? 'YOU (ADMIN)' : 'VISITOR';
       const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
       let contentHTML = '';
       if (file) {
-        // Render file preview/link
         if (file.mimetype.startsWith('image/')) {
-          contentHTML = `<img src="${escapeHTML(file.url)}" alt="${escapeHTML(file.filename)}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 5px;">`;
+          contentHTML = `<img src="${escapeHTML(file.url)}" style="max-width: 100%; border-radius: 8px;">`;
         } else {
-          // For other file types, provide a download link
-          contentHTML = `<a href="${escapeHTML(file.url)}" target="_blank" download="${escapeHTML(file.filename)}" style="color: var(--neon-red); text-decoration: underline;">
-                           <i data-lucide="download" style="display:inline-block; vertical-align: middle; margin-right: 5px;"></i>
-                           ${escapeHTML(file.filename)}
-                         </a>`;
+          contentHTML = `<a href="${escapeHTML(file.url)}" target="_blank" style="color: var(--neon-red);">File: ${escapeHTML(file.filename)}</a>`;
         }
-        lucide.createIcons(); // Re-render lucide icons if new ones are added
       }
-      
-      // Add text if it exists (e.g., a caption with an image)
-      if (text) {
-        if (contentHTML) contentHTML += '<br>'; // Add line break if both file and text
-        contentHTML += escapeHTML(text);
-      }
+      if (text) contentHTML += (contentHTML ? '<br>' : '') + escapeHTML(text);
 
-      div.innerHTML = `
-        <span class="label" style="color: ${type === 'admin' ? 'var(--neon-red)' : 'var(--neon-cyan)'}">${label}</span>
-        ${contentHTML}
-        <span class="time" style="font-size: 0.65rem; opacity: 0.5; margin-top: 4px; display: block; text-align: right;">${time}</span>
-      `;
-      
+      div.innerHTML = `<span class="label" style="color: ${type === 'admin' ? 'var(--neon-red)' : 'var(--neon-cyan)'}">${label}</span>${contentHTML}<span class="time">${time}</span>`;
       msgList.appendChild(div);
       msgList.scrollTop = msgList.scrollHeight;
+      lucide.createIcons();
     }
+    // Generate a themed "blip" sound
+function playNotificationSound() {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
 
-    // --- FILE UPLOAD LOGIC (NEW) ---
-    attachBtn.addEventListener('click', () => {
-      fileInput.click(); // Trigger the hidden file input
-    });
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // High A note
+    oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1); // Drop frequency
 
+    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // Low volume
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
+  } catch (e) {
+    console.log("Audio playback blocked or unsupported.");
+  }
+}
+    attachBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
-      if (file) {
-        currentFile = file;
-        msgInput.placeholder = `File selected: ${file.name}`;
-        sendBtn.disabled = false; // Enable send even if message is empty when a file is attached
+      if (!file) return;
+      currentFile = file;
+      previewContainer.style.display = 'block';
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (ev) => imagePreview.src = ev.target.result;
+        reader.readAsDataURL(file);
       } else {
-        currentFile = null;
-        msgInput.placeholder = "Reply as Admin...";
-        if (!msgInput.value.trim()) sendBtn.disabled = true; // Disable if no text and no file
+        imagePreview.src = "https://cdn-icons-png.flaticon.com/512/2991/2991112.png";
       }
+      sendBtn.disabled = false;
     });
 
-    async function uploadFile(file) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await fetch(`${SERVER_URL}/upload`, {
-          method: 'POST',
-          body: formData,
-        });
-        const result = await response.json();
-        if (response.ok) {
-          return { 
-            url: result.url, 
-            filename: result.filename || file.name, 
-            mimetype: result.mimetype || file.type 
-          };
-        } else {
-          console.error('File upload failed:', result.message);
-          return null;
-        }
-      } catch (error) {
-        console.error('Error uploading file:', error);
-        return null;
-      }
-    }
-
     function clearAttachment() {
-      currentFile = null;
-      fileInput.value = ''; // Clear the input so same file can be selected again
+      currentFile = null; fileInput.value = ''; previewContainer.style.display = 'none';
       msgInput.placeholder = "Reply as Admin...";
-      if (!msgInput.value.trim()) sendBtn.disabled = true;
-      lucide.createIcons(); // Re-render icons if any were affected
+    }
+    cancelFileBtn.addEventListener('click', clearAttachment);
+
+    function uploadFile(file) {
+      return new Promise((resolve) => {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        formData.append('file', file);
+        xhr.upload.addEventListener('progress', (e) => progressBar.style.width = (e.loaded/e.total*100)+'%');
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            setTimeout(() => progressBar.style.width = '0%', 500);
+            resolve(xhr.status === 200 ? JSON.parse(xhr.responseText) : null);
+          }
+        };
+        xhr.open('POST', `${SERVER_URL}/upload`, true);
+        xhr.send(formData);
+      });
     }
 
-
-    // --- UPDATED SEND REPLY (ADMIN) ---
     async function sendReply() {
       const text = msgInput.value.trim();
-      
-      if (!text && !currentFile) return; // Don't send empty if no text and no file
-
+      if (!text && !currentFile) return;
       let fileData = null;
       if (currentFile) {
-        sendBtn.disabled = true; // Disable during upload
-        msgInput.disabled = true;
-        attachBtn.disabled = true;
-
-        addMessage('Uploading file...', 'admin', null); // Provide feedback
         fileData = await uploadFile(currentFile);
-        
-        sendBtn.disabled = false; // Re-enable after upload attempt
-        msgInput.disabled = false;
-        attachBtn.disabled = false;
-        
-        // If upload failed, display error and don't send message
-        if (!fileData) {
-          addMessage('File upload failed. Please try again.', 'user', null); // System message for admin
-          clearAttachment();
-          return;
-        }
+        if (!fileData) return alert("Upload Failed");
       }
-
-      // SEND WITH PASSWORD FOR VERIFICATION
-      socket.emit('chat message', {
-        text: text,
-        senderId: 'ADMIN', // Hardcoded as ADMIN for admin console
-        isAdmin: true,
-        password: ADMIN_PASSWORD, // Server verifies this
-        file: fileData // Include file data if present
-      });
-
-      msgInput.value = '';
-      clearAttachment(); // Clear selected file after sending
-      msgInput.focus();
+      socket.emit('chat message', { text, senderId: 'ADMIN', isAdmin: true, password: ADMIN_PASSWORD, file: fileData });
+      msgInput.value = ''; clearAttachment();
     }
 
-    // --- INITIALIZE ---
-  // No explicit init for admin console, connection is triggered by login
-  // Event listeners are set after connection established
-
-  sendBtn.addEventListener('click', sendReply);
-  msgInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendReply();
-  });
-</script>
+    sendBtn.addEventListener('click', sendReply);
+    msgInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendReply());
+  </script>
 </body>
 </html>
