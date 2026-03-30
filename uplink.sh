@@ -6,7 +6,10 @@ RED='\033[0,31m'
 GREEN='\033[0,32m'
 NC='\033[0m' 
 
-echo -e "${CYAN}🚀 Initializing Unified Uplink...${NC}"
+# Get total commit count
+COUNT=$(git rev-list --count HEAD)
+
+echo -e "${CYAN}🚀 Initializing Unified Uplink... [Transmission #${COUNT}]${NC}"
 
 # Check for changes
 if [ -z "$(git status --porcelain)" ]; then 
@@ -24,17 +27,16 @@ git commit
 echo -e "${CYAN}🛰️  Pushing to GitHub...${NC}"
 git push origin main
 
-# --- NEW: POST-DEPLOYMENT STATUS CHECK ---
+# Post-Deployment Ping
 echo -e "${CYAN}📡 Waiting for Render to sync (10s)...${NC}"
 sleep 10
-
-echo -e "${CYAN}🔍 Pinging Server: https://abbas-chat-server.onrender.com ${NC}"
+echo -e "${CYAN}🔍 Pinging Server...${NC}"
 STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://abbas-chat-server.onrender.com)
 
 if [ "$STATUS" -eq 200 ]; then
-    echo -e "${GREEN}✅ Uplink Verified. Server is AWAKE (HTTP 200).${NC}"
+    echo -e "${GREEN}✅ Uplink Verified. Server is AWAKE.${NC}"
 else
-    echo -e "${RED}⚠️  Server returned status $STATUS. It might still be booting up.${NC}"
+    echo -e "${RED}⚠️  Server status $STATUS. Sync pending.${NC}"
 fi
 
-echo -e "${CYAN}✨ Deployment Sequence Complete.${NC}"
+echo -e "${CYAN}✨ Transmission #${COUNT} successfully logged.${NC}"
