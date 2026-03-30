@@ -1,0 +1,10 @@
+[type]: [Subject - max 50 chars]
+
+# --- Commit Body ---
+# Describe "what" and "why" (not "how").
+# Use bullet points for multiple changes.
+
+# --- Security & Maintenance Check ---
+# [ ] Vulnerabilities checked?
+# [ ] Sensitive data (keys) removed?
+# [ ] Best practices followed?
