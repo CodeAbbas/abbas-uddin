@@ -178,6 +178,14 @@
     button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(3, 218, 198, 0.4); }
     button:disabled { background: #444; cursor: default; transform: none; box-shadow: none; }
 
+    .attach-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
+        color: var(--text-main);
+    }
+    .attach-btn:hover { background: rgba(3, 218, 198, 0.05); border-color: var(--neon-cyan); box-shadow: none; transform: none;}
+    .attach-btn:disabled { background: rgba(255, 255, 255, 0.03); border-color: var(--glass-border); color: #666; cursor: default; }
+
     /* Back Link */
     .nav-back {
       position: absolute; top: 1rem; left: 1rem;
@@ -217,6 +225,8 @@
       </div>
 
       <div class="input-row">
+        <button id="attachBtn" class="attach-btn"><i data-lucide="paperclip"></i></button>
+        <input type="file" id="fileInput" style="display: none;">
         <input type="text" id="msgInput" placeholder="Connecting..." disabled autocomplete="off">
         <button id="sendBtn" disabled><i data-lucide="send"></i></button>
       </div>
@@ -249,8 +259,11 @@
     const sendBtn = document.getElementById('sendBtn');
     const statusBadge = document.getElementById('statusBadge');
     const statusText = document.getElementById('statusText');
+    const attachBtn = document.getElementById('attachBtn'); // NEW
+    const fileInput = document.getElementById('fileInput'); // NEW
 
     let hasNotified = false;
+    let currentFile = null; // NEW: To hold the file selected for upload
 
     // --- HISTORY MANAGER ---
     function loadHistory() {
@@ -270,11 +283,12 @@
 
       // Render valid messages
       validHistory.forEach(data => {
-        addMessageToUI(data.text, data.type, data.isAdmin, data.timeStr);
+        // Pass file data to addMessageToUI
+        addMessageToUI(data.text, data.type, data.isAdmin, data.timeStr, data.file); 
       });
     }
 
-    function saveMessage(text, type, isAdmin, timeStr) {
+    function saveMessage(text, type, isAdmin, timeStr, file = null) { // NEW: added file param
       const raw = localStorage.getItem(STORAGE_KEY);
       let history = raw ? JSON.parse(raw) : [];
       
@@ -283,7 +297,8 @@
         type, 
         isAdmin, 
         timeStr, 
-        timestamp: Date.now() 
+        timestamp: Date.now(),
+        file // NEW: Save file data
       });
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
@@ -295,6 +310,7 @@
       statusText.textContent = "Online";
       msgInput.disabled = false;
       sendBtn.disabled = false;
+      attachBtn.disabled = false; // NEW
       msgInput.placeholder = "Type a message...";
     });
 
@@ -303,13 +319,11 @@
       statusText.textContent = "Reconnecting...";
       msgInput.disabled = true;
       sendBtn.disabled = true;
+      attachBtn.disabled = true; // NEW
     });
 
     // --- UPDATED MESSAGE LISTENER ---
     socket.on('chat message', (data) => {
-      // Check if message is from Admin or Me
-      // We assume if it's NOT admin, it's the current user (simplification for 1-on-1)
-      
       let type = 'other'; // Default to "Other/System"
       
       if (data.isAdmin) {
@@ -317,65 +331,152 @@
       } else if (data.senderId === socket.id) {
         type = 'me';    // My messages appear on right
       } else {
-        // If multiple users are online, this prevents seeing other visitors' messages
-
         return; // Ignore messages from other non-admin visitors
       }
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      addMessageToUI(data.text, type, data.isAdmin, timeStr);
-      saveMessage(data.text, type, data.isAdmin, timeStr);
+      // Pass file data to addMessageToUI
+      addMessageToUI(data.text, type, data.isAdmin, timeStr, data.file); 
+      saveMessage(data.text, type, data.isAdmin, timeStr, data.file); // Save file data
     });
 
+    // --- XSS ESCAPING (ALREADY ADDED) ---
     function escapeHTML(str) {
         const div = document.createElement('div');
         div.appendChild(document.createTextNode(str));
         return div.innerHTML;
     }
 
-    function addMessageToUI(text, type, isAdmin, timeStr = null) {
+    // --- UPDATED UI RENDERING ---
+    function addMessageToUI(text, type, isAdmin, timeStr = null, file = null) { // NEW: added file param
       const div = document.createElement('div');
       div.className = `msg msg-${type}`;
       
       const time = timeStr || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const label = isAdmin ? '<strong>Abbas Uddin</strong><br>' : '';
 
-      const escapedText = escapeHTML(text);
-      div.innerHTML = `${label}${escapedText}<span class="time">${time}</span>`;
+      let contentHTML = '';
+      if (file) {
+        // Render file preview/link
+        if (file.mimetype.startsWith('image/')) {
+          contentHTML = `<img src="${escapeHTML(file.url)}" alt="${escapeHTML(file.filename)}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 5px;">`;
+        } else {
+          // For other file types, provide a download link
+          contentHTML = `<a href="${escapeHTML(file.url)}" target="_blank" download="${escapeHTML(file.filename)}" style="color: var(--neon-cyan); text-decoration: underline;">
+                           <i data-lucide="download" style="display:inline-block; vertical-align: middle; margin-right: 5px;"></i>
+                           ${escapeHTML(file.filename)}
+                         </a>`;
+        }
+        lucide.createIcons(); // Re-render lucide icons if new ones are added
+      }
+      
+      // Add text if it exists (e.g., a caption with an image)
+      if (text) {
+        if (contentHTML) contentHTML += '<br>'; // Add line break if both file and text
+        contentHTML += escapeHTML(text);
+      }
+
+      div.innerHTML = `${label}${contentHTML}<span class="time">${time}</span>`;
+      
       msgList.appendChild(div);
       msgList.scrollTop = msgList.scrollHeight;
     }
 
-    // --- UPDATED NOTIFICATION ---
-    function notifyAdmin(text) {
-      if (hasNotified) return; 
+    // --- FILE UPLOAD LOGIC (NEW) ---
+    attachBtn.addEventListener('click', () => {
+      fileInput.click(); // Trigger the hidden file input
+    });
 
-      const params = {
-        name: "Live Chat User",
-        email: "alert@abbasuddin.dev",
-        subject: "🔴 Live Chat Active",
-        // DASHBOARD LINK HERE
-        message: `User says: "${text}" \n\n Reply Live Here: https://abbasuddin.dev/connect/admin.html`
-      };
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        currentFile = file;
+        msgInput.placeholder = `File selected: ${file.name}`;
+        sendBtn.disabled = false; // Enable send even if message is empty when a file is attached
+      } else {
+        currentFile = null;
+        msgInput.placeholder = "Type a message...";
+        if (!msgInput.value.trim()) sendBtn.disabled = true; // Disable if no text and no file
+      }
+    });
 
-      emailjs.send(EMAIL_SERVICE, EMAIL_TEMPLATE, params)
-        .then(() => { console.log("Admin Alerted"); hasNotified = true; });
+    async function uploadFile(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch(`${SERVER_URL}/upload`, {
+          method: 'POST',
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          return { 
+            url: result.url, 
+            filename: result.filename || file.name, 
+            mimetype: result.mimetype || file.type 
+          };
+        } else {
+          console.error('File upload failed:', result.message);
+          return null;
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        return null;
+      }
     }
 
-    function sendMessage() {
-      const text = msgInput.value.trim();
-      if (!text) return;
+    function clearAttachment() {
+      currentFile = null;
+      fileInput.value = ''; // Clear the input so same file can be selected again
+      msgInput.placeholder = "Type a message...";
+      if (!msgInput.value.trim()) sendBtn.disabled = true;
+      lucide.createIcons(); // Re-render icons if any were affected
+    }
 
-      // Send Object with ID
+
+    // --- UPDATED SEND MESSAGE ---
+    async function sendMessage() {
+      const text = msgInput.value.trim();
+      
+      if (!text && !currentFile) return; // Don't send empty if no text and no file
+
+      let fileData = null;
+      if (currentFile) {
+        sendBtn.disabled = true; // Disable during upload
+        msgInput.disabled = true;
+        attachBtn.disabled = true;
+
+        addMessageToUI('Uploading file...', 'me', false, null, null); // Provide feedback
+        fileData = await uploadFile(currentFile);
+        
+        sendBtn.disabled = false; // Re-enable after upload attempt
+        msgInput.disabled = false;
+        attachBtn.disabled = false;
+        
+        // If upload failed, display error and don't send message
+        if (!fileData) {
+          addMessageToUI('File upload failed. Please try again.', 'other', true, null, null); // Admin/system message
+          clearAttachment();
+          return;
+        }
+      }
+
+      // Send Object with ID and file info
       socket.emit('chat message', {
         text: text,
         senderId: socket.id,
-        isAdmin: false
+        isAdmin: false,
+        file: fileData // Include file data if present
       });
       
-      notifyAdmin(text);
+      // Only notify admin if it's the first message and not just a file upload from system
+      if (!hasNotified && (text || fileData)) {
+          notifyAdmin(text || `Sent a file: ${fileData.filename}`);
+      }
 
       msgInput.value = '';
+      clearAttachment(); // Clear selected file after sending
       msgInput.focus();
     }
 
