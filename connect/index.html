@@ -235,30 +235,30 @@
     }
 
     .inside-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-main);
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.2s;
-}
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-/* Force the color to stay Neon Cyan even when disabled */
-.send-accent, 
-.send-accent:disabled {
-  color: var(--neon-cyan) !important;
-  opacity: 1 !important; /* Prevents browser-default dimming */
-}
+    /* Force the color to stay Neon Cyan even when disabled */
+    .send-accent, 
+    .send-accent:disabled {
+      color: var(--neon-cyan) !important;
+      opacity: 1 !important; /* Prevents browser-default dimming */
+    }
 
-/* Only change the cursor so the user knows they can't click it yet */
-.inside-btn:disabled {
-  cursor: default;
-  transform: none;
-}
+    /* Only change the cursor so the user knows they can't click it yet */
+    .inside-btn:disabled {
+      cursor: default;
+      transform: none;
+    }
 
     #uploadProgress {
       position: absolute;
@@ -325,6 +325,30 @@
   <script>
     lucide.createIcons();
 
+    // --- NEW: EMAILJS INITIALIZATION & NOTIFICATION LOGIC ---
+    (function(){ emailjs.init('Z35F2ocDmFcEAPZdS'); })();
+
+    let hasNotified = false;
+ 
+    const SITE_ORIGIN = window.location.hostname || "Local File";
+    function notifyAdmin(text) {
+      if (hasNotified) return; /
+
+      const params = {
+        name: `Visitor from ${SITE_ORIGIN}`,
+        email: "alert@abbasuddin.dev",
+        subject: `🔴 Live Chat Active on ${SITE_ORIGIN}`,
+        message: `A visitor on ${SITE_ORIGIN} just started a chat: "${text}" \n\nReply Live Here: https://abbasuddin.dev/connect/admin.html`
+      };
+
+      emailjs.send('service_ovmjtxd', 'template_pci5pcv', params)
+        .then(() => { 
+          console.log("Admin Alerted via Email"); 
+          hasNotified = true; 
+        }).catch(err => console.error("EmailJS Error:", err));
+    }
+    // --------------------------------------------------------
+
     const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
     const STORAGE_KEY = 'abbas_chat_history_v1';
     const EXPIRATION_MS = 30 * 60 * 1000;
@@ -390,7 +414,6 @@
       statusText.textContent = "Online";
       msgInput.disabled = false;
       attachBtn.disabled = false;
-      // Button state depends on input content
       updateSendButtonState();
     });
 
@@ -548,8 +571,13 @@
         text: text,
         senderId: socket.id,
         isAdmin: false,
-        file: fileData
+        file: fileData,
+        origin: SITE_ORIGIN
       });
+
+      // --- NEW: CALL EMAILJS NOTIFICATION ---
+      notifyAdmin(text || "Sent an attachment");
+      // --------------------------------------
       
       msgInput.value = '';
       clearAttachment();
