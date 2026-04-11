@@ -217,9 +217,11 @@
 
     const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
     let socket;
-    let ADMIN_PASSWORD = "";
+    
+    // SECURE TOKEN REPLACES PLAINTEXT PASSWORD
+    let ADMIN_TOKEN = null; 
 
-    // STATE DICTIONARY (Added Origin Support)
+    // STATE DICTIONARY 
     const activeChats = {}; 
     let currentSelectedUser = null;
     let currentFile = null;
@@ -283,74 +285,101 @@
         return div.innerHTML;
     }
 
-    // --- AUTHENTICATION ---
+    // --- AUTHENTICATION & DATABASE SYNC ---
     function triggerLogin() {
       const pass = passInput.value.trim();
       if (pass.length > 0) {
-        ADMIN_PASSWORD = pass;
-        loginStatus.textContent = "Attempting Uplink...";
+        loginStatus.textContent = "Authenticating...";
         loginStatus.style.color = "var(--neon-cyan)";
         unlockBtn.disabled = true;
-        initConnection();
+        
+        socket = io(SERVER_URL);
+
+        socket.on('connect', () => {
+           // Request Token and Database History
+           socket.emit('admin login', pass);
+        });
+
+        // Parse Database History on Success
+        socket.on('login success', (payload) => {
+            ADMIN_TOKEN = payload.token; 
+            
+            authOverlay.style.display = 'none';
+            statusText.textContent = "Secure";
+            statusDot.style.animation = "pulse 2s infinite";
+
+            // Rebuild history dictionary from MongoDB
+            payload.history.forEach(msg => {
+                const threadId = msg.isAdmin ? msg.targetUser : msg.senderId;
+                if (!threadId) return; 
+                
+                if (!activeChats[threadId]) {
+                    activeChats[threadId] = { messages: [], unread: 0, origin: msg.origin || 'Unknown Site' };
+                }
+
+                const timeStr = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                activeChats[threadId].messages.push({
+                    text: msg.text,
+                    type: msg.isAdmin ? 'admin' : 'user',
+                    time: timeStr,
+                    fileData: msg.file
+                });
+            });
+
+            renderSidebar(); 
+        });
+
+        socket.on('auth_error', (msg) => {
+            loginStatus.textContent = "⛔ " + msg;
+            loginStatus.style.color = "var(--neon-red)";
+            authOverlay.style.display = 'flex';
+            unlockBtn.disabled = false;
+            passInput.value = "";
+        });
+
+        socket.on('connect_error', () => {
+            loginStatus.textContent = "Server sleeping. Retrying...";
+            unlockBtn.disabled = false;
+        });
+
+        // --- INCOMING MESSAGES ---
+        socket.on('chat message', (data) => {
+            if (data.isAdmin) return;
+
+            const senderId = data.senderId;
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const originStr = data.origin || "Direct Link";
+
+            if (!activeChats[senderId]) {
+              activeChats[senderId] = { messages: [], unread: 0, origin: originStr };
+            } else if (data.origin) {
+              activeChats[senderId].origin = data.origin;
+            }
+
+            activeChats[senderId].messages.push({
+              text: data.text,
+              type: 'user',
+              time: timeStr,
+              fileData: data.file
+            });
+
+            playIncomingSound(); 
+
+            if (currentSelectedUser === senderId) {
+              renderChatWindow(); 
+            } else {
+              activeChats[senderId].unread += 1;
+            }
+            renderSidebar(); 
+        });
       }
     }
+    
     unlockBtn.addEventListener('click', triggerLogin);
     passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') triggerLogin(); });
 
-    function initConnection() {
-      socket = io(SERVER_URL);
-
-      socket.on('connect', () => {
-        authOverlay.style.display = 'none';
-        statusText.textContent = "Secure";
-        statusDot.style.animation = "pulse 2s infinite";
-      });
-
-      socket.on('auth_error', (msg) => {
-        loginStatus.textContent = "⛔ " + msg;
-        loginStatus.style.color = "var(--neon-red)";
-        authOverlay.style.display = 'flex';
-        unlockBtn.disabled = false;
-        passInput.value = "";
-      });
-
-      socket.on('connect_error', () => {
-        loginStatus.textContent = "Server sleeping. Retrying...";
-        unlockBtn.disabled = false;
-      });
-
-      // --- INCOMING MESSAGES WITH ORIGIN TRACKING ---
-      socket.on('chat message', (data) => {
-        if (data.isAdmin) return;
-
-        const senderId = data.senderId;
-        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const originStr = data.origin || "Direct Link";
-
-        if (!activeChats[senderId]) {
-          activeChats[senderId] = { messages: [], unread: 0, origin: originStr };
-        } else if (data.origin) {
-          activeChats[senderId].origin = data.origin; // Update origin if it changes
-        }
-
-        activeChats[senderId].messages.push({
-          text: data.text,
-          type: 'user',
-          time: timeStr,
-          fileData: data.file
-        });
-
-        playIncomingSound(); 
-
-        if (currentSelectedUser === senderId) {
-          renderChatWindow(); 
-        } else {
-          activeChats[senderId].unread += 1;
-        }
-        renderSidebar(); 
-      });
-    }
-// --- WHATSAPP STYLE SIDEBAR & HEADER ---
+    // --- WHATSAPP STYLE SIDEBAR & HEADER ---
     function renderSidebar() {
       userListUI.innerHTML = ''; 
       
@@ -405,7 +434,6 @@
           
           noChatScreen.style.display = 'none';
           
-          // Update WhatsApp Style Header
           chatHeaderName.textContent = `Visitor-${shortId}`;
           chatHeaderOrigin.textContent = userData.origin;
           
@@ -413,7 +441,7 @@
           updateSendButtonState();
           msgInput.focus();
           
-          if(window.innerWidth <= 768) toggleSidebar(); // Auto-close on mobile selection
+          if(window.innerWidth <= 768) toggleSidebar(); 
           
           renderSidebar(); 
           renderChatWindow(); 
@@ -461,7 +489,6 @@
       lucide.createIcons();
     }
 
-    // --- BUTTON STATE ---
     function updateSendButtonState() {
       if (!currentSelectedUser) { sendBtn.disabled = true; return; }
       const hasText = msgInput.value.trim() !== "";
@@ -470,7 +497,7 @@
     }
     msgInput.addEventListener('input', updateSendButtonState);
 
-    // --- FILE UPLOAD LOGIC PRESERVED ---
+    // --- FILE UPLOAD LOGIC ---
     attachBtn.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', (e) => {
@@ -523,7 +550,7 @@
       });
     }
 
-    // --- SENDING REPLY (WITH ROUTING) ---
+    // --- SECURE MESSAGE EMISSION ---
     async function sendReply() {
       let text = msgInput.value.trim();
       if ((!text && !currentFile) || !currentSelectedUser) return;
@@ -546,10 +573,14 @@
       renderChatWindow();
       renderSidebar(); 
 
+      // Send payload using Secure Token
       socket.emit('chat message', {
-        text: text, senderId: 'ADMIN', isAdmin: true,
+        text: text,
+        senderId: 'ADMIN',
+        isAdmin: true,
         targetUser: currentSelectedUser, 
-        password: ADMIN_PASSWORD, file: fileData
+        token: ADMIN_TOKEN, 
+        file: fileData
       });
 
       msgInput.value = ''; clearAttachment(); sendBtn.disabled = true; msgInput.focus();

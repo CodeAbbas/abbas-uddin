@@ -325,7 +325,7 @@
   <script>
     lucide.createIcons();
 
-    // --- NEW: EMAILJS INITIALIZATION & NOTIFICATION LOGIC ---
+    // --- EMAILJS & NOTIFICATION LOGIC ---
     (function(){ emailjs.init('Z35F2ocDmFcEAPZdS'); })();
 
     let hasNotified = false;
@@ -338,7 +338,7 @@
         name: `Visitor from ${SITE_ORIGIN}`,
         email: "alert@abbasuddin.dev",
         subject: `🔴 Live Chat Active on ${SITE_ORIGIN}`,
-        message: `A visitor on ${SITE_ORIGIN} just started a chat: "${text}" \n\nReply Live Here: https://abbasuddin.dev/connect/admin.html`
+        message: `A visitor on ${SITE_ORIGIN} \n \n "${text}"`
       };
 
       emailjs.send('service_ovmjtxd', 'template_pci5pcv', params)
