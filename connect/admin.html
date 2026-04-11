@@ -218,8 +218,9 @@
     const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
     let socket;
     
-    // SECURE TOKEN REPLACES PLAINTEXT PASSWORD
+    // SECURE TOKEN
     let ADMIN_TOKEN = null; 
+    let ADMIN_PASSWORD = null;
 
     // STATE DICTIONARY 
     const activeChats = {}; 
@@ -286,93 +287,108 @@
     }
 
     // --- AUTHENTICATION & DATABASE SYNC ---
+    function initSocketListeners() {
+      socket.on('connect', () => {
+         socket.emit('admin login', ADMIN_PASSWORD);
+      });
+
+      // Parse Database History on Success
+      socket.on('login success', (payload) => {
+          ADMIN_TOKEN = payload.token; 
+          
+          authOverlay.style.display = 'none';
+          statusText.textContent = "Secure";
+          statusDot.style.animation = "pulse 2s infinite";
+
+          for (let key in activeChats) {
+              delete activeChats[key];
+          }
+
+          payload.history.forEach(msg => {
+              const threadId = msg.isAdmin ? msg.targetUser : msg.senderId;
+              if (!threadId) return; 
+              
+              if (!activeChats[threadId]) {
+                  activeChats[threadId] = { messages: [], unread: 0, origin: msg.origin || 'Unknown Site' };
+              }
+
+              const timeStr = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              
+              activeChats[threadId].messages.push({
+                  text: msg.text,
+                  type: msg.isAdmin ? 'admin' : 'user',
+                  time: timeStr,
+                  fileData: msg.file
+              });
+          });
+
+          renderSidebar(); 
+          renderChatWindow(); 
+      });
+
+      socket.on('auth_error', (msg) => {
+          loginStatus.textContent = "⛔ " + msg;
+          loginStatus.style.color = "var(--neon-red)";
+          authOverlay.style.display = 'flex';
+          unlockBtn.disabled = false;
+          passInput.value = "";
+      });
+
+      socket.on('connect_error', () => {
+          loginStatus.textContent = "Server sleeping. Retrying...";
+          unlockBtn.disabled = false;
+      });
+
+      // --- INCOMING MESSAGES ---
+      socket.on('chat message', (data) => {
+          if (data.isAdmin) return;
+
+          const senderId = data.senderId;
+          const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const originStr = data.origin || "Direct Link";
+
+          if (!activeChats[senderId]) {
+            activeChats[senderId] = { messages: [], unread: 0, origin: originStr };
+          } else if (data.origin) {
+            activeChats[senderId].origin = data.origin;
+          }
+
+          activeChats[senderId].messages.push({
+            text: data.text,
+            type: 'user',
+            time: timeStr,
+            fileData: data.file
+          });
+
+          playIncomingSound(); 
+
+          if (currentSelectedUser === senderId) {
+            renderChatWindow(); 
+          } else {
+            activeChats[senderId].unread += 1;
+          }
+          renderSidebar(); 
+      });
+    }
+
     function triggerLogin() {
       const pass = passInput.value.trim();
       if (pass.length > 0) {
+        ADMIN_PASSWORD = pass;
         loginStatus.textContent = "Authenticating...";
         loginStatus.style.color = "var(--neon-cyan)";
         unlockBtn.disabled = true;
         
-        socket = io(SERVER_URL);
-
-        socket.on('connect', () => {
-           // Request Token and Database History
-           socket.emit('admin login', pass);
-        });
-
-        // Parse Database History on Success
-        socket.on('login success', (payload) => {
-            ADMIN_TOKEN = payload.token; 
-            
-            authOverlay.style.display = 'none';
-            statusText.textContent = "Secure";
-            statusDot.style.animation = "pulse 2s infinite";
-
-            // Rebuild history dictionary from MongoDB
-            payload.history.forEach(msg => {
-                const threadId = msg.isAdmin ? msg.targetUser : msg.senderId;
-                if (!threadId) return; 
-                
-                if (!activeChats[threadId]) {
-                    activeChats[threadId] = { messages: [], unread: 0, origin: msg.origin || 'Unknown Site' };
-                }
-
-                const timeStr = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                
-                activeChats[threadId].messages.push({
-                    text: msg.text,
-                    type: msg.isAdmin ? 'admin' : 'user',
-                    time: timeStr,
-                    fileData: msg.file
-                });
-            });
-
-            renderSidebar(); 
-        });
-
-        socket.on('auth_error', (msg) => {
-            loginStatus.textContent = "⛔ " + msg;
-            loginStatus.style.color = "var(--neon-red)";
-            authOverlay.style.display = 'flex';
-            unlockBtn.disabled = false;
-            passInput.value = "";
-        });
-
-        socket.on('connect_error', () => {
-            loginStatus.textContent = "Server sleeping. Retrying...";
-            unlockBtn.disabled = false;
-        });
-
-        // --- INCOMING MESSAGES ---
-        socket.on('chat message', (data) => {
-            if (data.isAdmin) return;
-
-            const senderId = data.senderId;
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const originStr = data.origin || "Direct Link";
-
-            if (!activeChats[senderId]) {
-              activeChats[senderId] = { messages: [], unread: 0, origin: originStr };
-            } else if (data.origin) {
-              activeChats[senderId].origin = data.origin;
-            }
-
-            activeChats[senderId].messages.push({
-              text: data.text,
-              type: 'user',
-              time: timeStr,
-              fileData: data.file
-            });
-
-            playIncomingSound(); 
-
-            if (currentSelectedUser === senderId) {
-              renderChatWindow(); 
+        if (!socket) {
+            socket = io(SERVER_URL);
+            initSocketListeners();
+        } else {
+            if (socket.connected) {
+                socket.emit('admin login', ADMIN_PASSWORD);
             } else {
-              activeChats[senderId].unread += 1;
+                socket.connect();
             }
-            renderSidebar(); 
-        });
+        }
       }
     }
     
