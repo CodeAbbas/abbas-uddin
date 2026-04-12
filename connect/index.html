@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 
@@ -38,243 +37,63 @@
       align-items: center;
     }
 
-    /* Backgrounds */
-    .bg-glow {
-      position: fixed; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(3, 218, 198, 0.05) 0%, transparent 70%);
-      border-radius: 50%; top: -200px; left: -200px; z-index: -1; pointer-events: none;
-    }
-    .bg-glow-2 {
-      position: fixed; width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(255, 2, 102, 0.05) 0%, transparent 70%);
-      border-radius: 50%; bottom: -100px; right: -100px; z-index: -1; pointer-events: none;
-    }
+    .bg-glow { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(3, 218, 198, 0.05) 0%, transparent 70%); border-radius: 50%; top: -200px; left: -200px; z-index: -1; pointer-events: none; }
+    .bg-glow-2 { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255, 2, 102, 0.05) 0%, transparent 70%); border-radius: 50%; bottom: -100px; right: -100px; z-index: -1; pointer-events: none; }
 
-    .container {
-      width: 100%; max-width: 600px; padding: 1.5rem;
-      display: flex; flex-direction: column; height: 100%;
-    }
+    .container { width: 100%; max-width: 600px; padding: 1.5rem; display: flex; flex-direction: column; height: 100%; }
 
-    /* --- APP HEADER --- */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding: 0.5rem;
-    }
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding: 0.5rem; }
+    .profile-group { display: flex; align-items: center; gap: 12px; }
+    .avatar-frame { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(3, 218, 198, 0.3); background: linear-gradient(135deg, var(--neon-cyan), var(--glass-border)); }
+    .avatar-frame img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    h1 { font-size: 1.4rem; font-weight: 700; color: #fff; margin: 0; }
 
-    .profile-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar-frame {
-      width: 45px; height: 45px;
-      border-radius: 50%;
-      border: 2px solid var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(3, 218, 198, 0.3);
-      background: linear-gradient(135deg, var(--neon-cyan), var(--glass-border));
-    }
-
-    .avatar-frame img {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #fff;
-      margin: 0;
-    }
-
-    .status-badge {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.75rem; color: var(--neon-cyan);
-      background: rgba(3, 218, 198, 0.1); padding: 6px 12px;
-      border-radius: 20px; border: 1px solid rgba(3, 218, 198, 0.2);
-      transition: 0.3s;
-    }
-    
+    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--neon-cyan); background: rgba(3, 218, 198, 0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(3, 218, 198, 0.2); transition: 0.3s; }
     .status-badge.offline { color: #ff4444; border-color: #ff4444; background: rgba(255, 68, 68, 0.1); }
     .status-badge.offline .dot { background: #ff4444; animation: none; }
+    .dot { width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; animation: pulse 2s infinite; }
 
-    .dot {
-      width: 6px; height: 6px; background: var(--neon-cyan);
-      border-radius: 50%; animation: pulse 2s infinite;
-    }
+    .chat-box { flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; }
+    .messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; }
+    .messages::-webkit-scrollbar { width: 4px; } .messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
-    /* --- CHAT AREA --- */
-    .chat-box {
-      flex: 1;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      display: flex; flex-direction: column;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      position: relative;
-    }
-
-    .messages {
-      flex: 1; padding: 1.5rem;
-      overflow-y: auto;
-      display: flex; flex-direction: column; gap: 1rem;
-      scroll-behavior: smooth;
-    }
-    .messages::-webkit-scrollbar { width: 4px; }
-    .messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
-    .msg {
-      max-width: 80%; padding: 10px 14px;
-      border-radius: 14px; font-size: 0.95rem; line-height: 1.4;
-      position: relative; word-wrap: break-word;
-      animation: slideIn 0.3s ease;
-    }
-
-    .msg-other {
-      align-self: flex-start;
-      background: var(--msg-other);
-      border: 1px solid var(--glass-border);
-      border-bottom-left-radius: 2px;
-      color: #ccc;
-    }
-
-    .msg-me {
-      align-self: flex-end;
-      background: var(--msg-me);
-      border: 1px solid rgba(3, 218, 198, 0.3);
-      border-bottom-right-radius: 2px;
-      color: #fff;
-    }
-
+    .msg { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; line-height: 1.4; position: relative; word-wrap: break-word; animation: slideIn 0.3s ease; }
+    .msg-other { align-self: flex-start; background: var(--msg-other); border: 1px solid var(--glass-border); border-bottom-left-radius: 2px; color: #ccc; }
+    .msg-me { align-self: flex-end; background: var(--msg-me); border: 1px solid rgba(3, 218, 198, 0.3); border-bottom-right-radius: 2px; color: #fff; }
     .time { font-size: 0.65rem; opacity: 0.5; margin-top: 4px; display: block; text-align: right; }
 
-    /* --- FLOATING PREVIEW --- */
-    .floating-preview {
-      display: none;
-      position: absolute;
-      bottom: 85px;
-      left: 1rem;
-      z-index: 100;
-      animation: slideUp 0.3s ease-out;
+    /* --- BEAUTIFUL TYPING INDICATOR UI --- */
+    .typing-indicator {
+      display: flex; gap: 4px; padding: 12px 16px; background: var(--msg-other);
+      border-radius: 14px; border: 1px solid var(--glass-border); border-bottom-left-radius: 2px;
+      width: fit-content; align-self: flex-start; animation: slideIn 0.3s ease;
     }
-
-    .preview-content {
-      position: relative;
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      padding: 6px;
-      border: 1px solid var(--neon-cyan);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(3, 218, 198, 0.2);
+    .typing-dot {
+      width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; opacity: 0.7;
+      animation: typingBounce 1.4s infinite ease-in-out both;
     }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
-    .preview-content img {
-      width: 90px;
-      height: 90px;
-      object-fit: cover;
-      border-radius: 8px;
-      display: block;
-    }
-
-    .cancel-badge {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: var(--bg-dark);
-      color: var(--neon-pink);
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      transition: transform 0.2s;
-    }
-
+    .floating-preview { display: none; position: absolute; bottom: 85px; left: 1rem; z-index: 100; animation: slideUp 0.3s ease-out; }
+    .preview-content { position: relative; background: var(--glass-bg); backdrop-filter: blur(15px); padding: 6px; border: 1px solid var(--neon-cyan); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(3, 218, 198, 0.2); }
+    .preview-content img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; display: block; }
+    .cancel-badge { position: absolute; top: -10px; right: -10px; background: var(--bg-dark); color: var(--neon-pink); border-radius: 50%; cursor: pointer; display: flex; transition: transform 0.2s; }
     .cancel-badge:hover { transform: scale(1.2); }
 
-    /* --- INPUT AREA --- */
-    .input-row {
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.2);
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      width: 100%;
-    }
-
-    .input-wrapper {
-      display: flex;
-      align-items: center;
-      flex: 1;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      padding: 4px 8px;
-      transition: 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .input-wrapper:focus-within {
-      border-color: var(--neon-cyan);
-      background: rgba(3, 218, 198, 0.05);
-      box-shadow: 0 0 15px rgba(3, 218, 198, 0.1);
-    }
-
-    #msgInput {
-      flex: 1;
-      background: transparent !important;
-      border: none !important;
-      padding: 10px;
-      color: #fff;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .inside-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      width: 35px;
-      height: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    /* Force the color to stay Neon Cyan even when disabled */
-    .send-accent, 
-    .send-accent:disabled {
-      color: var(--neon-cyan) !important;
-      opacity: 1 !important; /* Prevents browser-default dimming */
-    }
-
-    /* Only change the cursor so the user knows they can't click it yet */
-    .inside-btn:disabled {
-      cursor: default;
-      transform: none;
-    }
-
-    #uploadProgress {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 2px;
-      background: var(--neon-cyan);
-      width: 0%;
-      transition: width 0.1s;
-      box-shadow: 0 0 8px var(--neon-cyan);
-      z-index: 10;
-    }
+    .input-row { padding: 1rem; background: rgba(0, 0, 0, 0.2); border-top: 1px solid var(--glass-border); display: flex; width: 100%; }
+    .input-wrapper { display: flex; align-items: center; flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 12px; padding: 4px 8px; transition: 0.3s; position: relative; overflow: hidden; }
+    .input-wrapper:focus-within { border-color: var(--neon-cyan); background: rgba(3, 218, 198, 0.05); box-shadow: 0 0 15px rgba(3, 218, 198, 0.1); }
+    #msgInput { flex: 1; background: transparent !important; border: none !important; padding: 10px; color: #fff; outline: none; font-family: inherit; }
+    .inside-btn { background: transparent; border: none; color: var(--text-main); width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+    .send-accent, .send-accent:disabled { color: var(--neon-cyan) !important; opacity: 1 !important; }
+    .inside-btn:disabled { cursor: default; transform: none; }
+    #uploadProgress { position: absolute; top: 0; left: 0; height: 2px; background: var(--neon-cyan); width: 0%; transition: width 0.1s; box-shadow: 0 0 8px var(--neon-cyan); z-index: 10; }
 
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(3, 218, 198, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(3, 218, 198, 0); } 100% { box-shadow: 0 0 0 0 rgba(3, 218, 198, 0); } }
     @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes typingBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -286,14 +105,11 @@
     
     <header>
       <div class="profile-group">
-        <a href="/" class="avatar-frame">
-          <img src="../img/AbbasUddin.webp" alt="Abbas">
-        </a>
+        <a href="/" class="avatar-frame"><img src="../img/AbbasUddin.webp" alt="Abbas"></a>
         <h1>Abbas Uddin</h1>
       </div>
       <div id="statusBadge" class="status-badge offline">
-        <div class="dot"></div>
-        <span id="statusText">Offline</span>
+        <div class="dot"></div><span id="statusText">Offline</span>
       </div>
     </header>
 
@@ -303,9 +119,7 @@
       <div id="filePreviewContainer" class="floating-preview">
         <div class="preview-content">
           <img id="imagePreview" src="" alt="Preview">
-          <div id="cancelFileBtn" class="cancel-badge">
-            <i data-lucide="circle-x"></i>
-          </div>
+          <div id="cancelFileBtn" class="cancel-badge"><i data-lucide="circle-x"></i></div>
         </div>
       </div>
 
@@ -324,8 +138,6 @@
 
   <script>
     lucide.createIcons();
-
-    // --- EMAILJS INITIALIZATION & NOTIFICATION LOGIC ---
     (function(){ emailjs.init('Z35F2ocDmFcEAPZdS'); })();
 
     let hasNotified = false;
@@ -333,27 +145,17 @@
     
     function notifyAdmin(text) {
       if (hasNotified) return; 
-
       const params = {
-        name: `Visitor from ${SITE_ORIGIN}`,
-        email: "alert@abbasuddin.dev",
-        subject: `🔴 Live Chat Active on ${SITE_ORIGIN}`,
-        message: `A visitor on ${SITE_ORIGIN} just started a chat: "${text}" \n\nReply Live Here: https://abbasuddin.dev/connect/admin.html`
+        name: `Visitor from ${SITE_ORIGIN}`, email: "alert@abbasuddin.dev", subject: `🔴 Live Chat Active on ${SITE_ORIGIN}`,
+        message: `A visitor on ${SITE_ORIGIN} \n\n "${text}" `
       };
-
-      emailjs.send('service_ovmjtxd', 'template_pci5pcv', params)
-        .then(() => { 
-          console.log("Admin Alerted via Email"); 
-          hasNotified = true; 
-        }).catch(err => console.error("EmailJS Error:", err));
+      emailjs.send('service_ovmjtxd', 'template_pci5pcv', params).then(() => { hasNotified = true; }).catch(e => console.error(e));
     }
 
     const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
     const STORAGE_KEY = 'abbas_chat_history_v1';
     const EXPIRATION_MS = 30 * 60 * 1000;
 
-    // --- PERSISTENT VISITOR ID ---
-    // Generate a permanent ID so refreshes don't break the chat thread
     let VISITOR_ID = localStorage.getItem('abbas_visitor_id');
     if (!VISITOR_ID) {
         VISITOR_ID = Math.random().toString(36).substring(2, 15);
@@ -362,29 +164,19 @@
 
     const socket = io(SERVER_URL, { autoConnect: true, reconnection: true });
 
-    // DOM Elements
     const msgList = document.getElementById('msgList');
     const msgInput = document.getElementById('msgInput');
     const sendBtn = document.getElementById('sendBtn');
+    const attachBtn = document.getElementById('attachBtn');
     const statusBadge = document.getElementById('statusBadge');
     const statusText = document.getElementById('statusText');
-    const attachBtn = document.getElementById('attachBtn');
-    const fileInput = document.getElementById('fileInput');
-    const cancelFileBtn = document.getElementById('cancelFileBtn');
-    const previewContainer = document.getElementById('filePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-    const progressBar = document.getElementById('uploadProgress');
-
     let currentFile = null;
 
-    // --- HISTORY MANAGER ---
     function loadHistory() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
-      let history = JSON.parse(raw);
-      const now = Date.now();
-      const validHistory = history.filter(item => (now - item.timestamp) < EXPIRATION_MS);
-      validHistory.forEach(data => addMessageToUI(data.text, data.type, data.isAdmin, data.timeStr, data.file));
+      JSON.parse(raw).filter(item => (Date.now() - item.timestamp) < EXPIRATION_MS)
+                     .forEach(data => addMessageToUI(data.text, data.type, data.isAdmin, data.timeStr, data.file));
     }
 
     function playIncomingSound() {
@@ -392,64 +184,82 @@
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(660, audioCtx.currentTime); 
+        oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(660, audioCtx.currentTime); 
         oscillator.frequency.exponentialRampToValueAtTime(330, audioCtx.currentTime + 0.15);
-        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
         oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
         oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.15);
       } catch (e) { }
     }
 
     function saveMessage(text, type, isAdmin, timeStr, file = null) {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      let history = raw ? JSON.parse(raw) : [];
+      let history = localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)) : [];
       history.push({ text, type, isAdmin, timeStr, timestamp: Date.now(), file });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
     }
 
-    // --- SOCKET HANDLERS ---
     socket.on('connect', () => {
-      // Register this specific visitor to their own routing room
       socket.emit('register visitor', VISITOR_ID);
-
-      statusBadge.classList.remove('offline');
-      statusText.textContent = "Online";
-      msgInput.disabled = false;
-      attachBtn.disabled = false;
-      updateSendButtonState();
+      statusBadge.classList.remove('offline'); statusText.textContent = "Online";
+      msgInput.disabled = false; attachBtn.disabled = false; updateSendButtonState();
     });
 
     socket.on('disconnect', () => {
-      statusBadge.classList.add('offline');
-      statusText.textContent = "Reconnecting...";
-      msgInput.disabled = true;
-      sendBtn.disabled = true;
+      statusBadge.classList.add('offline'); statusText.textContent = "Reconnecting...";
+      msgInput.disabled = true; sendBtn.disabled = true;
     });
 
     socket.on('chat message', (data) => {
-      // Ignore admin messages meant for other visitors
       if (data.isAdmin && data.targetUser && data.targetUser !== VISITOR_ID) return;
+      if (data.isAdmin) playIncomingSound();
 
-      if (data.isAdmin) {
-        playIncomingSound();
-      }
-
-      // Check against our persistent VISITOR_ID instead of socket.id
       let type = data.isAdmin ? 'other' : (data.senderId === VISITOR_ID ? 'me' : null);
       if (!type) return;
+
+      hideTypingIndicator();
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       addMessageToUI(data.text, type, data.isAdmin, timeStr, data.file); 
       saveMessage(data.text, type, data.isAdmin, timeStr, data.file);
     });
 
-    function escapeHTML(str) {
+    // --- RECEIVE TYPING EVENTS ---
+    let isAdminTyping = false;
+    let fallbackTypingTimer;
+
+    socket.on('typing', (data) => {
+        if (data.isAdmin && data.targetUser === VISITOR_ID) {
+            showTypingIndicator();
+            clearTimeout(fallbackTypingTimer);
+            fallbackTypingTimer = setTimeout(hideTypingIndicator, 5000); // 5 sec fallback
+        }
+    });
+
+    socket.on('stop typing', (data) => {
+        if (data.isAdmin && data.targetUser === VISITOR_ID) {
+            hideTypingIndicator();
+            clearTimeout(fallbackTypingTimer);
+        }
+    });
+
+    function showTypingIndicator() {
+        if (isAdminTyping) return;
+        isAdminTyping = true;
         const div = document.createElement('div');
-        div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
+        div.className = 'typing-indicator';
+        div.id = 'adminTypingBubble';
+        div.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+        msgList.appendChild(div);
+        msgList.scrollTop = msgList.scrollHeight;
     }
+
+    function hideTypingIndicator() {
+        isAdminTyping = false;
+        const bubble = document.getElementById('adminTypingBubble');
+        if (bubble) bubble.remove();
+    }
+
+    function escapeHTML(str) { const div = document.createElement('div'); div.appendChild(document.createTextNode(str)); return div.innerHTML; }
 
     function addMessageToUI(text, type, isAdmin, timeStr = null, file = null) {
       const div = document.createElement('div');
@@ -459,90 +269,64 @@
 
       let contentHTML = '';
       if (file) {
-        if (file.mimetype && file.mimetype.startsWith('image/')) {
-          contentHTML = `<img src="${escapeHTML(file.url)}" alt="img" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 5px;">`;
-        } else {
-          contentHTML = `<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border: 1px solid var(--glass-border);">
-                           <a href="${escapeHTML(file.url)}" target="_blank" style="color: var(--neon-cyan); text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                             <i data-lucide="file"></i>
-                             <span>${escapeHTML(file.filename)}</span>
-                           </a>
-                         </div>`;
-        }
+        if (file.mimetype && file.mimetype.startsWith('image/')) { contentHTML = `<img src="${escapeHTML(file.url)}" alt="img" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 5px;">`; } 
+        else { contentHTML = `<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border: 1px solid var(--glass-border);"><a href="${escapeHTML(file.url)}" target="_blank" style="color: var(--neon-cyan); text-decoration: none; display: flex; align-items: center; gap: 8px;"><i data-lucide="file"></i><span>${escapeHTML(file.filename)}</span></a></div>`; }
       }
       
-      if (text) {
-        if (contentHTML) contentHTML += '<br>';
-        contentHTML += escapeHTML(text);
-      }
+      if (text) { if (contentHTML) contentHTML += '<br>'; contentHTML += escapeHTML(text); }
 
       div.innerHTML = `${label}${contentHTML}<span class="time">${time}</span>`;
-      msgList.appendChild(div);
-      msgList.scrollTop = msgList.scrollHeight;
-      lucide.createIcons();
+      msgList.appendChild(div); msgList.scrollTop = msgList.scrollHeight; lucide.createIcons();
     }
 
+    // --- EMIT TYPING LOGIC ---
+    let typingTimer;
     function updateSendButtonState() {
       const hasText = msgInput.value.trim() !== "";
-      const hasFile = currentFile !== null;
-      sendBtn.disabled = !(hasText || hasFile);
+      sendBtn.disabled = !(hasText || currentFile !== null);
+
+      if (hasText) {
+          socket.emit('typing', { senderId: VISITOR_ID, isAdmin: false });
+          clearTimeout(typingTimer);
+          typingTimer = setTimeout(() => {
+              socket.emit('stop typing', { senderId: VISITOR_ID, isAdmin: false });
+          }, 2000);
+      }
     }
     msgInput.addEventListener('input', updateSendButtonState);
 
     // --- FILE LOGIC ---
-    attachBtn.addEventListener('click', () => fileInput.click());
+    attachBtn.addEventListener('click', () => document.getElementById('fileInput').click());
 
-    fileInput.addEventListener('change', (e) => {
+    document.getElementById('fileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
-
       currentFile = file;
-      previewContainer.style.display = 'block';
-
+      document.getElementById('filePreviewContainer').style.display = 'block';
       if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          imagePreview.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-        msgInput.placeholder = "Add a caption...";
-      } else {
-        imagePreview.src = "https://cdn-icons-png.flaticon.com/512/2991/2991112.png"; 
-        msgInput.placeholder = `File: ${file.name}`;
-      }
+        const r = new FileReader(); r.onload = (e) => { document.getElementById('imagePreview').src = e.target.result; }; r.readAsDataURL(file);
+      } else { document.getElementById('imagePreview').src = "https://cdn-icons-png.flaticon.com/512/2991/2991112.png"; }
       updateSendButtonState();
     });
 
     function clearAttachment() {
-      currentFile = null; fileInput.value = ''; previewContainer.style.display = 'none'; imagePreview.src = '';
-      msgInput.placeholder = "Type a message...";
-      updateSendButtonState(); lucide.createIcons();
+      currentFile = null; document.getElementById('fileInput').value = ''; document.getElementById('filePreviewContainer').style.display = 'none';
+      updateSendButtonState();
     }
-    cancelFileBtn.addEventListener('click', clearAttachment);
+    document.getElementById('cancelFileBtn').addEventListener('click', clearAttachment);
 
     function uploadFile(file) {
       return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        const formData = new FormData();
-        formData.append('file', file);
-
-        xhr.upload.addEventListener('progress', (e) => {
-          if (e.lengthComputable) {
-            progressBar.style.width = (e.loaded / e.total * 100) + '%';
-          }
-        });
-
+        const xhr = new XMLHttpRequest(); const formData = new FormData(); formData.append('file', file);
+        xhr.upload.addEventListener('progress', (e) => { if (e.lengthComputable) { document.getElementById('uploadProgress').style.width = (e.loaded / e.total * 100) + '%'; } });
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE) {
-            setTimeout(() => { progressBar.style.width = '0%'; }, 500);
-            if (xhr.status === 200) resolve(JSON.parse(xhr.responseText));
-            else resolve(null);
+            setTimeout(() => { document.getElementById('uploadProgress').style.width = '0%'; }, 500);
+            if (xhr.status === 200) resolve(JSON.parse(xhr.responseText)); else resolve(null);
           }
         };
-
-        xhr.onerror = () => { progressBar.style.width = '0%'; reject(new Error('Network Error')); };
-        xhr.open('POST', `${SERVER_URL}/upload`, true);
-        xhr.send(formData);
+        xhr.onerror = () => { document.getElementById('uploadProgress').style.width = '0%'; reject(new Error('Network Error')); };
+        xhr.open('POST', `${SERVER_URL}/upload`, true); xhr.send(formData);
       });
     }
 
@@ -550,38 +334,24 @@
       const text = msgInput.value.trim();
       if (!text && !currentFile) return;
 
+      socket.emit('stop typing', { senderId: VISITOR_ID, isAdmin: false });
+
       let fileData = null;
       if (currentFile) {
         sendBtn.disabled = true; msgInput.disabled = true; attachBtn.disabled = true;
         fileData = await uploadFile(currentFile).catch(() => null);
-        
         sendBtn.disabled = false; msgInput.disabled = false; attachBtn.disabled = false;
-
-        if (!fileData) {
-          addMessageToUI('Upload failed.', 'other', true);
-          clearAttachment();
-          return;
-        }
+        if (!fileData) { addMessageToUI('Upload failed.', 'other', true); clearAttachment(); return; }
       }
 
-      socket.emit('chat message', {
-        text: text,
-        senderId: VISITOR_ID, // Emitting persistent ID instead of ephemeral socket.id
-        isAdmin: false,
-        file: fileData,
-        origin: SITE_ORIGIN
-      });
-
+      socket.emit('chat message', { text: text, senderId: VISITOR_ID, isAdmin: false, file: fileData, origin: SITE_ORIGIN });
       notifyAdmin(text || "Sent an attachment");
-      
-      msgInput.value = ''; clearAttachment();
-      sendBtn.disabled = true; msgInput.focus();
+      msgInput.value = ''; clearAttachment(); sendBtn.disabled = true; msgInput.focus();
     }
 
     loadHistory();
     sendBtn.addEventListener('click', sendMessage);
     msgInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
-
   </script>
 </body>
 </html>
