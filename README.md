@@ -83,4 +83,3 @@ I'm a **Front-End Developer** with a strong foundation in building clean, effici
     <img src="https://img.shields.io/badge/CodePen-000000?style=for-the-badge&logo=codepen&logoColor=white" alt="CodePen" />
   </a>
 </div>
->>>>>>> 395cfab4cd33bd83999d7a8c9b93c9fe3fbaa7cd
