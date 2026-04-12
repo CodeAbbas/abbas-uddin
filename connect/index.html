@@ -325,20 +325,20 @@
   <script>
     lucide.createIcons();
 
-    // --- EMAILJS & NOTIFICATION LOGIC ---
+    // --- EMAILJS INITIALIZATION & NOTIFICATION LOGIC ---
     (function(){ emailjs.init('Z35F2ocDmFcEAPZdS'); })();
 
     let hasNotified = false;
- 
     const SITE_ORIGIN = window.location.hostname || "Local File";
+    
     function notifyAdmin(text) {
-      if (hasNotified) return;
+      if (hasNotified) return; 
 
       const params = {
         name: `Visitor from ${SITE_ORIGIN}`,
         email: "alert@abbasuddin.dev",
         subject: `🔴 Live Chat Active on ${SITE_ORIGIN}`,
-        message: `A visitor on ${SITE_ORIGIN} \n \n "${text}"`
+        message: `A visitor on ${SITE_ORIGIN} just started a chat: "${text}" \n\nReply Live Here: https://abbasuddin.dev/connect/admin.html`
       };
 
       emailjs.send('service_ovmjtxd', 'template_pci5pcv', params)
@@ -347,11 +347,18 @@
           hasNotified = true; 
         }).catch(err => console.error("EmailJS Error:", err));
     }
-    // --------------------------------------------------------
 
     const SERVER_URL = "https://abbas-chat-server.onrender.com"; 
     const STORAGE_KEY = 'abbas_chat_history_v1';
     const EXPIRATION_MS = 30 * 60 * 1000;
+
+    // --- PERSISTENT VISITOR ID ---
+    // Generate a permanent ID so refreshes don't break the chat thread
+    let VISITOR_ID = localStorage.getItem('abbas_visitor_id');
+    if (!VISITOR_ID) {
+        VISITOR_ID = Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('abbas_visitor_id', VISITOR_ID);
+    }
 
     const socket = io(SERVER_URL, { autoConnect: true, reconnection: true });
 
@@ -385,19 +392,13 @@
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
-
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(660, audioCtx.currentTime); 
         oscillator.frequency.exponentialRampToValueAtTime(330, audioCtx.currentTime + 0.15);
-
         gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.15);
+        oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
+        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.15);
       } catch (e) { }
     }
 
@@ -410,6 +411,9 @@
 
     // --- SOCKET HANDLERS ---
     socket.on('connect', () => {
+      // Register this specific visitor to their own routing room
+      socket.emit('register visitor', VISITOR_ID);
+
       statusBadge.classList.remove('offline');
       statusText.textContent = "Online";
       msgInput.disabled = false;
@@ -425,10 +429,15 @@
     });
 
     socket.on('chat message', (data) => {
-      if (data.isAdmin && data.senderId !== socket.id) {
+      // Ignore admin messages meant for other visitors
+      if (data.isAdmin && data.targetUser && data.targetUser !== VISITOR_ID) return;
+
+      if (data.isAdmin) {
         playIncomingSound();
       }
-      let type = data.isAdmin ? 'other' : (data.senderId === socket.id ? 'me' : null);
+
+      // Check against our persistent VISITOR_ID instead of socket.id
+      let type = data.isAdmin ? 'other' : (data.senderId === VISITOR_ID ? 'me' : null);
       if (!type) return;
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -473,13 +482,11 @@
       lucide.createIcons();
     }
 
-    // --- BUTTON STATE MANAGEMENT ---
     function updateSendButtonState() {
       const hasText = msgInput.value.trim() !== "";
       const hasFile = currentFile !== null;
       sendBtn.disabled = !(hasText || hasFile);
     }
-
     msgInput.addEventListener('input', updateSendButtonState);
 
     // --- FILE LOGIC ---
@@ -503,20 +510,14 @@
         imagePreview.src = "https://cdn-icons-png.flaticon.com/512/2991/2991112.png"; 
         msgInput.placeholder = `File: ${file.name}`;
       }
-      
       updateSendButtonState();
     });
 
     function clearAttachment() {
-      currentFile = null;
-      fileInput.value = ''; 
-      previewContainer.style.display = 'none';
-      imagePreview.src = '';
+      currentFile = null; fileInput.value = ''; previewContainer.style.display = 'none'; imagePreview.src = '';
       msgInput.placeholder = "Type a message...";
-      updateSendButtonState();
-      lucide.createIcons();
+      updateSendButtonState(); lucide.createIcons();
     }
-
     cancelFileBtn.addEventListener('click', clearAttachment);
 
     function uploadFile(file) {
@@ -551,14 +552,10 @@
 
       let fileData = null;
       if (currentFile) {
-        sendBtn.disabled = true;
-        msgInput.disabled = true;
-        attachBtn.disabled = true;
+        sendBtn.disabled = true; msgInput.disabled = true; attachBtn.disabled = true;
         fileData = await uploadFile(currentFile).catch(() => null);
         
-        sendBtn.disabled = false;
-        msgInput.disabled = false;
-        attachBtn.disabled = false;
+        sendBtn.disabled = false; msgInput.disabled = false; attachBtn.disabled = false;
 
         if (!fileData) {
           addMessageToUI('Upload failed.', 'other', true);
@@ -569,20 +566,16 @@
 
       socket.emit('chat message', {
         text: text,
-        senderId: socket.id,
+        senderId: VISITOR_ID, // Emitting persistent ID instead of ephemeral socket.id
         isAdmin: false,
         file: fileData,
         origin: SITE_ORIGIN
       });
 
-      // --- NEW: CALL EMAILJS NOTIFICATION ---
       notifyAdmin(text || "Sent an attachment");
-      // --------------------------------------
       
-      msgInput.value = '';
-      clearAttachment();
-      sendBtn.disabled = true; // LOCK BUTTON AFTER SEND
-      msgInput.focus();
+      msgInput.value = ''; clearAttachment();
+      sendBtn.disabled = true; msgInput.focus();
     }
 
     loadHistory();
