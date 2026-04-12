@@ -315,9 +315,10 @@
               const timeStr = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
               
               activeChats[threadId].messages.push({
-                  text: msg.text,
+                  text: msg.text || data.text,
                   type: msg.isAdmin ? 'admin' : 'user',
                   time: timeStr,
+                  timestamp: msg.createdAt ? new Date(msg.createdAt).getTime() : Date.now(),
                   fileData: msg.file
               });
           });
@@ -404,7 +405,7 @@
         const msgsB = activeChats[b].messages;
         if (msgsA.length === 0) return 1;
         if (msgsB.length === 0) return -1;
-        return msgsB[msgsB.length - 1].time.localeCompare(msgsA[msgsA.length - 1].time);
+        return msgsB[msgsB.length - 1].timestamp - msgsA[msgsA.length - 1].timestamp;
       });
 
       sortedUsers.forEach((userId) => {
