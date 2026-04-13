@@ -1,36 +1,36 @@
-window.onload = function() {
+window.addEventListener('load', () => {
   // Initialize EmailJS with Public Key
   emailjs.init('Z35F2ocDmFcEAPZdS');
   
-  document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    
-    const serviceID = 'service_ovmjtxd';
-    const templateID = 'template_pci5pcv';
-    
-    const templateParams = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
-    
-    // Send the email
-    emailjs.send(serviceID, templateID, templateParams)
-      .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-        //success function to show a message
-        showFormSuccess('Your message has been sent successfully!');
-        // Reset the form
-        document.getElementById('contactForm').reset();
-      }, function(error) {
-        console.log('FAILED...', error);
-        //error function to show a message
-        showFormError('Failed to send message. Please try again.');
-      });
-  });
-}
+  const contactForm = document.getElementById('contactForm');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const serviceID = 'service_ovmjtxd';
+      const templateID = 'template_pci5pcv';
+      
+      const templateParams = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+      
+      // Send the email
+      emailjs.send(serviceID, templateID, templateParams)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          showFormSuccess('Your message has been sent successfully!');
+          contactForm.reset();
+        }, function(error) {
+          console.log('FAILED...', error);
+          showFormError('Failed to send message. Please try again.');
+        });
+    });
+  }
+});
 
 // Form error message
 function showFormError(message) {
@@ -47,7 +47,7 @@ function showFormError(message) {
     document.getElementById('contactForm').appendChild(errorElement);
   }
   errorElement.textContent = message;
-  setTimeout(() => { errorElement.remove(); }, 5000);
+  setTimeout(() => { if(errorElement) errorElement.remove(); }, 5000);
 }
 
 // Form success message
@@ -65,5 +65,5 @@ function showFormSuccess(message) {
     document.getElementById('contactForm').appendChild(successElement);
   }
   successElement.textContent = message;
-  setTimeout(() => { successElement.remove(); }, 5000);
+  setTimeout(() => { if(successElement) successElement.remove(); }, 5000);
 }

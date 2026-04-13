@@ -496,3 +496,14 @@ document.addEventListener('DOMContentLoaded', () => {
         yearElement.textContent = new Date().getFullYear();
     }
 });
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.src = 'scripts/chat-widget.js';
+    script.type = 'text/javascript';
+    script.async = true;
+    document.body.appendChild(script);
+    console.log('Chat widget loaded from script.js');
+  }, 1000);
+});
