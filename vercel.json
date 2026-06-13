@@ -7,6 +7,14 @@
     {
       "source": "/f1live/:match*",
       "destination": "https://v0-f1live.vercel.app/f1live/:match*"
+    },
+    {
+      "source": "/football",
+      "destination": "https://fifaworldcup-three.vercel.app/football"
+    },
+    {
+      "source": "/football/:match*",
+      "destination": "https://fifaworldcup-three.vercel.app/football/:match*"
     }
   ]
 }
