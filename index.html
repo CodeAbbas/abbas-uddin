@@ -122,7 +122,7 @@ JavaScript, and WordPress theme development.">
 
   <!--footer-->
 
-  <link rel="stylesheet" href="./style.min.css">
+  <link rel="stylesheet" href="./style.css">
 
 </head>
 
@@ -575,36 +575,40 @@ JavaScript, and WordPress theme development.">
         </div>
 
         <div class="projects-grid">
-          <!-- Project 1 -->
+
+          <!-- Project 1: osv-depguard -->
           <div class="project-card">
             <div class="project-image">
-              <img src="img/project/ecommerce.webp" alt="E-commerce Website" loading="lazy">
+              <img src="img/project/osv-depguard.webp" alt="osv-depguard command-line vulnerability report in a terminal" loading="lazy">
             </div>
             <div class="project-content">
               <div class="project-header">
                 <div class="project-icon">
-                  <i class="fas fa-shopping-cart"></i>
+                  <i class="fas fa-shield-halved"></i>
                 </div>
                 <div class="project-title-container">
-                  <h3 class="project-title">E-commerce Platform</h3>
-                  <span class="project-category">Web Development</span>
+                  <h3 class="project-title">osv-depguard</h3>
+                  <span class="project-category">Developer Tool · Published on npm</span>
                 </div>
               </div>
-              <p class="project-description">Modern online store with product filtering, cart functionality, and secure
-                checkout process.</p>
+              <p class="project-description">A command-line scanner that checks a project's exact installed
+                dependencies against the OSV.dev vulnerability database, then uses Claude to explain each finding in
+                plain English with a fix command. Detection is fully deterministic, so the AI never invents
+                vulnerabilities. Covered by 69 automated tests.</p>
               <div class="project-footer">
                 <div class="project-tech">
-                  <span class="tech-tag">HTML5</span>
-                  <span class="tech-tag">CSS3</span>
-                  <span class="tech-tag">JavaScript</span>
-                  <span class="tech-tag">React</span>
+                  <span class="tech-tag">Node.js</span>
+                  <span class="tech-tag">OSV.dev API</span>
+                  <span class="tech-tag">Claude API</span>
+                  <span class="tech-tag">Vitest</span>
                 </div>
                 <div class="project-links">
-                  <a href="https://codeabbas.github.io/e-commerce/" target="_blank" class="project-link"
-                    aria-label="View live project">
-                    <i class="fas fa-external-link-alt"></i> Live
+                  <a href="https://www.npmjs.com/package/osv-depguard" target="_blank" rel="noopener" class="project-link"
+                    aria-label="View osv-depguard on npm">
+                    <i class="fab fa-npm"></i> npm
                   </a>
-                  <a href="#" class="project-link" aria-label="View project code"> <i class="fab fa-github"></i>
+                  <a href="https://github.com/CodeAbbas/osv-depguard" target="_blank" rel="noopener" class="project-link"
+                    aria-label="View osv-depguard source code"> <i class="fab fa-github"></i>
                     <span>Github</span>
                   </a>
                 </div>
@@ -612,35 +616,36 @@ JavaScript, and WordPress theme development.">
             </div>
           </div>
 
-          <!-- Project 2 -->
+          <!-- Project 2: BridgeDrop -->
           <div class="project-card">
             <div class="project-image">
-              <img src="img/project/LensCraft.webp" alt="Image Gallery" loading="lazy">
+              <img src="img/project/bridgedrop.webp" alt="BridgeDrop file-sharing room with QR code" loading="lazy">
             </div>
             <div class="project-content">
               <div class="project-header">
                 <div class="project-icon">
-                  <i class="fas fa-image"></i>
+                  <i class="fas fa-cloud-arrow-up"></i>
                 </div>
                 <div class="project-title-container">
-                  <h3 class="project-title">Image Gallery</h3>
-                  <span class="project-category">Web Development</span>
+                  <h3 class="project-title">BridgeDrop</h3>
+                  <span class="project-category">Cloud Application · Azure</span>
                 </div>
               </div>
-              <p class="project-description">Interactive dashboard with real-time data visualization and customizable
-                widgets.</p>
+              <p class="project-description">Temporary file-sharing rooms that devices join by QR code. Files upload
+                straight to Azure Blob Storage through short-lived, write-only access URLs, so file data never passes
+                through the server. Rooms expire automatically, infrastructure is defined in Terraform, and a GitHub
+                Actions pipeline lints the code and builds a Docker image on every push.</p>
               <div class="project-footer">
                 <div class="project-tech">
                   <span class="tech-tag">Next.js</span>
-                  <span class="tech-tag">React</span>
-                  <span class="tech-tag">Typescript</span>
-                  <span class="tech-tag">Tailwind</span>
+                  <span class="tech-tag">TypeScript</span>
+                  <span class="tech-tag">Azure</span>
+                  <span class="tech-tag">Terraform</span>
+                  <span class="tech-tag">Docker</span>
                 </div>
                 <div class="project-links">
-                  <a href="#" class="project-link" aria-label="View live project">
-                    <i class="fas fa-external-link-alt"></i> Live
-                  </a>
-                  <a href="#" class="project-link" aria-label="View project code"> <i class="fab fa-github"></i>
+                  <a href="https://github.com/CodeAbbas/BridgeDrop" target="_blank" rel="noopener" class="project-link"
+                    aria-label="View BridgeDrop source code"> <i class="fab fa-github"></i>
                     <span>Github</span>
                   </a>
                 </div>
@@ -648,35 +653,36 @@ JavaScript, and WordPress theme development.">
             </div>
           </div>
 
-          <!-- Project 3 -->
+          <!-- Project 3: PetPulse API -->
           <div class="project-card">
             <div class="project-image">
-              <img src="img/project/PalestineNews.webp" alt="News Aggregator" loading="lazy">
+              <img src="img/project/petpulse-api.webp" alt="PetPulse API architecture and endpoints" loading="lazy">
             </div>
             <div class="project-content">
               <div class="project-header">
                 <div class="project-icon">
-                  <i class="fas fa-newspaper"></i>
+                  <i class="fas fa-paw"></i>
                 </div>
                 <div class="project-title-container">
-                  <h3 class="project-title">News Aggregator</h3>
-                  <span class="project-category">Web Development</span>
+                  <h3 class="project-title">PetPulse API</h3>
+                  <span class="project-category">Back-End · Final-Year Project</span>
                 </div>
               </div>
-              <p class="project-description">News Aggregator website with advanced features and optimized for speed and
-                SEO.</p>
+              <p class="project-description">A versioned Laravel 13 REST API for a smart pet-care monitoring system.
+                It provides token authentication, a secret-protected webhook that receives AI-detected behaviour
+                events and triggers push notifications, and audited links for sharing a pet's health record with a
+                clinic. Supported by around 80 tests, CI workflows and written architecture decisions.</p>
               <div class="project-footer">
                 <div class="project-tech">
-                  <span class="tech-tag">Next.js</span>
-                  <span class="tech-tag">Tailwindcss</span>
-                  <span class="tech-tag">CSS</span>
-                  <span class="tech-tag">API</span>
+                  <span class="tech-tag">Laravel 13</span>
+                  <span class="tech-tag">PHP</span>
+                  <span class="tech-tag">MySQL</span>
+                  <span class="tech-tag">REST API</span>
+                  <span class="tech-tag">GitHub Actions</span>
                 </div>
                 <div class="project-links">
-                  <a href="https://palestinenews.vercel.app/" class="project-link" aria-label="View live project">
-                    <i class="fas fa-external-link-alt"></i> Live
-                  </a>
-                  <a href="#" class="project-link" aria-label="View project code"> <i class="fab fa-github"></i>
+                  <a href="https://github.com/CodeAbbas/PetPulse-API" target="_blank" rel="noopener" class="project-link"
+                    aria-label="View PetPulse API source code"> <i class="fab fa-github"></i>
                     <span>Github</span>
                   </a>
                 </div>
@@ -684,75 +690,78 @@ JavaScript, and WordPress theme development.">
             </div>
           </div>
 
-          <!-- Project 4 -->
+          <!-- Project 4: SelectionFurniture -->
           <div class="project-card">
             <div class="project-image">
-              <img src="img/project/portfolio.webp" alt="Creative Portfolio" loading="lazy">
+              <img src="img/project/selectionfurniture.webp" alt="SelectionFurniture storefront product page" loading="lazy">
             </div>
             <div class="project-content">
               <div class="project-header">
                 <div class="project-icon">
-                  <i class="fas fa-globe"></i>
+                  <i class="fas fa-couch"></i>
                 </div>
                 <div class="project-title-container">
-                  <h3 class="project-title">Creative Portfolio</h3>
-                  <span class="project-category">Web Development</span>
+                  <h3 class="project-title">SelectionFurniture</h3>
+                  <span class="project-category">Full-Stack · AI-Assisted</span>
                 </div>
               </div>
-              <p class="project-description">Responsive portfolio website with smooth animations and modern design
-                elements.</p>
-              <div class="project-footer">
-                <div class="project-tech">
-                  <span class="tech-tag">HTML5</span>
-                  <span class="tech-tag">CSS3</span>
-                  <span class="tech-tag">JavaScript</span>
-                  <span class="tech-tag">Tailwind</span>
-                  <span class="tech-tag">Vue.js</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" aria-label="View live project">
-                    <i class="fas fa-external-link-alt"></i> Live
-                  </a>
-                  <a href="#" class="project-link" aria-label="View project code"> <i class="fab fa-github"></i>
-                    <span>Github</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="project-card">
-            <div class="project-image">
-              <img src="img/project/RamadanRecipes.webp" alt="Ramadan Recipes" loading="lazy">
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-icon">
-                  <i class="fas fa-utensils"></i>
-                </div>
-                <div class="project-title-container">
-                  <h3 class="project-title">Ramadan Recipes</h3>
-                  <span class="project-category">Web Development</span>
-                </div>
-              </div>
-              <p class="project-description">A website offering a collection of recipes specifically curated for the
-                month of Ramadan, optimized for a smooth user experience.</p>
+              <p class="project-description">A furniture storefront with product galleries, reviews and a persistent
+                cart, plus an admin tool where Gemini turns a short prompt or product link into a structured listing.
+                The output is validated against a schema and mapped to the shop's own category structure, replacing
+                manual data entry.</p>
               <div class="project-footer">
                 <div class="project-tech">
                   <span class="tech-tag">Next.js</span>
-                  <span class="tech-tag">Tailwindcss</span>
-                  <span class="tech-tag">React</span> <span class="tech-tag">API</span>
+                  <span class="tech-tag">TypeScript</span>
+                  <span class="tech-tag">MongoDB</span>
+                  <span class="tech-tag">Vercel AI SDK</span>
+                  <span class="tech-tag">Zod</span>
                 </div>
                 <div class="project-links">
-                  <a href="https://ramadanrecipes.vercel.app/" class="project-link" aria-label="View live project">
-                    <i class="fas fa-external-link-alt"></i> Live
-                  </a>
-                  <a href="#" class="project-link" aria-label="View project code"> <i class="fab fa-github"></i>
+                  <a href="https://github.com/CodeAbbas/SelectionFurniture" target="_blank" rel="noopener" class="project-link"
+                    aria-label="View SelectionFurniture source code"> <i class="fab fa-github"></i>
                     <span>Github</span>
                   </a>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- Project 5: QR Cloud -->
+          <div class="project-card">
+            <div class="project-image">
+              <img src="img/project/qr-cloud.webp" alt="QR Cloud QR code generator interface" loading="lazy">
+            </div>
+            <div class="project-content">
+              <div class="project-header">
+                <div class="project-icon">
+                  <i class="fas fa-qrcode"></i>
+                </div>
+                <div class="project-title-container">
+                  <h3 class="project-title">QR Cloud</h3>
+                  <span class="project-category">Web Utility · Serverless</span>
+                </div>
+              </div>
+              <p class="project-description">A serverless QR code generator. Next.js API routes render high-resolution
+                codes with high error correction on demand and store nothing, behind a mobile-first glass-style
+                interface. Codes were checked against Google Lens and Binary Eye.</p>
+              <div class="project-footer">
+                <div class="project-tech">
+                  <span class="tech-tag">Next.js</span>
+                  <span class="tech-tag">Tailwind CSS v4</span>
+                  <span class="tech-tag">Node.js</span>
+                  <span class="tech-tag">API Routes</span>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/CodeAbbas/Qr" target="_blank" rel="noopener" class="project-link"
+                    aria-label="View QR Cloud source code"> <i class="fab fa-github"></i>
+                    <span>Github</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div class="view-all-container">
@@ -1038,27 +1047,29 @@ JavaScript, and WordPress theme development.">
     </section>
     <!--====== End Client testimony ======-->
     <!--====== Contact ======-->
-    <section class="contact-section" id="contact">
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <div class='text-center mb-50'>
-          <h4 class='tc-title tc-title-center'>Get in touch</h4>
+          <h4 class='tc-title tc-title-center' id="contact-title">Get in touch</h4>
+          <p class="contact-intro">Open to graduate and junior developer roles, and to select freelance projects.
+            Send a message below or reach me directly.</p>
         </div>
 
         <div class="contact-container">
           <div class="contact-info">
             <div class="contact-card">
               <div class="contact-icon">
-                <i class="fas fa-envelope"></i>
+                <i class="fas fa-envelope" aria-hidden="true"></i>
               </div>
               <div class="contact-details">
                 <h3>Email</h3>
-                <p>abbax.uddin@gmail.com</p>
+                <p><a href="mailto:abbax.uddin@gmail.com">abbax.uddin@gmail.com</a></p>
               </div>
             </div>
 
             <div class="contact-card">
               <div class="contact-icon">
-                <i class="fas fa-map-marker-alt"></i>
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
               </div>
               <div class="contact-details">
                 <h3>Location</h3>
@@ -1068,26 +1079,30 @@ JavaScript, and WordPress theme development.">
 
             <div class="contact-card">
               <div class="contact-icon">
-                <i class="fas fa-phone-alt"></i>
+                <i class="fas fa-phone-alt" aria-hidden="true"></i>
               </div>
               <div class="contact-details">
                 <h3>Phone</h3>
-                <p>+44 7435010523</p>
+                <p><a href="tel:+447435010523">+44 7435 010523</a></p>
               </div>
             </div>
 
             <div class="social-links">
-              <a href="https://github.com/CodeAbbas" target="_blank" class="social-link" aria-label="GitHub">
-                <i class="fab fa-github"></i>
+              <a href="https://github.com/CodeAbbas" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="GitHub">
+                <i class="fab fa-github" aria-hidden="true"></i>
               </a>
-              <a href="https://linkedin.com/in/abbas-dev" target="_blank" class="social-link" aria-label="LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
+              <a href="https://www.linkedin.com/in/abbas-dev/" target="_blank" rel="noopener noreferrer"
+                class="social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
               </a>
-              <a href="https://twitter.com/CodeAbbas" target="_blank" class="social-link" aria-label="Twitter">
-                <i class="fab fa-twitter"></i>
+              <a href="https://x.com/CodeAbbas" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="X (Twitter)">
+                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
               </a>
-              <a href="https://codepen.com/codeabbas" target="_blank" class="social-link" aria-label="Instagram">
-                <i class="fab fa-codepen"></i>
+              <a href="https://codepen.io/CodeAbbas" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="CodePen">
+                <i class="fab fa-codepen" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -1097,38 +1112,47 @@ JavaScript, and WordPress theme development.">
               <div class="form-group">
                 <label for="name">Your Name</label>
                 <div class="input-wrapper">
-                  <i class="fas fa-user"></i>
-                  <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                  <i class="fas fa-user" aria-hidden="true"></i>
+                  <input type="text" id="name" name="name" placeholder="Enter your name" autocomplete="name"
+                    maxlength="80" required>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="email">Your Email</label>
                 <div class="input-wrapper">
-                  <i class="fas fa-envelope"></i>
-                  <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                  <i class="fas fa-envelope" aria-hidden="true"></i>
+                  <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email"
+                    maxlength="120" required>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="subject">Subject</label>
                 <div class="input-wrapper">
-                  <i class="fas fa-bookmark"></i>
-                  <input type="text" id="subject" name="subject" placeholder="Enter subject">
+                  <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  <input type="text" id="subject" name="subject" placeholder="Enter subject" maxlength="120">
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="message">Message</label>
                 <div class="input-wrapper textarea-wrapper">
-                  <i class="fas fa-comment-alt"></i>
-                  <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+                  <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                  <textarea id="message" name="message" placeholder="Enter your message" maxlength="2000"
+                    required></textarea>
                 </div>
+              </div>
+
+              <!-- Spam trap: hidden from people and screen readers; bots tend to fill it in -->
+              <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                <label for="website">Leave this field empty</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
               </div>
 
               <button type="submit" class="submit-btn">
                 <span>Send Message</span>
-                <i class="fas fa-paper-plane"></i>
+                <i class="fas fa-paper-plane" aria-hidden="true"></i>
               </button>
             </form>
           </div>
@@ -1136,7 +1160,7 @@ JavaScript, and WordPress theme development.">
       </div>
 
       <!-- Background Elements -->
-      <div class="bg-element bg-element-4"></div>
+      <div class="bg-element bg-element-4" aria-hidden="true"></div>
     </section>
     <div class="floating-dock" id="floating-dock">
       <a href="https://abbasuddin.dev/connect/" class="dock-btn chat-btn">
