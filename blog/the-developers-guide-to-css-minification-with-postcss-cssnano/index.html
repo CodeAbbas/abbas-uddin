@@ -1,133 +1,513 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Developer's Guide to CSS Minification with PostCSS & CSSNano</title>
+  <meta name="description" content="Learn the most reliable way to minify CSS using PostCSS and CSSNano. Bypass configuration errors and optimize your website's performance with simple CLI commands.">
+  <meta name="keywords" content="postcss, cssnano, minify css, web performance, nodejs, frontend development, cli, optimization">
+  <meta name="author" content="Abbas Uddin">
+  <meta name="theme-color" content="#1A1D21">
 
-  <meta name="description" content="Learn the most reliable way to minify CSS using PostCSS and CSSNano. Bypass configuration errors and optimize your website's performance with simple CLI commands." />
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Developer's Guide to CSS Minification with PostCSS &amp; CSSNano">
+  <meta property="og:description" content="Stop fighting with configuration files. Learn the direct, foolproof method to minify your CSS for better website performance.">
+  <meta property="og:image" content="../img/css-grid-and-flex.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Developer's Guide to CSS Minification with PostCSS &amp; CSSNano">
+  <meta name="twitter:description" content="A straightforward guide to reducing CSS file size using industry-standard tools.">
 
-  <meta name="keywords" content="postcss, cssnano, minify css, web performance, nodejs, frontend development, cli, optimization" />
+  <title>The Developer's Guide to CSS Minification with PostCSS &amp; CSSNano</title>
 
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="The Developer's Guide to CSS Minification with PostCSS & CSSNano" />
-  <meta property="og:description" content="Stop fighting with configuration files. Learn the direct, foolproof method to minify your CSS for better website performance." />
-  <meta property="og:image" content="../img/css-grid-and-flex.jpg" /> 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Developer's Guide to CSS Minification with PostCSS & CSSNano" />
-  <meta name="twitter:description" content="A straightforward guide to reducing CSS file size using industry-standard tools." />
-  <meta name="author" content="Abbas Uddin" />
-
-  <meta property="article:tag" content="PostCSS" />
-  <meta property="article:tag" content="CSSNano" />
-  <meta property="article:tag" content="Web Performance" />
-  <meta property="article:tag" content="Development Tools" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+    :root {
+      --paper: #1A1D21;
+      --paper-deep: #1d2125;
+      --ink: #f0f2ef;
+      --muted: #89939b;
+      --rule: #394148;
+      --soft-rule: #394148;
+      --gold: #00FFC2;
+      --code-bg: #171b1f;
+      --code-text: #e0e0e0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 
     body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
       font-family: "Space Grotesk", sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
-    p{
-      text-align: justify;
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .page-shell {
+      width: min(100%, 1800px);
+      margin: 0 auto;
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      min-height: 100vh;
     }
-    .prose code::before, .prose code::after {
-      content: none; /* Remove backticks added by prose plugin */
+
+    /* Editorial masthead */
+    .masthead {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 220px;
+      border-bottom: 1px solid var(--rule);
+      align-items: stretch;
     }
-    .prose pre {
-        background-color: #2A2F35; /* Darker background for code blocks */
-        color: #e0e0e0;
-        padding: 1em;
-        border-radius: 0.5em;
-        overflow-x: auto;
+
+    .brand, .masthead-nav, .masthead-index {
+      display: flex;
+      align-items: center;
+      min-width: 0;
     }
-    .prose pre code {
-        background-color: transparent;
-        padding: 0;
-        color: inherit;
+
+    .brand {
+      padding: 0 22px;
+      border-right: 1px solid var(--rule);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
     }
-    /* Highlight command line arguments */
-    .cmd-arg {
-        color: #00FFC2;
+
+    .brand-mark { color: var(--gold); margin-left: 5px; }
+
+    .masthead-nav {
+      gap: clamp(18px, 4vw, 54px);
+      padding: 0 28px;
+      font: 9px "IBM Plex Mono", monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
+
+    .masthead-nav a { position: relative; padding: 22px 0 19px; transition: color .2s ease; }
+    .masthead-nav a:hover, .masthead-nav a.active { color: var(--ink); }
+    .masthead-nav a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--gold); }
+
+    .masthead-index {
+      justify-content: space-between;
+      border-left: 1px solid var(--rule);
+      padding: 0 18px;
+      font: 9px "IBM Plex Mono", monospace;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    .issue-label { background: var(--ink); color: var(--paper); padding: 6px 9px; letter-spacing: .14em; }
+
+    /* Three-column editorial article frame */
+    .editorial-grid {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr) 270px;
+      align-items: stretch;
+    }
+
+    .left-rail { border-right: 1px solid var(--rule); min-width: 0; }
+    .right-rail { border-left: 1px solid var(--rule); min-width: 0; }
+
+    .rail-block { padding: 22px 20px; border-bottom: 1px solid var(--rule); }
+    .rail-label {
+      display: block;
+      margin-bottom: 13px;
+      color: var(--muted);
+      font: 9px "IBM Plex Mono", monospace;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .issue-number { font: 600 42px/1 "Cormorant Garamond", serif; letter-spacing: -.04em; }
+    .issue-number small { color: var(--muted); font-size: 17px; }
+
+    .reading-list { list-style: none; padding: 0; margin: 0; }
+    .reading-list li + li { margin-top: 13px; }
+    .reading-list a {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 9px;
+      align-items: start;
+      color: #a0a9ae;
+      font: 9px/1.5 "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: color .2s ease;
+    }
+    .reading-list a::before { content: ""; height: 1px; background: #68757d; margin-top: 6px; transition: background .2s ease; }
+    .reading-list a:hover { color: var(--ink); }
+    .reading-list a:hover::before { background: var(--gold); }
+
+    .rail-facts { display: grid; gap: 15px; }
+    .fact dt { color: #89939b; font: 8px "IBM Plex Mono", monospace; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 4px; }
+    .fact dd { margin: 0; font: 500 16px/1.25 "Cormorant Garamond", serif; }
+
+    /* Main article column */
+    .article-column { min-width: 0; }
+    .cover-wrap { position: relative; height: clamp(270px, 38vw, 470px); overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--paper-deep); }
+    .cover-wrap img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; filter: grayscale(100%) contrast(.96); }
+    .cover-index { position: absolute; left: 18px; bottom: 16px; padding: 7px 10px; background: rgba(23,27,31,.9); color: var(--ink); font: 9px "IBM Plex Mono", monospace; letter-spacing: .15em; text-transform: uppercase; }
+
+    .article-body { padding: clamp(24px, 4vw, 54px) clamp(22px, 5vw, 72px) 44px; }
+    .article-kicker { display: flex; align-items: center; gap: 11px; margin-bottom: 18px; color: var(--muted); font: 9px "IBM Plex Mono", monospace; letter-spacing: .19em; text-transform: uppercase; }
+    .article-kicker::before { content: ""; display: inline-block; width: 22px; height: 1px; background: var(--gold); }
+
+    h1 { max-width: 900px; margin: 0; font: 500 clamp(38px, 5.3vw, 68px)/.98 "Cormorant Garamond", serif; letter-spacing: -.035em; }
+    .article-dek { max-width: 690px; margin: 20px 0 25px; color: #aab3b8; font: italic 19px/1.5 "Cormorant Garamond", serif; }
+
+    .byline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 15px 0;
+      border-top: 1px solid var(--soft-rule);
+      border-bottom: 1px solid var(--soft-rule);
+      color: #89939b;
+      font: 9px "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .author { display: flex; align-items: center; gap: 10px; color: var(--ink); }
+    .author img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; filter: grayscale(100%); border: 1px solid var(--soft-rule); }
+    .byline-meta { display: flex; flex-wrap: wrap; gap: 18px; }
+    .byline-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .byline-meta svg { width: 13px; height: 13px; color: var(--gold); }
+
+    .article-content { margin: 35px auto 0; color: #c3cbc7; font-size: 15px; line-height: 1.85; }
+    .article-content p { margin: 0 0 20px; text-align: left; }
+    .article-content strong { color: var(--ink); font-weight: 600; }
+    .article-content em { font-family: "Cormorant Garamond", serif; font-size: 1.12em; }
+    .article-content h2 {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 48px 0 17px;
+      padding-top: 16px;
+      border-top: 1px solid var(--soft-rule);
+      color: var(--ink);
+      font: 600 31px/1.12 "Cormorant Garamond", serif;
+      letter-spacing: -.015em;
+      scroll-margin-top: 24px;
+    }
+    .article-content h3 { margin: 28px 0 12px; color: var(--ink); font: 600 23px/1.2 "Cormorant Garamond", serif; }
+    .article-content ul { padding-left: 21px; margin: 8px 0 26px; }
+    .article-content li { padding-left: 5px; margin: 8px 0; }
+    .article-content li::marker { color: var(--gold); }
+    .article-content code { padding: 2px 5px; border: 1px solid #414a51; background: #252b30; color: #00FFC2; border-radius: 2px; font: 12px "IBM Plex Mono", monospace; }
+
+    .article-content pre {
+      position: relative;
+      overflow-x: auto;
+      margin: 20px 0 25px;
+      padding: 19px 18px 52px;
+      border: 1px solid #394148;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 2px;
+      line-height: 1.65;
+      box-shadow: 5px 5px 0 #202428;
+    }
+    .article-content pre code { padding: 0; border: 0; background: transparent; color: inherit; font: 12px/1.7 "IBM Plex Mono", monospace; white-space: pre; }
+    .article-content pre code::before, .article-content pre code::after { content: none; }
+    .cmd-arg { color: #d6b36e; }
+
+    .copy-code-btn {
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid #414a51;
+      border-radius: 2px;
+      background: #252b30;
+      color: #a0a9ae;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .copy-code-btn:hover { border-color: #d6b36e; color: #e4c783; }
+    .copy-code-btn:focus-visible { outline: 2px solid #d6b36e; outline-offset: 2px; }
+    .copy-code-btn svg { width: 14px; height: 14px; }
+    .copy-code-btn.copied { color: #d6b36e; border-color: #d6b36e; }
+    .copy-code-btn.failed { color: #e58e83; border-color: #e58e83; }
+
+    .article-tail { margin-top: 50px; padding-top: 22px; border-top: 1px solid var(--rule); }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag { padding: 6px 9px; border: 1px solid var(--soft-rule); color: #a0a9ae; font: 8px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .article-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--soft-rule); }
+    .article-action { display: inline-flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; background: transparent; color: #a0a9ae; font: 9px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; transition: color .2s ease; }
+    .article-action:hover { color: var(--gold); }
+    .article-action svg { width: 14px; height: 14px; }
+
+    /* Right editorial notes rail */
+    .right-heading { padding: 25px 20px 20px; border-bottom: 1px solid var(--rule); }
+    .right-heading h2 { margin: 0 0 5px; font: 500 36px/.95 "Cormorant Garamond", serif; }
+    .right-heading .subheading { margin: 0; color: var(--muted); font: italic 21px "Cormorant Garamond", serif; }
+    .right-heading .reference { margin: 14px 0 0; color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: .12em; }
+
+    .notes-title { display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--rule); font: 9px "IBM Plex Mono", monospace; letter-spacing: .16em; text-transform: uppercase; }
+    .notes-title span:last-child { color: var(--gold); }
+    .note-card { padding: 20px; border-bottom: 1px solid var(--soft-rule); }
+    .note-number { display: block; margin-bottom: 10px; color: var(--gold); font: 9px "IBM Plex Mono", monospace; letter-spacing: .15em; }
+    .note-card p { margin: 0; color: #aab3b8; font: italic 19px/1.45 "Cormorant Garamond", serif; }
+    .note-card small { display: block; margin-top: 10px; color: #78838a; font: 8px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+
+    .site-footer { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; min-height: 48px; padding: 0 20px; border-top: 1px solid var(--rule); background: var(--paper-deep); color: #777268; font: 8px "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; }
+    .site-footer strong { color: var(--ink); font-weight: 500; }
+    .footer-link { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); transition: color .2s ease; }
+    .footer-link:hover { color: var(--gold); }
+    .footer-link svg { width: 13px; height: 13px; }
+
+    @media (max-width: 1150px) {
+      .editorial-grid { grid-template-columns: 185px minmax(0, 1fr); }
+      .right-rail { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1fr; }
+      .right-heading { grid-row: 1 / span 5; border-right: 1px solid var(--rule); }
+      .notes-title { grid-column: 2; }
+      .note-card { grid-column: 2; }
+      .right-rail > .note-card:last-of-type { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .page-shell { border: 0; }
+      .masthead { grid-template-columns: 1fr auto; }
+      .brand { min-height: 52px; border-right: 0; }
+      .masthead-nav { grid-column: 1 / -1; grid-row: 2; border-top: 1px solid var(--soft-rule); padding: 0 18px; gap: 25px; overflow-x: auto; }
+      .masthead-nav a { padding: 14px 0 12px; white-space: nowrap; }
+      .masthead-index { grid-column: 2; grid-row: 1; border-left: 1px solid var(--rule); }
+      .editorial-grid { display: block; }
+      .left-rail { border-right: 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 105px minmax(0, 1fr); }
+      .left-rail .rail-block:first-child { border-right: 1px solid var(--rule); border-bottom: 0; }
+      .left-rail .rail-block:nth-child(2) { border-bottom: 0; }
+      .left-rail .rail-block:nth-child(3) { display: none; }
+      .rail-block { padding: 15px; }
+      .reading-list { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 3px; }
+      .reading-list li + li { margin-top: 0; }
+      .reading-list a { min-width: max-content; grid-template-columns: 12px 1fr; font-size: 8px; }
+      .cover-wrap { height: 260px; }
+      .article-body { padding: 30px 21px 34px; }
+      h1 { font-size: clamp(39px, 11vw, 55px); }
+      .article-content { font-size: 14px; margin-top: 28px; }
+      .article-content h2 { font-size: 28px; margin-top: 39px; }
+      .right-rail { display: block; }
+      .right-heading { border-right: 0; }
+      .notes-title, .note-card { display: block; }
+      .right-rail > .note-card:last-of-type { display: block; }
+    }
+
+    @media (max-width: 420px) {
+      .masthead-index { padding: 0 10px; gap: 8px; }
+      .masthead-index .counter { display: none; }
+      .byline { align-items: flex-start; }
+      .byline-meta { gap: 12px; }
+      .site-footer { grid-template-columns: 1fr; padding: 13px 16px; }
+      .left-rail { grid-template-columns: 90px minmax(0, 1fr); }
+    }
+  
+
+    /* Dark editorial palette — matched to the blog archive */
+    body { background: #1A1D21; color: #e4e8e6; }
+    .page-shell { background: #202428; border-color: #394148; }
+    .masthead, .left-rail, .right-rail, .site-footer { background: #1d2125; }
+    .article-column { background: #202428; }
+    .masthead-nav { color: #89939b; }
+    .masthead-nav a:hover, .masthead-nav a.active { color: #00FFC2; }
+    .masthead-index { color: #89939b; }
+    .issue-label { background: #252b30; color: #00FFC2; border: 1px solid #414a51; }
+    .rail-label, .right-heading .reference, .article-kicker { color: #89939b; }
+    .issue-number { color: #f2f4f3; }
+    .issue-number small { color: #849098; }
+    .reading-list a { color: #9aa3a9; }
+    .reading-list a::before { background: #68757d; }
+    .reading-list a:hover { color: #00FFC2; }
+    .fact dt { color: #89939b; }
+    .fact dd { color: #e4e8e6; }
+    .cover-wrap { background: #171b1f; border-color: #394148; }
+    .cover-wrap img { filter: grayscale(55%) contrast(1.02) brightness(.82); }
+    .cover-index { background: rgba(23,27,31,.9); color: #e4e8e6; border: 1px solid #394148; }
+    .article-dek { color: #aab3b8; }
+    .byline { color: #89939b; border-color: #394148; }
+    .author { color: #e4e8e6; }
+    .author img { border-color: #414a51; }
+    .byline-meta svg { color: #00FFC2; }
+    .article-content { color: #c3cbc7; }
+    .article-content strong, .article-content h2, .article-content h3 { color: #f0f2ef; }
+    .article-content h2 { border-color: #394148; }
+    .article-content code { border-color: #414a51; background: #252b30; color: #00FFC2; }
+    .article-content pre { border-color: #394148; background: #171b1f; color: #e0e0e0; box-shadow: 5px 5px 0 #1d2125; }
+    .cmd-arg { color: #00FFC2; }
+    .copy-code-btn { border-color: #414a51; background: #252b30; color: #9aa3a9; }
+    .copy-code-btn:hover { border-color: #00FFC2; color: #00FFC2; background: #202a2b; }
+    .copy-code-btn:focus-visible { outline-color: #00FFC2; }
+    .copy-code-btn.copied { color: #00FFC2; border-color: #00FFC2; }
+    .copy-code-btn.failed { color: #ff7d7d; border-color: #ff7d7d; }
+    .tag { border-color: #414a51; color: #b7c0c3; }
+    .article-action { color: #a0a9ae; }
+    .article-action:hover { color: #00FFC2; }
+    .right-heading h2 { color: #f0f2ef; }
+    .right-heading .subheading { color: #aab3b8; }
+    .notes-title { color: #d5dbd8; }
+    .notes-title span:last-child, .note-number { color: #00FFC2; }
+    .note-card { border-color: #394148; }
+    .note-card p { color: #aab3b8; }
+    .note-card small { color: #89939b; }
+    .site-footer { border-color: #394148; color: #89939b; }
+    .site-footer strong, .footer-link { color: #e4e8e6; }
+    .footer-link:hover { color: #00FFC2; }
+
+    @media (max-width: 760px) {
+      .masthead-nav { border-top-color: #394148; }
+    }
+
   </style>
 </head>
+<body>
+  <div class="page-shell">
+    <header class="masthead">
+      <a class="brand" href="/">ABBAS UDDIN<span class="brand-mark">®</span></a>
+      <nav class="masthead-nav" aria-label="Main navigation">
+        <a class="active" href="../index.html">Journal</a>
+        <a href="../index.html">Frontend</a>
+        <a href="../index.html">Archive</a>
+        <a href="../../index.html#contact">Contact</a>
+      </nav>
+      <div class="masthead-index">
+        <span class="issue-label">FIELD NOTES</span>
+        <span class="counter">02 / 09</span>
+      </div>
+    </header>
 
-<body class="bg-[#1A1D21] text-white min-h-screen p-6 md:p-12">
-  <div class="max-w-4xl mx-auto">
-    <a href="../index.html" class="inline-flex items-center mb-8 text-[#00FFC2] hover:underline group transition-all duration-300 ease-in-out">
-      <i data-lucide="chevron-left" class="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"></i>
-      Back to blogs
-    </a>
+    <div class="editorial-grid">
+      <aside class="left-rail" aria-label="Article navigation and details">
+        <section class="rail-block">
+          <span class="rail-label">Current article</span>
+          <div class="issue-number">02<small> / 09</small></div>
+        </section>
 
-    <article class="bg-[#22262A] rounded-lg overflow-hidden">
-      <img src="/blog/img/the-developers-guide-to-css-minification-with-postcss-cssnano.webp" alt="Optimizing Code" class="w-full h-64 object-cover" style="object-position: center;" />
+        <section class="rail-block">
+          <span class="rail-label">Reading index</span>
+          <ol class="reading-list">
+            <li><a href="#the-goal">The goal</a></li>
+            <li><a href="#install-essential-tools">Install tools</a></li>
+            <li><a href="#configuration-hell">Configuration</a></li>
+            <li><a href="#direct-cli-commands">Direct CLI</a></li>
+            <li><a href="#custom-build-script">Build script</a></li>
+            <li><a href="#update-your-html">Update HTML</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+          </ol>
+        </section>
 
-      <div class="p-4">
-        <h1 class="text-[#00FFC2] text-2xl md:text-4xl font-bold mb-4">The Developer's Guide to CSS Minification with PostCSS & CSSNano</h1>
+        <section class="rail-block">
+          <span class="rail-label">Filed under</span>
+          <dl class="rail-facts">
+            <div class="fact"><dt>Discipline</dt><dd>Frontend engineering</dd></div>
+            <div class="fact"><dt>Focus</dt><dd>Build optimisation</dd></div>
+            <div class="fact"><dt>Tools</dt><dd>PostCSS / CSSNano</dd></div>
+          </dl>
+        </section>
+      </aside>
 
-        <div class="flex flex-wrap items-center justify-between mb-8 text-sm text-gray-400">
-          <div class="flex items-center space-x-3 mb-3 md:mb-0  px-3 py-2 text-sm border border-[#2A2F35] rounded-full">
-            <img src="../../../../img/abbasuddin.webp" alt="Author Avatar" width="40" height="40" class=" bg-[#2A2F35] rounded-full" />
-            <span class="px-3 py-2 text-sm bg-[#2A2F35] rounded-full">Abbas Uddin</span>
-          </div>
-          <div class="flex items-center space-x-2">
-            <span class="flex items-center px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
-              <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
-              20/11/2025 </span>
-            <span class="flex items-center  px-2 py-1 text-sm bg-[#2A2F35] rounded-full">
-              <i data-lucide="clock" class="mr-2 h-4 w-4"></i>
-              5 min read </span>
-          </div>
+      <main class="article-column">
+        <div class="cover-wrap">
+          <img src="/blog/img/the-developers-guide-to-css-minification-with-postcss-cssnano.webp" alt="Optimizing Code">
+          <span class="cover-index">Technical journal / No. 02</span>
         </div>
 
-        <div class="prose prose-invert prose-cyan max-w-none text-gray-300">
-          <p>
-            Performance is critical for modern web development. One of the most effective ways to speed up your site is by <strong>minifying your CSS</strong>—stripping out whitespace, comments, and redundant code to drastically reduce file size. 
+        <article class="article-body">
+          <div class="article-kicker">Frontend engineering <span>/</span> Practical guide</div>
+          <h1>The Developer&#x27;s Guide to CSS Minification with PostCSS &amp; CSSNano</h1>
+          <p class="article-dek">A straightforward approach to reducing CSS file size with PostCSS and CSSNano, without unnecessary build configuration.</p>
+
+          <div class="byline">
+            <div class="author">
+              <img src="../../../../img/abbasuddin.webp" alt="Abbas Uddin">
+              <span>Words by Abbas Uddin</span>
+            </div>
+            <div class="byline-meta">
+              <span><i data-lucide="calendar"></i>20/11/2025</span>
+              <span><i data-lucide="clock"></i>5 min read</span>
+            </div>
+          </div>
+
+          <div class="article-content">
+            
+<p>
+            Performance is critical for modern web development. One of the most effective ways to speed up your site is by <strong>minifying your CSS</strong>—stripping out whitespace, comments, and redundant code to drastically reduce file size.
           </p>
-          <p>
+<p>
             While heavy frameworks often handle this automatically, sometimes you just need a simple, manual way to optimize a project without setting up a complex build pipeline. Whether you're maintaining a legacy project, building a simple static site, or coding in a constrained environment, knowing how to manually control your build process is a superpower.
           </p>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">The Goal</h2>
-          <p>We want to take a standard stylesheet (e.g., <code>style.css</code>) and compress it into a production-ready file (<code>style.min.css</code>) that retains all functionality but loads much faster.</p>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Step 1: Install the Essential Tools</h2>
-          <p>We'll be using <strong>PostCSS</strong> (a tool for transforming CSS with JavaScript) and <strong>cssnano</strong> (a modern, modular compression tool). Open your terminal in your project folder and run:</p>
-          <pre><code class="language-bash">npm install postcss postcss-cli cssnano</code></pre>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">The Common Headache: Configuration Hell</h2>
-          <p>
+<h2 id="the-goal">
+            The Goal
+          </h2>
+<p>
+            We want to take a standard stylesheet (e.g., <code>style.css</code>) and compress it into a production-ready file (<code>style.min.css</code>) that retains all functionality but loads much faster.
+          </p>
+<h2 id="install-essential-tools">
+            Step 1: Install the Essential Tools
+          </h2>
+<p>
+            We'll be using <strong>PostCSS</strong> (a tool for transforming CSS with JavaScript) and <strong>cssnano</strong> (a modern, modular compression tool). Open your terminal in your project folder and run:
+          </p>
+<pre><code class="language-bash">npm install postcss postcss-cli cssnano</code></pre>
+<h2 id="configuration-hell">
+            The Common Headache: Configuration Hell
+          </h2>
+<p>
             The standard approach is to create a <code>postcss.config.js</code> file. However, this often leads to frustrating "module type" errors in Node.js:
           </p>
-          <pre><code class="language-bash">TypeError: require(...) is not a function</code></pre>
-          <p>
+<pre><code class="language-bash">TypeError: require(...) is not a function</code></pre>
+<p>
             This happens because of conflicts between "CommonJS" (require) and "ES Modules" (import) in different Node.js environments. Instead of wasting time debugging configuration files, there is a faster, more reliable way.
           </p>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">The Solution: Direct CLI Commands</h2>
-          <p>By passing arguments directly to the PostCSS Command Line Interface (CLI), we bypass configuration issues entirely. This command works universally across almost any environment.</p>
-          <pre><code class="language-bash">npx postcss ./style.css --use cssnano --no-map -o ./style.min.css</code></pre>
-          
-          <h3 class="font-bold mt-4 mb-2">Why this works:</h3>
-          <ul class="list-disc pl-5 space-y-2 mb-6">
-            <li><code>npx postcss ./style.css</code>: Uses the local PostCSS installation without needing global access.</li>
-            <li><code>--use cssnano</code>: Explicitly tells PostCSS to use the minifier plugin.</li>
-            <li><code><span class="cmd-arg">--no-map</span></code>: <strong>Important!</strong> This disables source maps. If you forget this, your "minified" file might actually be larger than the original because it includes a map reference to the source code.</li>
-            <li><code>-o ./style.min.css</code>: Defines your output file.</li>
-          </ul>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Advanced: The Custom Build Script</h2>
-          <p>
+<h2 id="direct-cli-commands">
+            The Solution: Direct CLI Commands
+          </h2>
+<p>
+            By passing arguments directly to the PostCSS Command Line Interface (CLI), we bypass configuration issues entirely. This command works universally across almost any environment.
+          </p>
+<pre><code class="language-bash">npx postcss ./style.css --use cssnano --no-map -o ./style.min.css</code></pre>
+<h3>
+            Why this works:
+          </h3>
+<ul>
+<li>
+<code>npx postcss ./style.css</code>: Uses the local PostCSS installation without needing global access.
+            </li>
+<li>
+<code>--use cssnano</code>: Explicitly tells PostCSS to use the minifier plugin.
+            </li>
+<li>
+<code>--no-map</code>: <strong>Important!</strong> This disables source maps. If you forget this, your "minified" file might actually be larger than the original because it includes a map reference to the source code.
+            </li>
+<li>
+<code>-o ./style.min.css</code>: Defines your output file.
+            </li>
+</ul>
+<h2 id="custom-build-script">
+            Advanced: The Custom Build Script
+          </h2>
+<p>
             If you need to chain multiple tools (like PurgeCSS to remove unused styles <em>before</em> minifying), a CLI command can get too long. In that case, writing a simple Node.js script gives you total control and stability.
           </p>
-          <p>Create a file named <code>build-css.js</code>:</p>
-          <pre><code class="language-javascript">const fs = require('fs');
+<p>
+            Create a file named <code>build-css.js</code>:
+          </p>
+<pre><code class="language-javascript">const fs = require('fs');
 const postcss = require('postcss');
 const cssnano = require('cssnano');
 
@@ -135,7 +515,7 @@ const cssnano = require('cssnano');
 const inputFile = './style.css';
 const outputFile = './style.min.css';
 
-fs.readFile(inputFile, (err, css) => {
+fs.readFile(inputFile, (err, css) =&gt; {
   if (err) throw err;
 
   // Process the CSS
@@ -143,52 +523,155 @@ fs.readFile(inputFile, (err, css) => {
     cssnano({ preset: 'default' }) // You can add other plugins here too!
   ])
   .process(css, { from: inputFile, to: outputFile, map: false })
-  .then(result => {
-    fs.writeFile(outputFile, result.css, () => true);
+  .then(result =&gt; {
+    fs.writeFile(outputFile, result.css, () =&gt; true);
     console.log(`✅ Success! Minified CSS saved to ${outputFile}`);
   });
 });</code></pre>
-          <p>Run it with <code>node build-css.js</code>. This method is bulletproof because it explicitly defines the build process in standard JavaScript code.</p>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Final Step: Update Your HTML</h2>
-          <p>Don't forget to switch your HTML link to the new, optimized file.</p>
-          <pre><code class="language-html">&lt;!-- Old --&gt;
+<p>
+            Run it with <code>node build-css.js</code>. This method is bulletproof because it explicitly defines the build process in standard JavaScript code.
+          </p>
+<h2 id="update-your-html">
+            Final Step: Update Your HTML
+          </h2>
+<p>
+            Don't forget to switch your HTML link to the new, optimized file.
+          </p>
+<pre><code class="language-html">&lt;!-- Old --&gt;
 &lt;link rel="stylesheet" href="style.css"&gt;
 
 &lt;!-- New --&gt;
 &lt;link rel="stylesheet" href="style.min.css"&gt;</code></pre>
-
-          <h2 class="font-bold text-[#00FFC2] text-xl mt-8 mb-4">Conclusion</h2>
-          <p>
+<h2 id="conclusion">
+            Conclusion
+          </h2>
+<p>
             You don't always need complex build tools like Webpack or Vite for simple optimizations. By using direct CLI commands or simple scripts, you gain full control over your assets and ensure your workflow remains robust, regardless of your development environment.
           </p>
-        </div>
 
-        <div class="mt-12 flex flex-wrap gap-2">
-          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">PostCSS</span>
-          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">CSSNano</span>
-          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Performance</span>
-          <span class="px-3 py-1 text-sm bg-[#2A2F35] text-[#00FFC2] rounded-full">Web Dev</span>
-        </div>
+          </div>
 
-        <div class="mt-8 pt-8 border-t border-gray-700 flex justify-between items-center">
-          <button class="flex items-center text-[#00FFC2] hover:underline">
-            <i data-lucide="thumbs-up" class="mr-2 h-4 w-4"></i>
-            Like this article
-          </button>
-          <button class="flex items-center text-[#00FFC2] hover:underline">
-            <i data-lucide="share-2" class="mr-2 h-4 w-4"></i>
-            Share
-          </button>
-        </div>
-      </div>
-    </article>
+          <div class="article-tail">
+            <span class="rail-label">Filed under / Topics</span>
+            <div class="tag-list">
+              <span class="tag">PostCSS</span><span class="tag">CSSNano</span><span class="tag">Performance</span><span class="tag">Web Dev</span>
+            </div>
+            <div class="article-actions">
+              <button class="article-action" type="button"><i data-lucide="thumbs-up"></i>Like this article</button>
+              <button class="article-action" type="button" id="shareButton"><i data-lucide="share-2"></i>Share article</button>
+            </div>
+          </div>
+        </article>
+      </main>
+
+      <aside class="right-rail" aria-label="Editorial notes">
+        <section class="right-heading">
+          <span class="rail-label"><span style="color:var(--gold)">—</span> Article / Technical series</span>
+          <h2>CSS<br>Minification</h2>
+          <p class="subheading">The build process</p>
+          <p class="reference">// FIELD GUIDE 002 — WEB PERFORMANCE</p>
+        </section>
+        <div class="notes-title"><span>Editorial notes</span><span>⊕</span></div>
+        <section class="note-card"><span class="note-number">01</span><p>A focused CLI workflow can be enough for a small project.</p><small>— The objective</small></section><section class="note-card"><span class="note-number">02</span><p>Run PostCSS directly when configuration becomes a distraction.</p><small>— The solution</small></section><section class="note-card"><span class="note-number">03</span><p>Use a Node.js script when the build needs multiple steps.</p><small>— Advanced workflow</small></section>
+        <section class="note-card">
+          <span class="note-number">04</span>
+          <p>Less configuration. More control over the final asset.</p>
+          <small>— Closing thought</small>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <span><strong>Abbas Uddin</strong> — Digital journal / London</span>
+      <a class="footer-link" href="../index.html"><i data-lucide="arrow-left"></i>Back to all articles</a>
+    </footer>
   </div>
 
   <script>
-    // Initialize Lucide Icons
-    document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.lucide) lucide.createIcons();
+
+      async function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        textarea.style.top = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand("copy");
+        textarea.remove();
+        if (!copied) throw new Error("Clipboard copy failed");
+      }
+
+      document.querySelectorAll(".article-content pre").forEach((pre) => {
+        const code = pre.querySelector("code");
+        if (!code || pre.querySelector(".copy-code-btn")) return;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "copy-code-btn";
+        button.title = "Copy code";
+        button.setAttribute("aria-label", "Copy code");
+        button.innerHTML = '<i data-lucide="copy"></i>';
+
+        button.addEventListener("click", async () => {
+          try {
+            await copyToClipboard(code.textContent);
+            button.classList.remove("failed");
+            button.classList.add("copied");
+            button.title = "Copied!";
+            button.setAttribute("aria-label", "Copied!");
+            button.innerHTML = '<i data-lucide="check"></i>';
+          } catch (error) {
+            button.classList.remove("copied");
+            button.classList.add("failed");
+            button.title = "Copy failed";
+            button.setAttribute("aria-label", "Copy failed");
+            button.innerHTML = '<i data-lucide="x"></i>';
+          }
+
+          if (window.lucide) lucide.createIcons();
+          window.setTimeout(() => {
+            button.classList.remove("copied", "failed");
+            button.title = "Copy code";
+            button.setAttribute("aria-label", "Copy code");
+            button.innerHTML = '<i data-lucide="copy"></i>';
+            if (window.lucide) lucide.createIcons();
+          }, 1500);
+        });
+
+        pre.appendChild(button);
+      });
+
+      const shareButton = document.getElementById("shareButton");
+      if (shareButton) {
+        shareButton.addEventListener("click", async () => {
+          try {
+            if (navigator.share) {
+              await navigator.share({ title: document.title, url: window.location.href });
+            } else if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(window.location.href);
+              shareButton.innerHTML = '<i data-lucide="check"></i>Link copied';
+              if (window.lucide) lucide.createIcons();
+              window.setTimeout(() => {
+                shareButton.innerHTML = '<i data-lucide="share-2"></i>Share article';
+                if (window.lucide) lucide.createIcons();
+              }, 1500);
+            }
+          } catch (error) {
+            // Sharing was cancelled or is unavailable; leave the page unchanged.
+          }
+        });
+      }
+
+      if (window.lucide) lucide.createIcons();
+    });
   </script>
 </body>
-
 </html>

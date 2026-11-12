@@ -48,9 +48,939 @@
     body {
       font-family: "Space Grotesk", sans-serif;
     }
+
+    /* Editorial showcase grid */
+    #postsContainer {
+      width: 100%;
+    }
+
+    .editorial-layout {
+      display: grid;
+      grid-template-columns: minmax(205px, 0.22fr) minmax(0, 1fr) minmax(285px, 0.31fr);
+      min-height: 690px;
+      overflow: hidden;
+      border: 1px solid #394148;
+      background: #202428;
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.18);
+    }
+
+    .editorial-rail,
+    .editorial-stage,
+    .editorial-detail {
+      min-width: 0;
+    }
+
+    .editorial-rail {
+      display: flex;
+      flex-direction: column;
+      background: #1d2125;
+      border-right: 1px solid #394148;
+    }
+
+    .rail-top {
+      padding: 25px 22px 20px;
+      border-bottom: 1px solid #394148;
+    }
+
+    .editorial-eyebrow,
+    .rail-heading,
+    .rail-fact-label,
+    .stage-topline,
+    .stage-bottomline,
+    .detail-section-heading,
+    .detail-fact-label,
+    .panel-footer,
+    .thumbnail-number {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .editorial-eyebrow,
+    .rail-heading,
+    .rail-fact-label,
+    .detail-section-heading,
+    .detail-fact-label,
+    .panel-footer {
+      color: #89939b;
+    }
+
+    .rail-count {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      margin-top: 15px;
+      color: #f2f4f3;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 3.3rem;
+      letter-spacing: -0.07em;
+      line-height: 1;
+    }
+
+    .rail-count-total {
+      color: #849098;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+    }
+
+    .rail-kicker {
+      margin-top: 12px;
+      color: #7d888f;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .rail-index-section {
+      padding: 18px 0 10px;
+    }
+
+    .rail-heading {
+      display: block;
+      padding: 0 22px 12px;
+    }
+
+    .editorial-index-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .editorial-index-item {
+      display: grid;
+      grid-template-columns: 25px minmax(0, 1fr);
+      align-items: start;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 18px 12px 22px;
+      border: 0;
+      border-top: 1px solid rgba(91, 102, 110, 0.28);
+      background: transparent;
+      color: #9aa3a9;
+      text-align: left;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, padding 180ms ease;
+    }
+
+    .editorial-index-item:hover,
+    .editorial-index-item.is-active {
+      padding-left: 26px;
+      background: #252b30;
+      color: #00FFC2;
+    }
+
+    .editorial-index-number {
+      padding-top: 2px;
+      color: #68747c;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 12px;
+    }
+
+    .editorial-index-item.is-active .editorial-index-number {
+      color: #00FFC2;
+    }
+
+    .editorial-index-title {
+      display: -webkit-box;
+      overflow: hidden;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.45;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .rail-bottom {
+      display: grid;
+      gap: 17px;
+      margin-top: auto;
+      padding: 20px 22px 23px;
+      border-top: 1px solid #394148;
+    }
+
+    .rail-fact {
+      display: grid;
+      gap: 5px;
+    }
+
+    .rail-fact-value {
+      color: #e4e8e6;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.3;
+    }
+
+    .editorial-stage {
+      display: flex;
+      min-height: 690px;
+      flex-direction: column;
+      background: #171b1f;
+    }
+
+    .stage-topline,
+    .stage-bottomline {
+      display: flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 20px;
+      color: #929da4;
+    }
+
+    .stage-topline {
+      border-bottom: 1px solid #394148;
+    }
+
+    .stage-topline span:last-child,
+    .stage-bottomline span:last-child {
+      color: #00FFC2;
+    }
+
+    .stage-image-link {
+      position: relative;
+      display: block;
+      flex: 1;
+      min-height: 390px;
+      overflow: hidden;
+      background: #252b30;
+      color: white;
+    }
+
+    .stage-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.88;
+      filter: saturate(0.78);
+      transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1), opacity 350ms ease;
+    }
+
+    .stage-image-link:hover .stage-image {
+      transform: scale(1.035);
+      opacity: 1;
+    }
+
+    .stage-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 15, 18, 0.04) 35%, rgba(12, 15, 18, 0.72) 100%);
+      pointer-events: none;
+    }
+
+    .stage-image-index,
+    .stage-image-action {
+      position: absolute;
+      bottom: 20px;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #f3f6f4;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .stage-image-index {
+      left: 21px;
+    }
+
+    .stage-image-action {
+      right: 21px;
+      color: #00FFC2;
+    }
+
+    .stage-image-action svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .stage-bottomline {
+      min-height: 39px;
+      border-top: 1px solid #394148;
+      border-bottom: 1px solid #394148;
+      font-size: 8px;
+    }
+
+    .thumbnail-strip {
+      display: flex;
+      gap: 1px;
+      min-height: 94px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      background: #394148;
+      scrollbar-width: thin;
+      scrollbar-color: #59636b #202428;
+    }
+
+    .editorial-thumbnail {
+      position: relative;
+      flex: 0 0 24%;
+      min-width: 112px;
+      min-height: 94px;
+      overflow: hidden;
+      border: 0;
+      background: #252b30;
+      cursor: pointer;
+      opacity: 0.58;
+      transition: opacity 180ms ease;
+    }
+
+    .editorial-thumbnail:hover,
+    .editorial-thumbnail.is-active {
+      opacity: 1;
+    }
+
+    .editorial-thumbnail.is-active {
+      box-shadow: inset 0 3px 0 #00FFC2;
+    }
+
+    .editorial-thumbnail img {
+      display: block;
+      width: 100%;
+      height: 94px;
+      object-fit: cover;
+      transition: transform 350ms ease;
+    }
+
+    .editorial-thumbnail:hover img {
+      transform: scale(1.045);
+    }
+
+    .thumbnail-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.68));
+    }
+
+    .thumbnail-number {
+      position: absolute;
+      bottom: 8px;
+      left: 9px;
+      color: #fff;
+      font-size: 8px;
+    }
+
+    .editorial-detail {
+      display: flex;
+      flex-direction: column;
+      background: #202428;
+    }
+
+    .detail-main {
+      padding: 25px 23px 27px;
+    }
+
+    .detail-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #9aa3a9;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .detail-topline .detail-post-number {
+      color: #00FFC2;
+      white-space: nowrap;
+    }
+
+    .detail-title {
+      margin-top: 27px;
+      color: #f0f2ef;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 2.8vw, 2.75rem);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 1.04;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-subtitle {
+      margin-top: 15px;
+      color: #aab3b8;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .detail-read-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 25px;
+      color: #00FFC2;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      transition: gap 180ms ease;
+    }
+
+    .detail-read-link:hover {
+      gap: 14px;
+    }
+
+    .detail-read-link svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .detail-notes {
+      border-top: 1px solid #394148;
+    }
+
+    .detail-section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      color: #d5dbd8;
+      border-bottom: 1px solid #394148;
+    }
+
+    .detail-section-heading svg {
+      width: 13px;
+      height: 13px;
+      color: #00FFC2;
+    }
+
+    .detail-fact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 22px;
+      border-bottom: 1px solid rgba(91, 102, 110, 0.35);
+    }
+
+    .detail-fact-value {
+      color: #e4e8e6;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .detail-topics {
+      padding: 17px 22px 20px;
+    }
+
+    .detail-topic-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .detail-topic {
+      padding: 5px 8px;
+      border: 1px solid #414a51;
+      color: #b7c0c3;
+      font-size: 10px;
+      line-height: 1.2;
+    }
+
+    .panel-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding: 16px 22px;
+      border-top: 1px solid #394148;
+      font-size: 8px;
+    }
+
+    .editorial-empty {
+      display: grid;
+      min-height: 300px;
+      place-items: center;
+      padding: 40px;
+      border: 1px solid #394148;
+      color: #aab3b8;
+      text-align: center;
+    }
+
+    .editorial-empty strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #00FFC2;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 400;
+    }
+
+
+
+    /* Editorial search bar */
+    .editorial-search {
+      display: grid;
+      grid-template-columns: minmax(205px, 0.22fr) minmax(0, 1fr) minmax(285px, 0.31fr);
+      min-height: 72px;
+      margin-bottom: 24px;
+      border: 1px solid #394148;
+      background: #1d2125;
+    }
+
+    .search-label,
+    .search-field,
+    .search-aside {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+    }
+
+    .search-label {
+      gap: 12px;
+      padding: 0 22px;
+      border-right: 1px solid #394148;
+      color: #89939b;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .search-label-number {
+      color: #00FFC2;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    .search-field {
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .search-field input {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 38px 13px 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #e4e8e6;
+      font: inherit;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .search-field input::placeholder {
+      color: #77828a;
+      opacity: 1;
+    }
+
+    .search-field input:focus-visible {
+      outline: 0;
+    }
+
+    .search-field:focus-within {
+      box-shadow: inset 0 -2px #00FFC2;
+    }
+
+    .search-field svg {
+      position: absolute;
+      right: 20px;
+      width: 17px;
+      height: 17px;
+      color: #89939b;
+      pointer-events: none;
+    }
+
+    .search-aside {
+      justify-content: flex-end;
+      padding: 0 22px;
+      border-left: 1px solid #394148;
+      color: #78838a;
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    /* Editorial footer */
+    .editorial-footer {
+      margin-top: 28px;
+      border: 1px solid #394148;
+      background: #1d2125;
+      color: #e4e8e6;
+    }
+
+    .footer-masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 21px 24px;
+      border-bottom: 1px solid #394148;
+    }
+
+    .footer-brand {
+      color: #f0f2ef;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .footer-masthead-note {
+      color: #89939b;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .footer-editorial-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr) minmax(0, 0.8fr);
+    }
+
+    .footer-column {
+      min-width: 0;
+      padding: 25px 24px 28px;
+      border-right: 1px solid #394148;
+    }
+
+    .footer-column:last-child {
+      border-right: 0;
+    }
+
+    .footer-kicker {
+      display: block;
+      margin-bottom: 16px;
+      color: #89939b;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .footer-column h3 {
+      margin: 0 0 10px;
+      color: #f0f2ef;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .footer-column p {
+      max-width: 42ch;
+      margin: 0;
+      color: #a0a9ae;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer-link-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .footer-link-list li {
+      border-bottom: 1px solid rgba(91, 102, 110, 0.28);
+    }
+
+    .footer-link-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .footer-link-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      color: #a0a9ae;
+      font-size: 11px;
+      transition: color 180ms ease;
+    }
+
+    .footer-link-list a:hover {
+      color: #00FFC2;
+    }
+
+    .footer-link-list svg {
+      width: 13px;
+      height: 13px;
+      color: #6f7a81;
+    }
+
+    .footer-socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-socials a {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid #414a51;
+      color: #a0a9ae;
+      transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    .footer-socials a:hover {
+      border-color: #00FFC2;
+      background: #252b30;
+      color: #00FFC2;
+    }
+
+    .footer-socials svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 15px 24px;
+      border-top: 1px solid #394148;
+      color: #78838a;
+      font-size: 8px;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .footer-bottom span:last-child {
+      color: #00FFC2;
+    }
+
+    @media (max-width: 1100px) {
+      .editorial-search {
+        grid-template-columns: minmax(185px, 0.3fr) minmax(0, 1fr);
+      }
+
+      .search-aside {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .editorial-search {
+        grid-template-columns: 1fr;
+      }
+
+      .search-label {
+        min-height: 43px;
+        border-right: 0;
+        border-bottom: 1px solid #394148;
+        padding: 0 15px;
+      }
+
+      .search-field {
+        min-height: 53px;
+        padding: 0 15px;
+      }
+
+      .search-field svg {
+        right: 15px;
+      }
+
+      .footer-masthead {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px;
+      }
+
+      .footer-masthead-note {
+        text-align: left;
+      }
+
+      .footer-editorial-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-column {
+        padding: 22px 18px;
+        border-right: 0;
+        border-bottom: 1px solid #394148;
+      }
+
+      .footer-column:last-child {
+        border-bottom: 0;
+      }
+
+      .footer-column h3 {
+        font-size: 23px;
+      }
+
+      .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 18px;
+      }
+    }
+
+
+    @media (max-width: 1100px) {
+      .editorial-layout {
+        grid-template-columns: minmax(185px, 0.3fr) minmax(0, 1fr);
+      }
+
+      .editorial-stage {
+        min-height: 650px;
+      }
+
+      .editorial-detail {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        border-top: 1px solid #394148;
+      }
+
+      .detail-main {
+        padding: 24px;
+      }
+
+      .detail-notes {
+        border-top: 0;
+        border-left: 1px solid #394148;
+      }
+
+      .panel-footer {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .editorial-layout {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .editorial-stage {
+        order: 1;
+        min-height: 0;
+      }
+
+      .stage-topline,
+      .stage-bottomline {
+        padding-right: 13px;
+        padding-left: 13px;
+      }
+
+      .stage-image-link {
+        flex: none;
+        height: clamp(260px, 72vw, 430px);
+        min-height: 0;
+      }
+
+      .thumbnail-strip {
+        min-height: 79px;
+      }
+
+      .editorial-thumbnail,
+      .editorial-thumbnail img {
+        min-height: 79px;
+        height: 79px;
+      }
+
+      .editorial-thumbnail {
+        flex-basis: 31%;
+      }
+
+      .editorial-detail {
+        order: 2;
+        display: flex;
+        border-top: 1px solid #394148;
+      }
+
+      .detail-main {
+        padding: 23px 20px 25px;
+      }
+
+      .detail-title {
+        max-width: 18ch;
+        font-size: clamp(2rem, 9vw, 2.7rem);
+      }
+
+      .detail-notes {
+        border-top: 1px solid #394148;
+        border-left: 0;
+      }
+
+      .panel-footer {
+        grid-column: auto;
+      }
+
+      .editorial-rail {
+        order: 3;
+        border-top: 1px solid #394148;
+        border-right: 0;
+      }
+
+      .rail-top {
+        padding: 19px 20px 15px;
+      }
+
+      .rail-count {
+        margin-top: 9px;
+        font-size: 2.5rem;
+      }
+
+      .rail-index-section {
+        padding-top: 15px;
+      }
+
+      .editorial-index-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .editorial-index-item {
+        min-height: 66px;
+        padding: 11px 12px;
+        border-right: 1px solid rgba(91, 102, 110, 0.28);
+      }
+
+      .editorial-index-item:hover,
+      .editorial-index-item.is-active {
+        padding-left: 15px;
+      }
+
+      .rail-heading {
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+
+      .rail-bottom {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0;
+        padding: 17px 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
-  
-  <script src="https://unpkg.com/lucide@latest"></script>
+
   
   <script type="application/ld+json">
     {
@@ -86,56 +1016,84 @@
       </p>
     </header>
     
-    <!-- Search Input -->
-    <div class="mb-8 relative">
-      <input type="text" id="searchInput" placeholder="Search posts..." class="w-full bg-[#22262A] text-white border border-gray-700 rounded-lg py-2 px-4 pl-10 focus:outline-none focus:border-[#00FFC2]" />
-      <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
+    <!-- Editorial Search -->
+    <div class="editorial-search" role="search">
+      <div class="search-label">
+        <span class="search-label-number">01</span>
+        <span>Search the archive</span>
+      </div>
+      <div class="search-field">
+        <input type="search" id="searchInput" placeholder="Find an article, topic or technology..." aria-label="Search blog posts" autocomplete="off" />
+        <i data-lucide="search" aria-hidden="true"></i>
+      </div>
+      <div class="search-aside">Title / Topic / Keyword</div>
     </div>
     
     <!-- Blog Posts Container -->
-    <div id="postsContainer" class="space-y-8"></div>
+    <div id="postsContainer" aria-live="polite" aria-busy="false"></div>
   </div>
   
   <!-- Digital Clock -->
   <div id="clock" class="fixed top-6 right-6 text-[#00FFC2] font-mono text-sm"></div>
-  <!-- Footer -->
-  <footer class="mt-16 bg-[#22262A] text-white py-12 rounded-lg">
-    <div class="max-w-4xl mx-auto px-6 ">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div>
-          <h3 class="text-[#00FFC2] text-lg font-semibold mb-4">About Me</h3>
-          <p class="text-gray-400">A passionate frontend developer from London, United Kingdom, specializing in creating clean, efficient web solutions.</p>
-        </div>
-        <div>
-          <h3 class="text-[#00FFC2] text-lg font-semibold mb-4">Quick Links</h3>
-          <ul class="space-y-2">
-            <li><a href="../index.html" class="text-gray-400 hover:text-[#00FFC2] transition-colors">Home</a></li>
-            <li><a href="../index.html#portfolio" class="text-gray-400 hover:text-[#00FFC2] transition-colors">Portfolio</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-[#00FFC2] transition-colors">Blog</a></li>
-            <li><a href="../index.html#contact" class="text-gray-400 hover:text-[#00FFC2] transition-colors">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-[#00FFC2] text-lg font-semibold mb-4">Socials</h3>
-          <div class="flex space-x-4">
-            <a href="https://www.github.com/CodeAbbas/" class="text-gray-400 hover:text-[#00FFC2] transition-colors">
-              <i data-lucide="github" class="h-6 w-6"></i>
-              <span class="sr-only">GitHub</span>
-            </a>
-            <a href="https://www.linkedin.com/in/abbas-dev/" class="text-gray-400 hover:text-[#00FFC2] transition-colors">
-              <i data-lucide="linkedin" class="h-6 w-6"></i>
-              <span class="sr-only">LinkedIn</span>
-            </a>
-            <a href="https://www.twitter.com/CodeAbbas/" class="text-gray-400 hover:text-[#00FFC2] transition-colors">
-              <i data-lucide="twitter" class="h-6 w-6"></i>
-              <span class="sr-only">Twitter</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-        <p>&copy; 2024 Abbas Uddin. All rights reserved.</p>
-      </div>
+  <!-- Editorial Footer -->
+  <footer class="editorial-footer">
+    <div class="footer-masthead">
+      <div class="footer-brand">Abbas Uddin <span aria-hidden="true">/</span> Developer Journal</div>
+      <div class="footer-masthead-note">Independent frontend developer · London, UK</div>
+    </div>
+
+    <div class="footer-editorial-grid">
+      <section class="footer-column">
+        <span class="footer-kicker">01 / About</span>
+        <h3>Building for the web.</h3>
+        <p>A passionate frontend developer from London, United Kingdom, specializing in creating clean, efficient web solutions.</p>
+      </section>
+
+      <nav class="footer-column" aria-label="Footer navigation">
+        <span class="footer-kicker">02 / Navigate</span>
+        <ul class="footer-link-list">
+          <li><a href="../index.html">Home <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+          <li><a href="../index.html#portfolio">Portfolio <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+          <li><a href="#">Blog <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+          <li><a href="../index.html#contact">Contact <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+        </ul>
+      </nav>
+
+      <section class="footer-column">
+  <span class="footer-kicker">03 / Elsewhere</span>
+  <h3>Find me online.</h3>
+  <div class="footer-socials">
+    <!-- GitHub -->
+    <a href="https://www.github.com/CodeAbbas/" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+      <svg xmlns="http://w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+        <path d="M9 18c-4.51 2-5-2-7-2"/>
+      </svg>
+    </a>
+
+    <!-- LinkedIn -->
+    <a href="https://www.linkedin.com/in/abbas-dev/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+      <svg xmlns="http://w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect width="4" height="12" x="2" y="9"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+    </a>
+
+    <!-- Twitter / X -->
+    <a href="https://www.twitter.com/CodeAbbas/" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+      <svg xmlns="http://w3.org" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2024 Abbas Uddin. All rights reserved.</span>
+      <span>Designed with intent / Built for the web</span>
     </div>
   </footer>
   
@@ -227,54 +1185,206 @@
     const postsContainer = document.getElementById('postsContainer');
     const searchInput = document.getElementById('searchInput');
     
+    let activePostIndex = 0;
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[character]);
+    }
+
     function renderPosts(searchTerm = '') {
       postsContainer.innerHTML = '';
-      const filteredPosts = posts.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
-      
-      filteredPosts.forEach(post => {
-        // Generate the link ONCE using the helper function
-        const postLink = `/blog/${createSlug(post.title)}`;
-        
-        const postElement = document.createElement('article');
-        postElement.className = 'bg-[#22262A] rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-[#00FFC2]/10 hover:shadow-xl';
-        
-        postElement.innerHTML = `
-      <div class="md:flex">
-        <div class="md:flex-shrink-0">
-          <img src="${post.image}" alt="${post.title}" class="w-full object-cover aspect-[16/9] md:h-full md:w-96">
-        </div>
-        <div class="p-6">
-          <div class="flex items-center text-sm text-gray-400 mb-2">
-            <i data-lucide="calendar" class="mr-2 h-4 w-4"></i>
-            <span>${post.date}</span>
-            <i data-lucide="clock" class="ml-4 mr-2 h-4 w-4"></i>
-            <span>${post.readTime}</span>
+
+      const normalizedSearch = searchTerm.trim().toLowerCase();
+      const filteredPosts = posts
+        .map((post, index) => ({ post, index }))
+        .filter(({ post }) =>
+          post.title.toLowerCase().includes(normalizedSearch) ||
+          post.excerpt.toLowerCase().includes(normalizedSearch) ||
+          post.tags.some(tag => tag.toLowerCase().includes(normalizedSearch))
+        );
+
+      if (filteredPosts.length === 0) {
+        postsContainer.innerHTML = `
+          <div class="editorial-empty">
+            <div>
+              <strong>No articles found</strong>
+              <p>Try another title or topic to explore the journal.</p>
+            </div>
           </div>
-          
-          <h2 class="text-xl font-semibold mb-2 text-[#00FFC2]">
-            <a href="${postLink}" class="hover:underline">${post.title}</a>
-          </h2>
-          
-          <p class="text-gray-300 mb-4 line-clamp-3">${post.excerpt}</p>
-          
-          <div class="flex flex-wrap gap-2 mb-4">
-            ${post.tags.map(tag => `<span class="px-2 py-1 text-xs bg-[#2A2F35] text-[#00FFC2] rounded-full">${tag}</span>`).join('')}
-          </div>
-          
-          <a href="${postLink}" class="inline-flex items-center text-[#00FFC2] hover:underline group">
-            Read more
-            <i data-lucide="chevron-right" class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"></i>
-          </a>
-        </div>
-      </div>
-    `;
-        postsContainer.appendChild(postElement);
+        `;
+        return;
+      }
+
+      if (!filteredPosts.some(item => item.index === activePostIndex)) {
+        activePostIndex = filteredPosts[0].index;
+      }
+
+      const activeItem = filteredPosts.find(item => item.index === activePostIndex);
+      const post = activeItem.post;
+      const postLink = `/blog/${createSlug(post.title)}`;
+      const visiblePosition = filteredPosts.findIndex(item => item.index === activePostIndex) + 1;
+      const formatNumber = number => String(number).padStart(2, '0');
+
+      const indexItems = filteredPosts.map(({ post: item, index }) => `
+        <button
+          type="button"
+          class="editorial-index-item ${index === activePostIndex ? 'is-active' : ''}"
+          data-post-index="${index}"
+          aria-pressed="${index === activePostIndex}"
+          title="View ${escapeHTML(item.title)}"
+        >
+          <span class="editorial-index-number">${formatNumber(index + 1)}</span>
+          <span class="editorial-index-title">${escapeHTML(item.title)}</span>
+        </button>
+      `).join('');
+
+      const thumbnails = filteredPosts.map(({ post: item, index }) => `
+        <button
+          type="button"
+          class="editorial-thumbnail ${index === activePostIndex ? 'is-active' : ''}"
+          data-post-index="${index}"
+          aria-label="Select article ${formatNumber(index + 1)}: ${escapeHTML(item.title)}"
+          aria-pressed="${index === activePostIndex}"
+          title="${escapeHTML(item.title)}"
+        >
+          <img src="${escapeHTML(item.image)}" alt="" loading="lazy">
+          <span class="thumbnail-shade"></span>
+          <span class="thumbnail-number">${formatNumber(index + 1)}</span>
+        </button>
+      `).join('');
+
+      const topics = post.tags.map(tag => `
+        <span class="detail-topic">${escapeHTML(tag)}</span>
+      `).join('');
+
+      postsContainer.innerHTML = `
+        <section class="editorial-layout" aria-label="Blog editorial showcase">
+
+          <!-- Left rail: article index and journal information -->
+          <aside class="editorial-rail">
+            <div class="rail-top">
+              <div class="editorial-eyebrow">CURRENT JOURNAL</div>
+              <div class="rail-count">
+                <span>${formatNumber(visiblePosition)}</span>
+                <span class="rail-count-total">/ ${formatNumber(filteredPosts.length)}</span>
+              </div>
+              <div class="rail-kicker">AB // Digital field notes</div>
+            </div>
+
+            <div class="rail-index-section">
+              <span class="rail-heading">ARTICLE INDEX</span>
+              <nav class="editorial-index-list" aria-label="Browse articles">
+                ${indexItems}
+              </nav>
+            </div>
+
+            <div class="rail-bottom">
+              <div class="rail-fact">
+                <span class="rail-fact-label">PUBLICATION</span>
+                <span class="rail-fact-value">The Developer Journal</span>
+              </div>
+              <div class="rail-fact">
+                <span class="rail-fact-label">AUTHOR</span>
+                <span class="rail-fact-value">Abbas Uddin</span>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Centre: selected article visual and thumbnail filmstrip -->
+          <main class="editorial-stage">
+            <div class="stage-topline">
+              <span>THE JOURNAL / SELECTED ARTICLE</span>
+              <span>${formatNumber(visiblePosition)} / ${formatNumber(filteredPosts.length)}</span>
+            </div>
+
+            <a href="${postLink}" class="stage-image-link" aria-label="Read ${escapeHTML(post.title)}">
+              <img
+                class="stage-image"
+                src="${escapeHTML(post.image)}"
+                alt="${escapeHTML(post.title)}"
+                fetchpriority="high"
+              >
+              <span class="stage-image-overlay"></span>
+              <span class="stage-image-index">ARCHIVE / ${formatNumber(activePostIndex + 1)}</span>
+              <span class="stage-image-action">OPEN ARTICLE <i data-lucide="arrow-up-right"></i></span>
+            </a>
+
+            <div class="stage-bottomline">
+              <span>VISUAL INDEX</span>
+              <span>SELECT AN ARTICLE</span>
+            </div>
+
+            <div class="thumbnail-strip" aria-label="Article thumbnails">
+              ${thumbnails}
+            </div>
+          </main>
+
+          <!-- Right rail: selected article details -->
+          <aside class="editorial-detail">
+            <div class="detail-main">
+              <div class="detail-topline">
+                <span>EDITORIAL / ${formatNumber(activePostIndex + 1)}</span>
+                <span class="detail-post-number">ISSUE 01</span>
+              </div>
+
+              <h2 class="detail-title">${escapeHTML(post.title)}</h2>
+              <p class="detail-subtitle">${escapeHTML(post.excerpt)}</p>
+
+              <a href="${postLink}" class="detail-read-link">
+                Read article <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+
+            <div class="detail-notes">
+              <div class="detail-section-heading">
+                <span>ARTICLE DETAILS</span>
+                <i data-lucide="plus"></i>
+              </div>
+
+              <div class="detail-fact">
+                <span class="detail-fact-label">PUBLISHED</span>
+                <span class="detail-fact-value">${escapeHTML(post.date)}</span>
+              </div>
+
+              <div class="detail-fact">
+                <span class="detail-fact-label">READING TIME</span>
+                <span class="detail-fact-value">${escapeHTML(post.readTime)}</span>
+              </div>
+
+              <div class="detail-topics">
+                <span class="detail-fact-label">TOPICS / KEYWORDS</span>
+                <div class="detail-topic-list">${topics}</div>
+              </div>
+            </div>
+
+            <div class="panel-footer">
+              <span>ABBAS UDDIN — BLOG</span>
+              <span>${formatNumber(activePostIndex + 1)} / ${formatNumber(posts.length)}</span>
+            </div>
+          </aside>
+
+        </section>
+      `;
+
+      // Bind both the numbered index and thumbnail filmstrip to the same selection.
+      postsContainer.querySelectorAll('[data-post-index]').forEach(button => {
+        button.addEventListener('click', () => {
+          activePostIndex = Number(button.dataset.postIndex);
+          renderPosts(searchInput.value);
+        });
       });
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
     }
-    
+
     // Initial render
     renderPosts();
     
