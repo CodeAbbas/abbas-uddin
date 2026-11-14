@@ -287,7 +287,8 @@ a {
   .nav{
     height: 100svh;
     width: 100svw;
-  }.nav-container {
+  }
+  /*.nav-container {
     height: 60px;
     width: 96%; 
     margin: 0 auto; 
@@ -295,15 +296,54 @@ a {
     right: 0;
     border-radius: 40px;
     overflow: hidden;
-    /* Premium Glassmorphism */
-    background: rgba(26, 28, 34, 0.65); /* Dark semi-transparent base */
+    background: rgba(26, 28, 34, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    
-    /* Edge Definition & Shadow */
+
     border: .5px solid rgba(3, 218, 198, 0.2);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }*/
+  .nav-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  width: 96%;
+  height: 60px;
+  background: rgba(26, 28, 34, 0.38);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 40px;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+@supports (backdrop-filter: url("#nav-glass")) {
+  .nav-container {
+    backdrop-filter: url("#nav-glass") blur(3px) saturate(180%);
   }
+}
+.nav-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.13),
+    rgba(255, 255, 255, 0.035) 40%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
   .nav-container.nav-container--scrolled {
     top: 3px;
     bottom: auto;
@@ -423,7 +463,7 @@ a {
 .floating-dock.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-78%) translate(0);
+  transform: translateX(-80%) translate(0);
 }
 
 /* --- (Screens larger than 768px) --- */
