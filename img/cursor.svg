@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="sideLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a0826" />
+      <stop offset="65%" stop-color="#4a0e42" />
+      <stop offset="100%" stop-color="#ff00aa" />
+    </linearGradient>
+    <linearGradient id="sideBottom" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9e0068" />
+      <stop offset="35%" stop-color="#ff00b8" />
+      <stop offset="100%" stop-color="#d4008c" />
+    </linearGradient>
+  </defs>
+
+  <!-- 3D Extruded Side & Bevel -->
+  <path d="M14 8 C11 10 10 15 11 21 L27 87 C28 92 31 94 34 92 L50 70 C52 67 56 66 60 66 L84 64 C88 63 90 59 89 55 L21 10 C18 8 15 7 14 8 Z" fill="url(#sideLeft)" />
+  <path d="M31 85 L34 92 C35 91 37 89 39 86 L51 69 C53 67 56 66 60 66 L83 64 C86 64 88 61 89 56 L84 59 L58 60 C54 60 51 62 49 65 L35 84 Z" fill="url(#sideBottom)" />
+
+  <!-- Top Cyan Face -->
+  <path d="M15 8 C13 9 13 13 14 18 L30 82 C31 86 34 87 37 83 L51 64 C53 61 56 60 60 60 L85 58 C89 58 90 55 86 52 L21 9 C18 7 16 7 15 8 Z" fill="#00f5d4" stroke="#d946ef" stroke-width="0.9" />
+</svg>

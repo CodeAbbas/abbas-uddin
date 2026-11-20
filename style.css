@@ -10,8 +10,17 @@
 
 html {
   scroll-behavior: smooth;
+  cursor: url('img/cursor.svg') 4 2, auto;
 }
-
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+select,
+label[for] {
+  cursor: url('img/pointer.svg') 11 3, pointer;
+}
 * {
   margin: 0;
   padding: 0;

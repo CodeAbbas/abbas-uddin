@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="handSideLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a0826" />
+      <stop offset="65%" stop-color="#4a0e42" />
+      <stop offset="100%" stop-color="#ff00aa" />
+    </linearGradient>
+    <linearGradient id="handSideBottom" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9e0068" />
+      <stop offset="40%" stop-color="#ff00b8" />
+      <stop offset="100%" stop-color="#d4008c" />
+    </linearGradient>
+  </defs>
+
+  <!-- 3D Extruded Depth / Left & Bottom Shadow -->
+  <path d="M32 10 C28 10 26 14 26 20 L26 53 L18 47 C13 44 8 46 8 51 C8 54 10 57 13 60 L30 83 C33 88 38 92 45 92 L70 92 C79 92 84 85 84 74 L84 44 C84 39 80 36 76 36 C74 36 72 37 71 38 C70 34 66 32 62 32 C60 32 58 33 57 34 C56 30 52 28 48 28 C46 28 44 29 43 30 L43 20 C43 14 39 10 35 10 Z" fill="url(#handSideLeft)" />
+
+  <!-- Bottom Magenta Bevel Highlight -->
+  <path d="M31 85 L35 90 C38 92 42 92 46 92 L70 92 C79 92 84 85 84 74 L84 68 C83 78 78 84 69 84 L46 84 C40 84 35 82 31 77 Z" fill="url(#handSideBottom)" />
+
+  <!-- Top Cyan Hand Face -->
+  <path d="M36 9 C32 9 30 13 30 18 L30 51 L21 44 C17 41 12 43 12 48 C12 51 14 54 17 57 L33 78 C36 82 40 84 46 84 L69 84 C78 84 83 78 83 68 L83 41 C83 37 80 34 76 34 C73 34 71 36 70 38 L70 36 C70 32 67 30 63 30 C60 30 58 32 57 34 L57 32 C57 28 54 26 50 26 C47 26 45 28 44 30 L44 18 C44 13 41 9 36 9 Z" fill="#00f5d4" stroke="#d946ef" stroke-width="0.9" />
+
+  <!-- Finger Knuckle Crease Accents -->
+  <path d="M44 30 L44 45 M57 33 L57 46 M70 37 L70 48" stroke="#d946ef" stroke-width="1.2" stroke-linecap="round" />
+</svg>
